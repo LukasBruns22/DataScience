@@ -1,0 +1,6 @@
+Model,Accuracy,Precision,Recall,Best_Params
+Naive Bayes,0.8225,0.8643,0.8225,{'var_smoothing': 1e-08}
+Logistic Regression,0.8221,0.8643,0.8221,"{'C': 100, 'penalty': 'l2'}"
+KNN,0.8175,0.846,0.8175,"{'metric': 'manhattan', 'n_neighbors': 15, 'weights': 'uniform'}"
+Decision Tree,0.8293,0.8593,0.8293,"{'criterion': 'gini', 'max_depth': 5, 'min_samples_split': 5}"
+MLP (Neural Net),0.8282,0.8601,0.8282,"{'activation': 'relu', 'alpha': 0.01, 'hidden_layer_sizes': (50,)}"

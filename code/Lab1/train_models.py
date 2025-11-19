@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 import warnings
+import argparse
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
@@ -71,7 +72,7 @@ model_params = {
     }
 }
 
-def plot_small_multiples(clf, model_name):
+def plot_small_multiples(clf, model_name, dataset_name):
     results = clf.cv_results_
     param_grid = clf.param_grid
     num_params = len(param_grid)
@@ -106,11 +107,11 @@ def plot_small_multiples(clf, model_name):
     fig.tight_layout(rect=[0, 0, 1, 0.98])
 
     filename = f"{model_name.replace(' ', '_')}_small_multiples.png"
-    plt.savefig(os.path.join(GRAPH_DIR, filename))
+    plt.savefig(os.path.join(str(GRAPH_DIR) + dataset_name, filename))
     plt.close()
 
 
-def plot_hyperparameter_performance(clf, model_name, param_name):
+def plot_hyperparameter_performance(clf, model_name, param_name, dataset_name):
     """
     Plots Validation Accuracy, Precision, and Recall vs the hyperparameter.
     """
@@ -150,12 +151,12 @@ def plot_hyperparameter_performance(clf, model_name, param_name):
     
     # Save file
     filename = f"{model_name.replace(' ', '_')}_hyperparams.png"
-    save_path = os.path.join(GRAPH_DIR, filename)
+    save_path = os.path.join(str(GRAPH_DIR) + dataset_name, filename)
     plt.savefig(save_path)
     plt.close()
     print(f"   -> Graph saved: {save_path}")
 
-def plot_final_comparison(results_df):
+def plot_final_comparison(results_df, dataset_name):
     """
     Creates a grouped bar chart comparing the BEST version of all models.
     """
@@ -173,12 +174,12 @@ def plot_final_comparison(results_df):
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
     
-    save_path = os.path.join(GRAPH_DIR, "model_comparison.png")
+    save_path = os.path.join(str(GRAPH_DIR) + dataset_name, "model_comparison.png")
     plt.savefig(save_path)
     plt.close()
     print(f"\n-> Final Comparison Graph saved: {save_path}")
 
-def run_training(file_path):
+def run_training(file_path, target_col, dataset_name):
     print(f"\n{'='*40}\nProcessing Dataset: {file_path}\n{'='*40}")
     
     # Load Data
@@ -189,7 +190,6 @@ def run_training(file_path):
         return
     
     # --- TARGET VARIABLE SETUP ---
-    target_col = 'crash_type'
     
     if target_col not in df.columns:
         print(f"Target '{target_col}' not found. Columns available: {df.columns.tolist()}")
@@ -218,8 +218,8 @@ def run_training(file_path):
         clf.fit(X_train, y_train)
         
         # --- PLOTTING STEP ---
-        plot_small_multiples(clf, model_name)
-        plot_hyperparameter_performance(clf, model_name, mp['plot_param'])
+        plot_small_multiples(clf, model_name, dataset_name)
+        plot_hyperparameter_performance(clf, model_name, mp['plot_param'], dataset_name)
         
         # Evaluate Best Model
         best_model = clf.best_estimator_
@@ -245,10 +245,36 @@ def run_training(file_path):
     print("\nFINAL RESULTS:\n", results_df)
     
     # Save CSV
-    results_df.to_csv('results_summary_traffic_accidents.csv', index=False)
+    results_df.to_csv(f'results_summary_{dataset_name}.csv', index=False)
     
     # Generate Comparison Plot
-    plot_final_comparison(results_df)
+    plot_final_comparison(results_df, dataset_name)
 
 if __name__ == "__main__":
-    run_training('datasets/traffic_accidents/traffic_accidents_cleaned.csv')
+    parser = argparse.ArgumentParser(
+        description="Train and evaluate multiple classification models on a cleaned dataset."
+    )
+    parser.add_argument(
+        '-p', '--path', 
+        type=str, 
+        required=True, 
+        help='Path to the input CSV file to be trained (e.g., datasets/file.csv)'
+    )
+
+    parser.add_argument(
+        '-n', '--name', 
+        type=str, 
+        required=True, 
+        help='Name of the dataset'
+    )
+
+    parser.add_argument(
+        '-t', '--target', 
+        type=str, 
+        required=True, 
+        help='Name of the target variable/column (e.g., Cancelled)'
+    )    
+
+    args = parser.parse_args()
+
+    run_training(args.path, args.target, args.name)

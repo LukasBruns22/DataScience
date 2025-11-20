@@ -106,8 +106,8 @@ def plot_small_multiples(clf, model_name, dataset_name):
     fig.suptitle(f"{model_name} – Hyperparameter Grid Performance", fontsize=16)
     fig.tight_layout(rect=[0, 0, 1, 0.98])
 
-    filename = f"{model_name.replace(' ', '_')}_small_multiples.png"
-    plt.savefig(os.path.join(str(GRAPH_DIR) + dataset_name, filename))
+    filename = f"{dataset_name}_{model_name.replace(' ', '_')}_small_multiples.png"
+    plt.savefig(os.path.join(GRAPH_DIR, filename))
     plt.close()
 
 
@@ -150,8 +150,8 @@ def plot_hyperparameter_performance(clf, model_name, param_name, dataset_name):
     plt.tight_layout()
     
     # Save file
-    filename = f"{model_name.replace(' ', '_')}_hyperparams.png"
-    save_path = os.path.join(str(GRAPH_DIR) + dataset_name, filename)
+    filename = f"{dataset_name}_{model_name.replace(' ', '_')}_hyperparams.png"
+    save_path = os.path.join(GRAPH_DIR, filename)
     plt.savefig(save_path)
     plt.close()
     print(f"   -> Graph saved: {save_path}")
@@ -174,7 +174,7 @@ def plot_final_comparison(results_df, dataset_name):
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
     
-    save_path = os.path.join(str(GRAPH_DIR) + dataset_name, "model_comparison.png")
+    save_path = os.path.join(GRAPH_DIR, "{dataset_name}_model_comparison.png")
     plt.savefig(save_path)
     plt.close()
     print(f"\n-> Final Comparison Graph saved: {save_path}")

@@ -1,0 +1,3 @@
+Unable to perform training on models due to insufficient data after cleaning
+
+After cleaning data there are no records where target variable "Cancelled" is TRUE

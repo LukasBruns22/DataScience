@@ -58,7 +58,7 @@ def sparsity_study(
                 plot_multi_scatters_chart(data, var1, var2, ax=axs[i, j])
 
     # Save the final matrix plot
-    savefig(f"images/sparsity/{file_tag}_sparsity_study.png", bbox_inches="tight")
+    savefig(f"graphs/sparsity/{file_tag}_sparsity_study.png", bbox_inches="tight")
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from typing import Tuple
 
@@ -34,6 +35,26 @@ def load_and_split_data(
 
     X = df.drop(target_column, axis=1)
     y = df[target_column]
+
+    # Encode target variable
+    target_mapping = {
+        "NO INJURY / DRIVE AWAY": 0,
+        "INJURY AND / OR TOW DUE TO CRASH": 1
+    }
+    y = y.map(target_mapping)
+    if y.isna().any():
+        print("ATTENTION : Certaines valeurs de la target n'ont pas été trouvées dans le mapping (elles sont devenues NaN).")
+    else:
+        print("Target encoded successfully.")
+
+    # Replace 'Unknown' placeholders with NaN
+    missing_placeholders = [
+        "UNKNOWN", "Unknown", "unknown", 
+        "UNABLE TO DETERMINE", "NOT APPLICABLE", 
+        "nan", "?", "-"
+    ]
+    
+    X = X.replace(missing_placeholders, np.nan)
 
     X_train, X_test, y_train, y_test = train_test_split(
         X, 

@@ -1,44 +1,78 @@
 import pandas as pd
 import numpy as np
-from scipy.stats import zscore
 
-def approach_capping_iqr(X_train, X_test, numeric_cols, factor=1.5):
+def handle_outliers(X_train, X_test, strategy='truncate'):
     """
-    Approach 1: Capping/Winsorization based on IQR (Interquartile Range).
-    """
-    X_train_cap = X_train.copy()
-    X_test_cap = X_test.copy()
+    Handles outliers in numerical features based on the selected strategy.
     
-    for col in numeric_cols:
-        Q1 = X_train_cap[col].quantile(0.25)
-        Q3 = X_train_cap[col].quantile(0.75)
+    Strategies (based on the provided slide):
+    - 'truncate': Caps values at the lower and upper bounds (Winsorization).
+                  (Corresponds to "new max and min").
+    - 'replace': Replaces outliers with the Mean of the column.
+                 (Corresponds to "New value -> Mean/Median").
+
+    Parameters:
+    -----------
+    X_train, X_test : pd.DataFrame
+        The dataframes containing features.
+    strategy : str, default='truncate'
+        The strategy to use ('truncate' or 'replace').
+
+    Returns:
+    --------
+    X_train_out, X_test_out : pd.DataFrame
+        Dataframes with outliers handled.
+    """
+    
+    X_train_out = X_train.copy()
+    X_test_out = X_test.copy()
+
+    numerical_cols = X_train_out.select_dtypes(include=['int64', 'float64']).columns
+    numerical_cols = [col for col in numerical_cols if X_train_out[col].nunique() > 2]
+
+    if len(numerical_cols) == 0:
+        print("No continuous numerical columns found for outlier treatment.")
+        return X_train_out, X_test_out
+
+    print(f"--- Handling Outliers Strategy: '{strategy}' on columns: {numerical_cols} ---")
+
+    for col in numerical_cols:
+        # 2. Calculate Bounds using IQR (Interquartile Range) on TRAIN set only
+        # This prevents data leakage.
+        Q1 = X_train_out[col].quantile(0.25)
+        Q3 = X_train_out[col].quantile(0.75)
         IQR = Q3 - Q1
         
-        upper_bound = Q3 + factor * IQR
-        lower_bound = Q1 - factor * IQR
+        lower_bound = Q1 - 1.5 * IQR
+        upper_bound = Q3 + 1.5 * IQR
         
-        # Apply capping (clip) to both train and test sets using bounds from the train set
-        X_train_cap[col] = np.clip(X_train_cap[col], lower_bound, upper_bound)
-        X_test_cap[col] = np.clip(X_test_cap[col], lower_bound, upper_bound)
+        # Calculate Mean (for the 'replace' strategy)
+        col_mean = X_train_out[col].mean()
 
-    return X_train_cap, X_test_cap, "Capping_Outliers"
+        # --- STRATEGY 1: TRUNCATE (Capping) ---
+        if strategy == 'truncate':
+            # Apply to Train
+            X_train_out[col] = np.where(X_train_out[col] < lower_bound, lower_bound, X_train_out[col])
+            X_train_out[col] = np.where(X_train_out[col] > upper_bound, upper_bound, X_train_out[col])
+            
+            # Apply to Test (using Train bounds)
+            X_test_out[col] = np.where(X_test_out[col] < lower_bound, lower_bound, X_test_out[col])
+            X_test_out[col] = np.where(X_test_out[col] > upper_bound, upper_bound, X_test_out[col])
 
-def approach_outlier_removal_zscore(X_train, X_test, y_train, numeric_cols, threshold=3):
-    """
-    Approach 2: Outlier Removal based on Z-score (only on the training set).
-    IMPORTANT: This modifies the size of X_train and y_train.
-    """
-    X_train_rem = X_train.copy()
-    y_train_rem = y_train.copy()
-    
-    # Calculate Z-scores on the training set
-    z_scores = X_train_rem[numeric_cols].apply(zscore)
-    
-    # Identify rows to keep (non-outliers)
-    is_not_outlier = (np.abs(z_scores) < threshold).all(axis=1)
-    
-    X_train_final = X_train_rem[is_not_outlier]
-    y_train_final = y_train_rem.loc[X_train_final.index]
-    
-    # The test set remains unchanged
-    return X_train_final, X_test.copy(), y_train_final, "Removal_Outliers"
+        # --- STRATEGY 2: REPLACE (Mean) ---
+        elif strategy == 'replace':
+            # Identify outliers
+            train_outliers = (X_train_out[col] < lower_bound) | (X_train_out[col] > upper_bound)
+            test_outliers = (X_test_out[col] < lower_bound) | (X_test_out[col] > upper_bound)
+            
+            # Replace with Mean
+            if train_outliers.sum() > 0:
+                X_train_out.loc[train_outliers, col] = col_mean
+            
+            if test_outliers.sum() > 0:
+                X_test_out.loc[test_outliers, col] = col_mean
+
+        else:
+            raise ValueError("Strategy must be 'truncate' or 'replace'.")
+
+    return X_train_out, X_test_out

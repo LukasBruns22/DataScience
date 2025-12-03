@@ -137,3 +137,19 @@ def select_features(X_train, X_test, y_train, strategy='kbest', k=10):
         raise ValueError("Strategy must be 'kbest' or 'correlation'")
 
     return X_train_sel, X_test_sel
+
+def feature_gen_and_sel(X_train, X_test, y_train, y_test, gen_strategy, sel_strategy):
+    """
+    Fonction composite qui fait d'abord la Génération, puis la Sélection.
+    Permet de tester le couple (Gen + Sel) comme une seule stratégie atomique.
+    """
+    X_tr_gen, X_te_gen = generate_features(X_train, X_test, strategy=gen_strategy)
+    
+
+    k_val = 20 
+    X_tr_final, X_te_final = select_features(
+        X_tr_gen, X_te_gen, y_train, 
+        strategy=sel_strategy, k=k_val
+    )
+    
+    return X_tr_final, X_te_final, y_train, y_test

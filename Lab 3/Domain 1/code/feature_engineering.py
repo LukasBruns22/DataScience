@@ -137,26 +137,3 @@ def select_features(X_train, X_test, y_train, strategy='kbest', k=10):
         raise ValueError("Strategy must be 'kbest' or 'correlation'")
 
     return X_train_sel, X_test_sel
-
-
-# --- Example Usage (Integration) ---
-if __name__ == "__main__":
-    # Mock processed data (numbers only)
-    df_train = pd.DataFrame({
-        'speed': [20, 30, 40, 50, 60],
-        'friction': [0.8, 0.7, 0.6, 0.5, 0.4],
-        'speed_duplicated': [21, 31, 41, 51, 61], # Correlated with speed
-        'noise': [1, 5, 2, 8, 3] # Irrelevant
-    })
-    y_train = pd.Series([0, 0, 1, 1, 1])
-    
-    df_test = df_train.copy()
-
-    # 1. GENERATION (Create interactions)
-    print("--- 1. Generation ---")
-    X_gen_tr, X_gen_te = generate_features(df_train, df_test, strategy='algebraic')
-    # Should create column 'speed * friction'
-    
-    # 2. SELECTION (Remove redundancy)
-    print("\n--- 2. Selection ---")
-    X_final_tr, X_final_te = select_features(X_gen_tr, X_gen_te, y_train, strategy='correlation')

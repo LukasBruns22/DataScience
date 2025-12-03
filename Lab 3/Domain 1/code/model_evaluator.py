@@ -1,81 +1,113 @@
-from sklearn.naive_bayes import GaussianNB
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
 
-def train_and_evaluate_model(X_train, X_test, y_train, y_test, model_name, prep_name):
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, f1_score, ConfusionMatrixDisplay
+
+def train_and_evaluate(X_train, y_train, X_test, y_test, model_type='knn', approach_name='experiment_1'):
     """
-    Trains a specified model (KNN or Naive Bayes) and evaluates it on the test set.
-    Returns: A dictionary of results and the final training set's y_train.
+    Trains a model, evaluates it, and saves the confusion matrix.
+
+    Parameters:
+    -----------
+    model_type : str
+        'knn' or 'nb' (Naive Bayes).
+    approach_name : str
+        Name of the current strategy (used for filename saving).
+
+    Returns:
+    --------
+    metrics : dict
+        Dictionary containing performance metrics (accuracy, f1, etc.).
     """
-    print(f"\n--- Training {model_name} with {prep_name} ---")
     
-    if model_name == 'KNN':
+    print(f"\n=== Training {model_type.upper()} | Approach: {approach_name} ===")
+
+    # 1. Initialize Model
+    if model_type == 'knn':
         model = KNeighborsClassifier(n_neighbors=5)
-    elif model_name == 'NaiveBayes':
+    elif model_type == 'nb':
         model = GaussianNB()
     else:
-        raise ValueError(f"Unknown model: {model_name}")
+        raise ValueError("model_type must be 'knn' or 'nb'")
 
-    # Ensure all data is numeric for NB and KNN and handle potential residual NaNs with a simple imputation (should be rare if previous steps are correct)
-    X_train = X_train.select_dtypes(include=np.number).fillna(0)
-    X_test = X_test.select_dtypes(include=np.number).fillna(0)
-    
-    # Align columns just in case a preparation step removed/added columns (e.g., Feature Selection)
-    common_cols = list(set(X_train.columns) & set(X_test.columns))
-    X_train = X_train[common_cols]
-    X_test = X_test[common_cols]
+    # 2. Train (Fit)
+    model.fit(X_train, y_train)
 
-    # Handle case where training data is empty (e.g., if outlier removal was too aggressive)
-    if X_train.empty:
-        accuracy = 0.0
-        f1_score_avg = 0.0
-        conf_matrix = np.array([[0,0],[0,0]])
-    else:
-        model.fit(X_train, y_train)
-        y_pred = model.predict(X_test)
-        
-        accuracy = accuracy_score(y_test, y_pred)
-        conf_matrix = confusion_matrix(y_test, y_pred)
-        report = classification_report(y_test, y_pred, output_dict=True, zero_division=0)
-        f1_score_avg = report['weighted avg']['f1-score']
+    # 3. Predict
+    y_pred = model.predict(X_test)
+
+    # 4. Calculate Metrics
+    acc = accuracy_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred, average='weighted') 
     
-    results = {
-        'Preparation': prep_name,
-        'Model': model_name,
-        'Accuracy': accuracy,
-        'F1_Score': f1_score_avg,
-        'Confusion_Matrix': conf_matrix,
-        'X_train_final': X_train,
-        'X_test_final': X_test,
-        'y_train_final': y_train # Store y_train as it may change size (outlier removal, balancing)
+    print(f"Accuracy: {acc:.4f}")
+    print(f"F1-Score (Weighted): {f1:.4f}")
+    print("\n--- Classification Report ---")
+    print(classification_report(y_test, y_pred))
+
+    # 5. Generate & Save Confusion Matrix
+    cm = confusion_matrix(y_test, y_pred)
+    
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=model.classes_)
+    
+    fig, ax = plt.subplots(figsize=(8, 6))
+    disp.plot(cmap='Blues', ax=ax)
+    plt.title(f"Confusion Matrix - {model_type.upper()} - {approach_name}")
+    
+    # Save file
+    filename = f"cm_{model_type}_{approach_name}.png"
+    plt.savefig(filename)
+    plt.close() 
+    print(f"Confusion matrix saved as '{filename}'")
+
+    # Return metrics for comparison
+    return {
+        'approach': approach_name,
+        'model': model_type,
+        'accuracy': acc,
+        'f1_score': f1,
+        'confusion_matrix_file': filename
     }
-    
-    print(f"Accuracy: {accuracy:.4f} | F1-Score: {f1_score_avg:.4f}")
-    
-    return results
 
-def compare_and_select_best(results_list):
+def compare_strategies_averaged(results_list, metric='f1_score'):
     """
-    Compares all results and selects the best performing dataset based on F1-Score.
+    Groups results by 'approach', calculates the MEAN score of models (KNN+NB),
+    and identifies the best data preprocessing strategy.
+    
+    Parameters:
+    -----------
+    results_list : list of dict
+        Collected results from training.
+    metric : str
+        The metric to average ('f1_score' or 'accuracy').
     """
-    df_results = pd.DataFrame([
-        {'Preparation': r['Preparation'], 'Model': r['Model'], 'Accuracy': r['Accuracy'], 'F1_Score': r['F1_Score']} 
-        for r in results_list
-    ])
+    print("\n" + "="*40)
+    print(f"   FINAL COMPARISON (Averaged by Strategy)")
+    print("="*40)
     
-    # Find the row with the maximum F1-Score (this is the best model/approach combination)
-    best_row = df_results.loc[df_results['F1_Score'].idxmax()]
-    best_prep_name = best_row['Preparation']
+    # Convert list of dicts to DataFrame for easy grouping
+    df_results = pd.DataFrame(results_list)
     
-    # Find the full results dictionary for the best preparation
-    # We select the dataset generated by the approach that yielded the max F1-score
-    best_result_dict = next(r for r in results_list if r['Preparation'].startswith(best_prep_name.split('_')[0]))
+    if df_results.empty:
+        print("No results to compare.")
+        return None
 
-    print("\n\n####################################")
-    print("BEST OVERALL PERFORMANCE:")
-    print(best_row)
-    print("####################################\n")
-
-    return best_result_dict['X_train_final'], best_result_dict['X_test_final'], best_result_dict['y_train_final'], df_results
+    summary = df_results.groupby('approach')[['accuracy', 'f1_score']].mean()
+    
+    summary = summary.sort_values(by=metric, ascending=False)
+    
+    print(f"\nRanking based on Average {metric.upper()}:\n")
+    print(summary)
+    
+    best_approach = summary.index[0]
+    best_score = summary.iloc[0][metric]
+    
+    print(f"\n🏆 BEST STRATEGY: '{best_approach}'")
+    print(f"   -> Avg {metric}: {best_score:.4f}")
+    
+    return best_approach

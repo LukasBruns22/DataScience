@@ -27,12 +27,12 @@ def generate_features(X_train, X_test, strategy='time_mapping'):
             12: 1, 1: 1, 2: 1,
             3: 2, 4: 2, 5: 2,
             6: 3, 7: 3, 8: 3,
-            9: 3, 10: 3, 11: 3
+            9: 4, 10: 4, 11: 4
         }
         print("-> Mapping Seasons...")
         for df in [X_train_gen, X_test_gen]:
             if 'crash_month' in df.columns:
-                df['season'] = df['crash_month'].map(season_map)
+                df['season'] = df['crash_month'].map(season_map).fillna(0).astype(int)
 
         def get_time_slot(h):
             if 6 <= h <= 9: return 1
@@ -152,7 +152,7 @@ def feature_gen_and_sel(X_train, X_test, y_train, y_test, gen_strategy, sel_stra
     X_tr_gen, X_te_gen = generate_features(X_train, X_test, strategy=gen_strategy)
     
 
-    k_val = 20 
+    k_val = 15
     X_tr_final, X_te_final = select_features(
         X_tr_gen, X_te_gen, y_train, 
         strategy=sel_strategy, k=k_val

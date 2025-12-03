@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from typing import Tuple
+from feature_generation import create_interaction_features, create_advanced_features
 
 def load_and_split_data(
     file_path: str, 
@@ -59,7 +60,9 @@ def load_and_split_data(
 
     X = X.drop(columns=["crash_date"])
 
-    X = simplify_categories(X)
+    print("Feature Generation...")
+    X = create_interaction_features(X)
+
 
     X_train, X_test, y_train, y_test = train_test_split(
         X, 
@@ -68,6 +71,12 @@ def load_and_split_data(
         random_state=random_state, 
         stratify=y 
     )
+
+    X_train, X_test = create_advanced_features(X_train, X_test)
+
+    print("Simplify...")
+    X_train = simplify_categories(X_train)
+    X_test = simplify_categories(X_test)
 
     print(f"Data shape (X_train): {X_train.shape}")
     print(f"Data shape (X_test): {X_test.shape}")

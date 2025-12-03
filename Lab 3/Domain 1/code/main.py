@@ -8,16 +8,17 @@ from encoding_and_mvi import encode_features
 from outliers import handle_outliers
 from scaling import scale_features
 from balancing import balance_data
-from feature_engineering import feature_gen_and_sel 
-
+from feature_selection import select_features
 # --- CONFIGURATION ---
 FILE_PATH = 'Lab 3/Domain 1/code/traffic_accidents.csv'
 TARGET_COL = 'crash_type'
-
+THRESHOLD = 0.005
+BEST_APPROACH = []
 PERFORMANCE_HISTORY = []
 
 def run_step_tournament(step_name, X_train, X_test, y_train, y_test, 
-                        func, param_grid, updates_y=False, needs_y_in_func=False):
+                        func, param_grid, current_baseline_score = 0.0,
+                        updates_y=False, needs_y_in_func=False):
     print(f"\n{'='*60}")
     print(f">>> TOURNAMENT STEP: {step_name.upper()} ({len(param_grid)} Challengers) <<<")
     print(f"{'='*60}")
@@ -35,7 +36,7 @@ def run_step_tournament(step_name, X_train, X_test, y_train, y_test,
                 X_tr_curr, y_tr_curr = func(X_train, y_train, **params)
                 X_te_curr, y_te_curr = X_test, y_test
             elif needs_y_in_func:
-                X_tr_curr, X_te_curr, y_tr_curr, y_te_curr = func(X_train, X_test, y_train, y_test, **params)
+                X_tr_curr, X_te_curr, y_tr_curr, y_te_curr = func(X_train, X_test, y_train, **params)
             else:
                 # Ex: Scaling, Outliers, Imputation
                 X_tr_curr, X_te_curr = func(X_train, X_test, **params)
@@ -52,9 +53,13 @@ def run_step_tournament(step_name, X_train, X_test, y_train, y_test,
             print(f"   -> SKIPPED due to error: {e}")
 
 
-    best_approach_name = compare_strategies_averaged(step_results, metric='f1_score')
-    
+    best_approach_name, best_score, baseline = compare_strategies_averaged(step_results, current_baseline_score, metric='f1_score')
+    current_baseline_score = best_score
     print(f"\n>>> 🏆 WINNER of {step_name}: {best_approach_name}")
+
+    if baseline:
+        print(f"Retaining current dataset without changes for next step.")
+        return X_train, X_test, y_train, y_test, current_baseline_score
 
     
     best_params = None
@@ -68,13 +73,13 @@ def run_step_tournament(step_name, X_train, X_test, y_train, y_test,
     
     if updates_y:
         X_tr_win, y_tr_win = func(X_train, y_train, **best_params)
-        return X_tr_win, X_test, y_tr_win, y_test
+        return X_tr_win, X_test, y_tr_win, y_test, current_baseline_score
     elif needs_y_in_func:
         X_tr_win, X_te_win, y_tr_win, y_te_win = func(X_train, X_test, y_train, y_test, **best_params)
-        return X_tr_win, X_te_win, y_tr_win, y_te_win
+        return X_tr_win, X_te_win, y_tr_win, y_te_win, current_baseline_score
     else:
         X_tr_win, X_te_win = func(X_train, X_test, **best_params)
-        return X_tr_win, X_te_win, y_train, y_test
+        return X_tr_win, X_te_win, y_train, y_test, current_baseline_score
 
 
 def plot_performance_evolution():
@@ -85,13 +90,13 @@ def plot_performance_evolution():
     plt.figure(figsize=(14, 7))
     sns.barplot(data=df, x='approach', y='f1_score', hue='model', palette='viridis')
     plt.title('Tournament Results: Model Performance Evolution', fontsize=16)
-    plt.xticks(rotation=90) # Rotation 90 car il y aura beaucoup de noms
+    plt.xticks(rotation=90) 
     plt.ylabel('F1 Score (Weighted)')
     plt.xlabel('Strategy Evaluated')
     plt.legend(title='Model', loc='lower right')
     plt.tight_layout()
     plt.savefig('tournament_results.png')
-    print("\nGraphique sauvegardé : tournament_results.png")
+    print("\nGraphique sauvegardé : Lab 3/Domain 1/plots/tournament_results.png")
     plt.show()
 
 # ==========================================
@@ -101,18 +106,14 @@ if __name__ == "__main__":
     try:
         # 0. LOAD & PRE-CLEAN
         X_train, X_test, y_train, y_test = load_and_split_data(FILE_PATH, TARGET_COL)
-        X_train = X_train.drop(columns=["crash_date"])
-        X_test = X_test.drop(columns=["crash_date"])
 
         # --- STEP 1: MVI & ENCODING ---
         grid_step1 = [
-            {'mvi_strategy': 'statistical', 'encoding_strategy': 'mixed'},
-            {'mvi_strategy': 'constant',    'encoding_strategy': 'mixed'},
-            {'mvi_strategy': 'statistical', 'encoding_strategy': 'onehot'},
-            {'mvi_strategy': 'constant',    'encoding_strategy': 'onehot'}
+            {'mvi_strategy': 'statistical'},
+            {'mvi_strategy': 'constant'},
         ]
-        X_train, X_test, y_train, y_test = run_step_tournament(
-            "1.MVI_Enc", X_train, X_test, y_train, y_test,
+        X_train, X_test, y_train, y_test, current_baseline_score = run_step_tournament(
+            "1.MVI", X_train, X_test, y_train, y_test,
             func=encode_features,
             param_grid=grid_step1
         )
@@ -122,10 +123,11 @@ if __name__ == "__main__":
             {'strategy': 'truncate'},
             {'strategy': 'replace'}
         ]
-        X_train, X_test, y_train, y_test = run_step_tournament(
+        X_train, X_test, y_train, y_test, current_baseline_score = run_step_tournament(
             "2.Outliers", X_train, X_test, y_train, y_test,
             func=handle_outliers,
-            param_grid=grid_step2
+            param_grid=grid_step2, 
+            current_baseline_score = current_baseline_score
         )
 
         # --- STEP 3: SCALING ---
@@ -133,10 +135,11 @@ if __name__ == "__main__":
             {'strategy': 'standardization'},
             {'strategy': 'normalization'}
         ]
-        X_train, X_test, y_train, y_test = run_step_tournament(
+        X_train, X_test, y_train, y_test, current_baseline_score = run_step_tournament(
             "3.Scaling", X_train, X_test, y_train, y_test,
             func=scale_features,
-            param_grid=grid_step3
+            param_grid=grid_step3,
+            current_baseline_score = current_baseline_score
         )
 
         # --- STEP 4: BALANCIN ---
@@ -144,24 +147,24 @@ if __name__ == "__main__":
             {'strategy': 'smote'},
             {'strategy': 'oversampling'}
         ]
-        X_train, X_test, y_train, y_test = run_step_tournament(
+        X_train, X_test, y_train, y_test, current_baseline_score = run_step_tournament(
             "4.Balancing", X_train, X_test, y_train, y_test,
             func=balance_data,
             param_grid=grid_step4,
+            current_baseline_score = current_baseline_score,
             updates_y=True
         )
 
         # --- STEP 5: FEATURE GEN & SEL (4 possibilités) ---
         grid_step5 = [
-            {'gen_strategy': 'time_mapping', 'sel_strategy': 'kbest'},
-            {'gen_strategy': 'time_mapping', 'sel_strategy': 'correlation'},
-            {'gen_strategy': 'algebraic',    'sel_strategy': 'kbest'},
-            {'gen_strategy': 'algebraic',    'sel_strategy': 'correlation'}
+            {'strategy': 'kbest'},
+            {'strategy': 'correlation'}
         ]
-        X_train, X_test, y_train, y_test = run_step_tournament(
-            "5.Feat_GenSel", X_train, X_test, y_train, y_test,
-            func=feature_gen_and_sel, 
+        X_train, X_test, y_train, y_test, current_baseline_score = run_step_tournament(
+            "5.Feat_Sel", X_train, X_test, y_train, y_test,
+            func=select_features, 
             param_grid=grid_step5,
+            current_baseline_score = current_baseline_score,
             needs_y_in_func=True 
         )
 

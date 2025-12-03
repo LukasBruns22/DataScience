@@ -74,7 +74,7 @@ def train_and_evaluate(X_train, y_train, X_test, y_test, model_type='knn', appro
         'confusion_matrix_file': filename
     }
 
-def compare_strategies_averaged(results_list, metric='f1_score'):
+def compare_strategies_averaged(results_list, current_baseline_score, metric='f1_score'):
     """
     Groups results by 'approach', calculates the MEAN score of models (KNN+NB),
     and identifies the best data preprocessing strategy.
@@ -106,8 +106,12 @@ def compare_strategies_averaged(results_list, metric='f1_score'):
     
     best_approach = summary.index[0]
     best_score = summary.iloc[0][metric]
+
+    if best_score < current_baseline_score:
+        print(f"\nNo strategy outperformed the baseline score of {current_baseline_score:.4f}. Retaining baseline.")
+        return best_approach, current_baseline_score, True
     
     print(f"\n🏆 BEST STRATEGY: '{best_approach}'")
     print(f"   -> Avg {metric}: {best_score:.4f}")
     
-    return best_approach
+    return best_approach, best_score, False

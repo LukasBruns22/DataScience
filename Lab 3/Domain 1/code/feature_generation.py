@@ -28,16 +28,6 @@ def create_interaction_features(df):
         if 'weather_condition' in df.columns:
              df['poor_visibility'] = (is_dark & is_bad_weather).astype(int)
 
-    leakage_cols = [
-        'injuries_total', 'injuries_fatal', 'injuries_incapacitating', 
-        'injuries_non_incapacitating', 'injuries_reported_not_evident', 
-        'injuries_no_indication', 'most_severe_injury', 'damage'
-    ]
-
-    cols_to_drop = [c for c in leakage_cols if c in df.columns]
-    if cols_to_drop:
-        print(f"Suppression des colonnes 'Fuite de données' (Target Leakage) : {cols_to_drop}")
-        df.drop(columns=cols_to_drop, inplace=True)
         
     return df
 

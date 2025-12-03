@@ -24,10 +24,10 @@ def generate_features(X_train, X_test, strategy='time_mapping'):
                 df['is_weekend'] = df['crash_day_of_week'].isin([6, 7]).astype(int)
 
         season_map = {
-            12: 'Winter', 1: 'Winter', 2: 'Winter',
-            3: 'Spring', 4: 'Spring', 5: 'Spring',
-            6: 'Summer', 7: 'Summer', 8: 'Summer',
-            9: 'Fall', 10: 'Fall', 11: 'Fall'
+            12: 1, 1: 1, 2: 1,
+            3: 2, 4: 2, 5: 2,
+            6: 3, 7: 3, 8: 3,
+            9: 3, 10: 3, 11: 3
         }
         print("-> Mapping Seasons...")
         for df in [X_train_gen, X_test_gen]:
@@ -35,10 +35,10 @@ def generate_features(X_train, X_test, strategy='time_mapping'):
                 df['season'] = df['crash_month'].map(season_map)
 
         def get_time_slot(h):
-            if 6 <= h <= 9: return 'Morning_Rush'
-            elif 16 <= h <= 19: return 'Evening_Rush'
-            elif 22 <= h or h <= 5: return 'Night'
-            else: return 'Day'
+            if 6 <= h <= 9: return 1
+            elif 16 <= h <= 19: return 2
+            elif 22 <= h or h <= 5: return 3
+            else: return 0
 
         print("-> Mapping Time Slots...")
         for df in [X_train_gen, X_test_gen]:
@@ -46,8 +46,14 @@ def generate_features(X_train, X_test, strategy='time_mapping'):
                 df['time_slot'] = df['crash_hour'].apply(get_time_slot)
 
     elif strategy == 'algebraic':
-        nums = X_train_gen.select_dtypes(include=['number']).columns
-        cols_to_interact = [c for c in nums if X_train_gen[c].nunique() > 2]
+        selected_candidates = [
+            'num_units',
+            'injuries_total',
+            'injuries_fatal',
+            'injuries_incapacitating',
+            'injuries_non_incapacitating'
+        ]
+        cols_to_interact = [c for c in selected_candidates if c in X_train_gen.columns]
         
         if len(cols_to_interact) >= 2:
             print(f"-> creating interactions for: {cols_to_interact}")

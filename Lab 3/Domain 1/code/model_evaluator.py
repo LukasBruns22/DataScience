@@ -61,7 +61,7 @@ def train_and_evaluate(X_train, y_train, X_test, y_test, model_type='knn', appro
     
     # Save file
     filename = f"cm_{model_type}_{approach_name}.png"
-    plt.savefig(filename)
+    plt.savefig(f"Lab 3/Domain 1/plots/{filename}")
     plt.close() 
     print(f"Confusion matrix saved as '{filename}'")
 

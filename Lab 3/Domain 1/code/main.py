@@ -11,7 +11,7 @@ from balancing import balance_data
 from feature_engineering import feature_gen_and_sel 
 
 # --- CONFIGURATION ---
-FILE_PATH = 'traffic_crashes.csv'
+FILE_PATH = 'Lab 3/Domain 1/code/traffic_accidents.csv'
 TARGET_COL = 'crash_type'
 
 PERFORMANCE_HISTORY = []
@@ -101,6 +101,8 @@ if __name__ == "__main__":
     try:
         # 0. LOAD & PRE-CLEAN
         X_train, X_test, y_train, y_test = load_and_split_data(FILE_PATH, TARGET_COL)
+        X_train = X_train.drop(columns=["crash_date"])
+        X_test = X_test.drop(columns=["crash_date"])
 
         # --- STEP 1: MVI & ENCODING ---
         grid_step1 = [

@@ -1,36 +1,50 @@
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
-def approach_minmax_scaling(X_train, X_test, numeric_cols):
+def scale_features(X_train, X_test, strategy='standardization'):
     """
-    Approach 1: Normalization (MinMaxScaler). Scales data to [0, 1].
-    """
-    X_train_minmax = X_train.copy()
-    X_test_minmax = X_test.copy()
-    
-    scaler = MinMaxScaler()
-    
-    # Fit on TRAIN and transform TRAIN
-    X_train_minmax[numeric_cols] = scaler.fit_transform(X_train_minmax[numeric_cols])
-    
-    # Transform TEST using the TRAIN parameters
-    X_test_minmax[numeric_cols] = scaler.transform(X_test_minmax[numeric_cols])
+    Scales numerical features based on the selected strategy.
 
-    return X_train_minmax, X_test_minmax, "MinMax_Scaling"
+    Parameters:
+    -----------
+    X_train, X_test : pd.DataFrame
+        The training and testing features.
+    strategy : str, default='standardization'
+        - 'standardization': Uses StandardScaler (z = (x - mean) / std).
+                             Result: Mean=0, Std=1.
+        - 'normalization': Uses MinMaxScaler.
+                           Result: Data bounded between [0, 1].
 
-def approach_standard_scaling(X_train, X_test, numeric_cols):
+    Returns:
+    --------
+    X_train_scaled, X_test_scaled : pd.DataFrame
+        The scaled dataframes.
     """
-    Approach 2: Standardization (StandardScaler). Scales data to mean=0, std=1.
-    """
-    X_train_standard = X_train.copy()
-    X_test_standard = X_test.copy()
     
-    scaler = StandardScaler()
+    X_train_scaled = X_train.copy()
+    X_test_scaled = X_test.copy()
     
-    # Fit on TRAIN and transform TRAIN
-    X_train_standard[numeric_cols] = scaler.fit_transform(X_train_standard[numeric_cols])
-    
-    # Transform TEST using the TRAIN parameters
-    X_test_standard[numeric_cols] = scaler.transform(X_test_standard[numeric_cols])
+    numerical_cols = X_train_scaled.select_dtypes(include=['int64', 'float64']).columns
+    cols_to_scale = [col for col in numerical_cols if X_train_scaled[col].nunique() > 2]
 
-    return X_train_standard, X_test_standard, "Standard_Scaling"
+    if not cols_to_scale:
+        print("No continuous numerical columns found to scale.")
+        return X_train_scaled, X_test_scaled
+
+    print(f"--- Scaling Strategy: '{strategy}' applied to: {cols_to_scale} ---")
+
+    if strategy == 'standardization':
+        scaler = StandardScaler()
+
+    elif strategy == 'normalization':
+        scaler = MinMaxScaler()
+        
+    else:
+        raise ValueError("Strategy must be 'standardization' or 'normalization'.")
+
+    scaler.fit(X_train_scaled[cols_to_scale])
+    
+    X_train_scaled[cols_to_scale] = scaler.transform(X_train_scaled[cols_to_scale])
+    X_test_scaled[cols_to_scale] = scaler.transform(X_test_scaled[cols_to_scale])
+
+    return X_train_scaled, X_test_scaled

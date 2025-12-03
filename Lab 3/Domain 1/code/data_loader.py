@@ -36,6 +36,15 @@ def load_and_split_data(
     X = df.drop(target_column, axis=1)
     y = df[target_column]
 
+    #Avoid Data Leakage
+    cols_to_drop = ['injuries_total', 
+        'injuries_fatal',
+        'most_severe_injury',]
+    
+    if cols_to_drop:
+        print(f"--- Removing Data Leakage Columns: {cols_to_drop} ---")
+        X = X.drop(columns=cols_to_drop)
+
     # Encode target variable
     target_mapping = {
         "NO INJURY / DRIVE AWAY": 0,

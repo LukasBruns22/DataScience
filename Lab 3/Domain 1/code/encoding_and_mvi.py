@@ -4,8 +4,7 @@ from sklearn.impute import SimpleImputer
 
 ordinal_cols = [
     'damage', 
-    'intersection_related_i', 
-    'most_severe_injury'
+    'intersection_related_i',
 ]
 
 def encode_features(X_train, X_test, encoding_strategy='mixed', mvi_strategy='statistical', ordinal_cols=ordinal_cols):

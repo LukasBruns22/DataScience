@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.feature_selection import SelectKBest, f_classif, mutual_info_classif
 from sklearn.preprocessing import PolynomialFeatures, KBinsDiscretizer
 
-def select_features(X_train, X_test, y_train, strategy='kbest', k=10):
+def select_features(X_train, X_test, y_train, strategy='kbest', k=20):
     """
     Selects the most important features.
 

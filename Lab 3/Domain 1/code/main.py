@@ -36,7 +36,8 @@ def run_step_tournament(step_name, X_train, X_test, y_train, y_test,
                 X_tr_curr, y_tr_curr = func(X_train, y_train, **params)
                 X_te_curr, y_te_curr = X_test, y_test
             elif needs_y_in_func:
-                X_tr_curr, X_te_curr, y_tr_curr, y_te_curr = func(X_train, X_test, y_train, **params)
+                X_tr_curr, X_te_curr = func(X_train, X_test, y_train, **params)
+                y_tr_curr, y_te_curr = y_train, y_test
             else:
                 # Ex: Scaling, Outliers, Imputation
                 X_tr_curr, X_te_curr = func(X_train, X_test, **params)
@@ -75,8 +76,8 @@ def run_step_tournament(step_name, X_train, X_test, y_train, y_test,
         X_tr_win, y_tr_win = func(X_train, y_train, **best_params)
         return X_tr_win, X_test, y_tr_win, y_test, current_baseline_score
     elif needs_y_in_func:
-        X_tr_win, X_te_win, y_tr_win, y_te_win = func(X_train, X_test, y_train, y_test, **best_params)
-        return X_tr_win, X_te_win, y_tr_win, y_te_win, current_baseline_score
+        X_tr_win, X_te_win = func(X_train, X_test, y_train, **best_params)
+        return X_tr_win, X_te_win, y_train, y_test, current_baseline_score
     else:
         X_tr_win, X_te_win = func(X_train, X_test, **best_params)
         return X_tr_win, X_te_win, y_train, y_test, current_baseline_score

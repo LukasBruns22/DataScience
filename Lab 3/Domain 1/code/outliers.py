@@ -1,78 +1,110 @@
 import pandas as pd
 import numpy as np
 
-def handle_outliers(X_train, X_test, strategy='truncate'):
+def handle_outliers(X_train, X_test, y_train=None, strategy='truncate'):
     """
-    Handles outliers in numerical features based on the selected strategy.
+    Handles outliers using strategies from the lecture.
     
-    Strategies (based on the provided slide):
-    - 'truncate': Caps values at the lower and upper bounds (Winsorization).
-                  (Corresponds to "new max and min").
-    - 'replace': Replaces outliers with the Mean of the column.
-                 (Corresponds to "New value -> Mean/Median").
-
     Parameters:
-    -----------
-    X_train, X_test : pd.DataFrame
-        The dataframes containing features.
-    strategy : str, default='truncate'
-        The strategy to use ('truncate' or 'replace').
-
-    Returns:
-    --------
-    X_train_out, X_test_out : pd.DataFrame
-        Dataframes with outliers handled.
+    - y_train: Required ONLY for 'drop' strategy to keep labels aligned.
     """
     
+    # Create copies to avoid SettingWithCopy warnings
     X_train_out = X_train.copy()
     X_test_out = X_test.copy()
+    y_train_out = y_train.copy() if y_train is not None else None
 
-    numerical_cols = X_train_out.select_dtypes(include=['int64', 'float64']).columns
-    numerical_cols = [col for col in numerical_cols if X_train_out[col].nunique() > 2]
+    # Identify numeric columns
+    # We select all numeric columns, but you can filter specific ones if needed
+    numerical_cols = X_train_out.select_dtypes(include=['number']).columns.tolist()
+    
+    # Exclude likely ID columns or binary columns if any slipped through
+    numerical_cols = [c for c in numerical_cols if X_train_out[c].nunique() > 2]
 
-    if len(numerical_cols) == 0:
-        print("No continuous numerical columns found for outlier treatment.")
+    if not numerical_cols:
         return X_train_out, X_test_out
 
-    print(f"--- Handling Outliers Strategy: '{strategy}' on columns: {numerical_cols} ---")
+    print(f"--- Outliers: '{strategy}' on {len(numerical_cols)} columns ---")
+
+    # Dictionary to store bounds so we apply the SAME bounds to Test as Train
+    bounds = {}
 
     for col in numerical_cols:
-        # 2. Calculate Bounds using IQR (Interquartile Range) on TRAIN set only
-        # This prevents data leakage.
+        # 1. Calculate IQR
         Q1 = X_train_out[col].quantile(0.25)
         Q3 = X_train_out[col].quantile(0.75)
         IQR = Q3 - Q1
         
-        lower_bound = Q1 - 1.5 * IQR
-        upper_bound = Q3 + 1.5 * IQR
-        
-        # Calculate Mean (for the 'replace' strategy)
-        col_mean = X_train_out[col].mean()
-
-        # --- STRATEGY 1: TRUNCATE (Capping) ---
-        if strategy == 'truncate':
-            # Apply to Train
-            X_train_out[col] = np.where(X_train_out[col] < lower_bound, lower_bound, X_train_out[col])
-            X_train_out[col] = np.where(X_train_out[col] > upper_bound, upper_bound, X_train_out[col])
-            
-            # Apply to Test (using Train bounds)
-            X_test_out[col] = np.where(X_test_out[col] < lower_bound, lower_bound, X_test_out[col])
-            X_test_out[col] = np.where(X_test_out[col] > upper_bound, upper_bound, X_test_out[col])
-
-        # --- STRATEGY 2: REPLACE (Mean) ---
-        elif strategy == 'replace':
-            # Identify outliers
-            train_outliers = (X_train_out[col] < lower_bound) | (X_train_out[col] > upper_bound)
-            test_outliers = (X_test_out[col] < lower_bound) | (X_test_out[col] > upper_bound)
-            
-            # Replace with Mean
-            if train_outliers.sum() > 0:
-                X_train_out.loc[train_outliers, col] = col_mean
-            
-            if test_outliers.sum() > 0:
-                X_test_out.loc[test_outliers, col] = col_mean
-
+        # 2. Determine Bounds
+        # FIX: If IQR is 0 (sparse data like 'injuries_fatal'), use Standard Deviation instead
+        if IQR == 0:
+            mean_val = X_train_out[col].mean()
+            std_val = X_train_out[col].std()
+            lower_bound = mean_val - 3 * std_val
+            upper_bound = mean_val + 3 * std_val
         else:
-            raise ValueError("Strategy must be 'truncate' or 'replace'.")
+            lower_bound = Q1 - 1.5 * IQR
+            upper_bound = Q3 + 1.5 * IQR
+            
+        bounds[col] = (lower_bound, upper_bound)
 
-    return X_train_out, X_test_out
+    # --- EXECUTE STRATEGY ---
+
+    if strategy == 'drop':
+        if y_train_out is None:
+            raise ValueError("You must pass 'y_train' to handle_outliers when using strategy='drop'")
+            
+        # Identify rows to drop (indices)
+        rows_to_drop = set()
+        for col in numerical_cols:
+            lb, ub = bounds[col]
+            outliers = X_train_out[(X_train_out[col] < lb) | (X_train_out[col] > ub)].index
+            rows_to_drop.update(outliers)
+            
+        print(f"  Dropping {len(rows_to_drop)} rows from Training set.")
+        
+        X_train_out = X_train_out.drop(index=list(rows_to_drop))
+        y_train_out = y_train_out.drop(index=list(rows_to_drop))
+        
+        # Note: We do NOT drop from X_test. We usually truncate X_test to match train bounds
+        # or leave it alone. Here, we'll apply truncation to Test for consistency.
+        for col in numerical_cols:
+            lb, ub = bounds[col]
+            X_test_out[col] = np.where(X_test_out[col] < lb, lb, X_test_out[col])
+            X_test_out[col] = np.where(X_test_out[col] > ub, ub, X_test_out[col])
+            
+        return X_train_out, X_test_out, y_train_out
+
+    elif strategy == 'truncate':
+        for col in numerical_cols:
+            lb, ub = bounds[col]
+            X_train_out[col] = np.where(X_train_out[col] < lb, lb, X_train_out[col])
+            X_train_out[col] = np.where(X_train_out[col] > ub, ub, X_train_out[col])
+            
+            X_test_out[col] = np.where(X_test_out[col] < lb, lb, X_test_out[col])
+            X_test_out[col] = np.where(X_test_out[col] > ub, ub, X_test_out[col])
+        
+        if y_train is not None:
+             return X_train_out, X_test_out, y_train_out
+        return X_train_out, X_test_out
+
+    elif strategy == 'replace':
+        for col in numerical_cols:
+            lb, ub = bounds[col]
+            # PROFESSOR FIX: Use Median, not Mean
+            median_val = X_train_out[col].median()
+            
+            train_outliers = (X_train_out[col] < lb) | (X_train_out[col] > ub)
+            test_outliers = (X_test_out[col] < lb) | (X_test_out[col] > ub)
+            
+            if train_outliers.sum() > 0:
+                X_train_out.loc[train_outliers, col] = median_val
+            if test_outliers.sum() > 0:
+                X_test_out.loc[test_outliers, col] = median_val
+
+        if y_train is not None:
+             return X_train_out, X_test_out, y_train_out
+        return X_train_out, X_test_out
+    
+    else:
+        raise ValueError(f"Unknown strategy: {strategy}")

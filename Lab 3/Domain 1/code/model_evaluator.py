@@ -11,20 +11,11 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 def train_and_evaluate(X_train, y_train, X_test, y_test, model_type='knn', approach_name='experiment_1'):
     """
     Trains a model, evaluates it, and saves the confusion matrix.
-
-    Parameters:
-    -----------
-    model_type : str
-        'knn' or 'nb' (Naive Bayes).
-    approach_name : str
-        Name of the current strategy (used for filename saving).
-
-    Returns:
-    --------
-    metrics : dict
-        Dictionary containing performance metrics (accuracy, f1, etc.).
     """
     
+    # Ensure plots folder exists
+    os.makedirs('Lab 3/Domain 1/plots', exist_ok=True)
+
     print(f"\n=== Training {model_type.upper()} | Approach: {approach_name} ===")
 
     # 1. Initialize Model
@@ -47,13 +38,19 @@ def train_and_evaluate(X_train, y_train, X_test, y_test, model_type='knn', appro
     
     print(f"Accuracy: {acc:.4f}")
     print(f"F1-Score (Weighted): {f1:.4f}")
-    print("\n--- Classification Report ---")
-    print(classification_report(y_test, y_pred))
+    # print("\n--- Classification Report ---")
+    # print(classification_report(y_test, y_pred))
 
     # 5. Generate & Save Confusion Matrix
     cm = confusion_matrix(y_test, y_pred)
     
-    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=model.classes_)
+    # Handle class labels for display
+    try:
+        labels = model.classes_
+    except AttributeError:
+        labels = np.unique(y_test)
+
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
     
     fig, ax = plt.subplots(figsize=(8, 6))
     disp.plot(cmap='Blues', ax=ax)
@@ -63,7 +60,7 @@ def train_and_evaluate(X_train, y_train, X_test, y_test, model_type='knn', appro
     filename = f"cm_{model_type}_{approach_name}.png"
     plt.savefig(f"Lab 3/Domain 1/plots/{filename}")
     plt.close() 
-    print(f"Confusion matrix saved as '{filename}'")
+    # print(f"Confusion matrix saved as '{filename}'")
 
     # Return metrics for comparison
     return {
@@ -74,44 +71,35 @@ def train_and_evaluate(X_train, y_train, X_test, y_test, model_type='knn', appro
         'confusion_matrix_file': filename
     }
 
-def compare_strategies_averaged(results_list, current_baseline_score, metric='f1_score'):
+def compare_strategies_averaged(results_list, metric='f1_score'):
     """
-    Groups results by 'approach', calculates the MEAN score of models (KNN+NB),
+    Groups results by 'approach', calculates the MEAN score,
     and identifies the best data preprocessing strategy.
     
-    Parameters:
-    -----------
-    results_list : list of dict
-        Collected results from training.
-    metric : str
-        The metric to average ('f1_score' or 'accuracy').
+    NOTE: Modified to ALWAYS return the winner, ignoring any 'baseline' check.
     """
-    print("\n" + "="*40)
-    print(f"   FINAL COMPARISON (Averaged by Strategy)")
-    print("="*40)
+    print("\n" + "-"*40)
+    print(f"   STEP COMPARISON (Based on {metric})")
+    print("-"*40)
     
     # Convert list of dicts to DataFrame for easy grouping
     df_results = pd.DataFrame(results_list)
     
     if df_results.empty:
         print("No results to compare.")
-        return None
+        return None, 0.0
 
+    # Since we are now running separate tournaments, we just take the max score directly.
+    # If there were multiple runs (folds), we would group by mean.
     summary = df_results.groupby('approach')[['accuracy', 'f1_score']].mean()
-    
     summary = summary.sort_values(by=metric, ascending=False)
     
-    print(f"\nRanking based on Average {metric.upper()}:\n")
-    print(summary)
+    print(f"\nRanking:\n{summary}")
     
     best_approach = summary.index[0]
     best_score = summary.iloc[0][metric]
 
-    if best_score < current_baseline_score:
-        print(f"\nNo strategy outperformed the baseline score of {current_baseline_score:.4f}. Retaining baseline.")
-        return best_approach, current_baseline_score, True
+    print(f"\n>>> WINNER: '{best_approach}' with {metric}={best_score:.4f}")
     
-    print(f"\n🏆 BEST STRATEGY: '{best_approach}'")
-    print(f"   -> Avg {metric}: {best_score:.4f}")
-    
-    return best_approach, best_score, False
+    # Always return the best approach and its score
+    return best_approach, best_score

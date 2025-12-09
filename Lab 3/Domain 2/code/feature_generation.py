@@ -8,21 +8,36 @@ from models import train_and_evaluate_models
 STEP_NAME = "step_6_feature_generation"
 
 
-# Feature Generation Method
 def generate_features(X):
-    """
-    Feature Generation:
-    Args:
-        X: DataFrame with features
-    Returns:
-        DataFrame with generated features
-    """
     X_generated = X.copy()
-    
-    # TODO: Add feature generation logic here
-    
+
+    # 1. Weekend
+    if "DayOfWeek" in X_generated.columns:
+        X_generated["IsWeekend"] = X_generated["DayOfWeek"].fillna(0).isin([6, 7]).astype(int)
+    else:
+        print("[Feature Generation] WARNING: 'DayOfWeek' column not found; IsWeekend not generated.")
+
+    # 2. Holiday Proximity
+    if {"Month", "DayofMonth"}.issubset(X_generated.columns):
+        X_generated["HolidayProximity"] = 0
+
+        # Christmas window (Dec 23–27)
+        mask_christmas = (X_generated["Month"] == 12) & (X_generated["DayofMonth"].between(23, 27))
+        # New Year's window (Dec 30–Jan 2)
+        mask_newyear = ((X_generated["Month"] == 12) & (X_generated["DayofMonth"] >= 30)) | \
+                       ((X_generated["Month"] == 1) & (X_generated["DayofMonth"] <= 2))
+        # July 4th (July 2–6)
+        mask_july4 = (X_generated["Month"] == 7) & (X_generated["DayofMonth"].between(2, 6))
+        # Thanksgiving (Nov 22–26)
+        mask_thanksgiving = (X_generated["Month"] == 11) & (X_generated["DayofMonth"].between(22, 26))
+
+        X_generated.loc[mask_christmas | mask_newyear | mask_july4 | mask_thanksgiving, "HolidayProximity"] = 1
+
+    else:
+        print("[Feature Generation] WARNING: Month/DayofMonth not found; HolidayProximity not generated.")
+
+    # ---------------------------------------------------------
     print(f"[Feature Generation] Generated {X_generated.shape[1] - X.shape[1]} new features")
-    
     return X_generated
 
 
@@ -73,6 +88,8 @@ def main():
 
     # Save best dataset for the next step
     X_full_df = pd.concat([X_full_generated, y_full], axis=1)
+
+    print("Columns at final stage:", X_full_df.columns.tolist())
 
     save_step_data(X_full_df, STEP7_OUTPUT_PATH)
     print(f"[{STEP_NAME}] Saved transformed dataset to {STEP7_OUTPUT_PATH}")

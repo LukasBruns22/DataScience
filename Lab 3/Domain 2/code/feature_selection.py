@@ -41,7 +41,7 @@ def select_highly_correlated_features(X, threshold=0.80):
     upper_triangle = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
 
     # Find features with correlation greater than threshold
-    to_drop = [column for column in upper_triangle.columns if any(upper_triangle[column] > threshold)]
+    to_drop = [column for column in upper_triangle.columns if any(upper_triangle[column] > threshold) and column not in ["Month"]]
 
     print(f"Dropping highly correlated features: {to_drop}")
 
@@ -112,6 +112,7 @@ def main():
     # Save best dataset for the next step
     X_full_df = pd.concat([X_full_trans, y_full], axis=1)
 
+    print("Columns at final stage:", X_full_df.columns.tolist())
 
     # Save best dataset for the next step
     save_step_data(X_full_df, STEP6_OUTPUT_PATH)

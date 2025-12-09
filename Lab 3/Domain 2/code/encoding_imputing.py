@@ -48,10 +48,38 @@ def convert_block_column(df, col):
 
 
 # -------------------------------------------------------------------
+# CRS Time cyclical encoding
+# -------------------------------------------------------------------
+def convert_crs_times(df):
+    df = df.copy()
+
+    def encode(series, name):
+        minutes = series.fillna(0).astype(int).apply(
+            lambda x: (x // 100) * 60 + (x % 100)
+        )
+        df[name + "_sin"] = np.sin(2 * np.pi * minutes / 1440)
+        df[name + "_cos"] = np.cos(2 * np.pi * minutes / 1440)
+
+    if "CRSDepTime" in df.columns:
+        encode(df["CRSDepTime"], "CRSDepTime")
+    else:
+        print("[convert_crs_times] CRSDepTime missing")
+
+    if "CRSArrTime" in df.columns:
+        encode(df["CRSArrTime"], "CRSArrTime")
+    else:
+        print("[convert_crs_times] CRSArrTime missing")
+
+    return df
+
+
+# -------------------------------------------------------------------
 # Extract columns **after** the cyclic transform
 # -------------------------------------------------------------------
 def get_encoding_A_cols(df, max_unique_for_oh=20):
     print("[get_encoding_A_cols] Determining categorical vs numeric columns...")
+
+    print("  Columns at this stage:", df.columns.tolist())
 
     num_cols = df.select_dtypes(include=["number", "bool"]).columns.tolist()
     cat_cols = df.select_dtypes(include=["object", "category"]).columns.tolist()
@@ -79,7 +107,9 @@ def build_preprocessor(df, imputation):
 
     # Simulate preprocessing for column detection
     print("  -> Running temp cyclical transform for column inference...")
-    df_tmp = convert_block_column(convert_block_column(df.copy(), "DepTimeBlk"), "ArrTimeBlk")
+    df_tmp = convert_crs_times(convert_block_column(convert_block_column(df.copy(), "DepTimeBlk"), "ArrTimeBlk"))
+
+    print("  Columns after all cyclical transforms:", df_tmp.columns.tolist())
 
     num_cols, cat_cols = get_encoding_A_cols(df_tmp)
 
@@ -87,7 +117,11 @@ def build_preprocessor(df, imputation):
     print(f"  -> cat_cols={cat_cols}")
 
     block_transformer = FunctionTransformer(
-        lambda X: convert_block_column(convert_block_column(X.copy(), "DepTimeBlk"), "ArrTimeBlk"),
+        lambda X: convert_crs_times(
+            convert_block_column(
+                convert_block_column(X.copy(), "DepTimeBlk"), "ArrTimeBlk"
+            )
+        ),
         validate=False
     )
 
@@ -137,18 +171,19 @@ def main():
     print("\n===== STEP 1: Load Raw Data =====")
     df_raw = load_raw_data()
     print(f"Loaded dataset with shape: {df_raw.shape}")
+    print("Columns BEFORE leakage drop:", df_raw.columns.tolist())
 
     # Drop leakage columns
     leakage_cols = [
         "DepTime", "DepDelay", "DepDelayMinutes", "DepDel15", "DepartureDelayGroups",
         "TaxiOut", "TaxiIn", "WheelsOff", "WheelsOn", "ArrTime", "ArrDelay",
         "ArrDelayMinutes", "ArrDel15", "ArrivalDelayGroups", "Tail_Number",
-        "ActualElapsedTime", "AirTime", "Diverted", "Duplicate",
+        "ActualElapsedTime", "AirTime", "Diverted", "DivAirportLandings", "Duplicate",
     ]
 
     print("\n===== Dropping Leakage Columns =====")
     df_raw = df_raw.drop(columns=[c for c in leakage_cols if c in df_raw.columns])
-    print(f"Remaining columns: {df_raw.columns.tolist()}")
+    print("Columns AFTER leakage drop:", df_raw.columns.tolist())
 
     print("\n===== Train/Test Split =====")
     X_train, X_test, y_train, y_test = train_test_split_xy(df_raw)
@@ -192,7 +227,6 @@ def main():
     results[name] = best_f1
     preprocessors[name] = preprocessor
 
-
     # Pick best
     print("\n===== Selecting Best Preprocessor =====")
     best_name = max(results, key=lambda k: results[k])
@@ -207,13 +241,16 @@ def main():
     print(f"  -> Full transformed shape: {X_full_trans.shape}")
 
     print("\n===== Building Feature Names =====")
-    df_tmp = convert_block_column(convert_block_column(df_raw.copy(), "DepTimeBlk"), "ArrTimeBlk")
+    df_tmp = convert_crs_times(convert_block_column(convert_block_column(df_raw.copy(), "DepTimeBlk"), "ArrTimeBlk"))
     num_cols, cat_cols = get_encoding_A_cols(df_tmp)
 
     feature_names = num_cols.copy()
 
-    # One-hot names
-    ct = best_preprocessor.named_steps["ct"] if "ct" in best_preprocessor.named_steps else best_preprocessor.named_steps["encode"]
+    ct = (
+        best_preprocessor.named_steps["ct"]
+        if "ct" in best_preprocessor.named_steps
+        else best_preprocessor.named_steps["encode"]
+    )
     ohe = ct.named_transformers_["cat"].named_steps["onehot"]
     ohe_names = ohe.get_feature_names_out(cat_cols)
     feature_names.extend(ohe_names)
@@ -221,13 +258,13 @@ def main():
     print(f"Total features: {len(feature_names)}")
     print("Feature list ", feature_names)
 
-    # Combine
     X_full_df = pd.DataFrame(X_full_trans, columns=feature_names)
     X_full_df[TARGET_COL] = y_full.values
 
     print("\n===== Saving Output =====")
     save_step_data(X_full_df, STEP1_AND_2_OUTPUT_PATH)
     print("Saved.")
+
 
 if __name__ == "__main__":
     main()

@@ -92,6 +92,8 @@ def main():
     # Save best dataset for the next step
     X_full_df = pd.concat([X_full_trans, y_full], axis=1)
 
+    print("Columns at final stage:", X_full_df.columns.tolist())
+
     # Save best dataset for the next step
     save_step_data(X_full_df, STEP4_OUTPUT_PATH)
     print(f"[{STEP_NAME}] Saved best transformed dataset to {STEP4_OUTPUT_PATH}")

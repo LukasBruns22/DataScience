@@ -29,7 +29,8 @@ if not df.empty:
     print(f"   - End Date:       {end_date}")
     print(f"   - Total Duration: {time_span}")
 
-    # C. Target Completeness
+    FREQ = '15min' 
+    df = df.asfreq(FREQ)
     missing_vals = df[target_col].isnull().sum()
     missing_pct = (missing_vals / n_obs) * 100
     

@@ -1,7 +1,3 @@
-import pandas as pd
-import numpy as np
-from data_loader import load_data
-
 def series_train_test_split(data, trn_pct: float = 0.90):
     trn_size = int(len(data) * trn_pct)
     df_cp = data.copy()
@@ -10,6 +6,7 @@ def series_train_test_split(data, trn_pct: float = 0.90):
     return train, test
 
 def split_data(
+    df,
     target_column: str = 'Total', 
     train_size: float = 0.3, 
 ):
@@ -18,7 +15,6 @@ def split_data(
     """
     print(f"--- Splitting data with train size = {train_size} ---")
 
-    df = load_data()
     timeseries = df[target_column]
     
     train, test = series_train_test_split(timeseries, trn_pct=train_size)

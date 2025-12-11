@@ -94,4 +94,6 @@ def pipeline_optimization():
 
 if __name__ == "__main__":
     train, test, BEST_APPROACH = pipeline_optimization()
+    train.to_csv('Lab5/traffic/data_prepared/train_prepared.csv', index=True)
+    test.to_csv('Lab5/traffic/data_prepared/test_prepared.csv', index=True)
     print(BEST_APPROACH)

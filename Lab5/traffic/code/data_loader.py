@@ -23,5 +23,3 @@ def load_data(file_path='Datasets/TrafficTwoMonth.csv'):
     df.drop(columns=['Datetime_Str'], inplace=True)
     
     return df
-
-print(load_data().head())

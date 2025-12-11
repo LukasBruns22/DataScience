@@ -5,7 +5,14 @@ from sklearn.base import RegressorMixin
 from pandas import Series
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_absolute_percentage_error, r2_score
-from package_lab.dslabs_functions import plot_forecasting_eval, plot_forecasting_series
+import sys
+import os
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.abspath(os.path.join(current_dir, '../../../'))
+modules_path = os.path.join(project_root, 'package_lab')
+if modules_path not in sys.path:
+    sys.path.append(modules_path)
+from dslabs_functions import plot_forecasting_eval, plot_forecasting_series
 
 FORECAST_MEASURES = {
     "MSE": mean_squared_error,
@@ -14,20 +21,24 @@ FORECAST_MEASURES = {
     "MAPE": mean_absolute_percentage_error,
 }
 
-class PersistenceOptimistRegressor(RegressorMixin):
+class PersistenceRealistRegressor(RegressorMixin):
     def __init__(self):
         super().__init__()
-        self.last: float = 0.0
-        return
+        self.last = 0
+        self.estimations = [0]
+        self.obs_len = 0
 
     def fit(self, X: Series):
-        self.last = X.iloc[-1]
-        # print(self.last)
-        return
+        for i in range(1, len(X)):
+            self.estimations.append(X.iloc[i - 1])
+        self.obs_len = len(self.estimations)
+        self.last = X.iloc[len(X) - 1]
+        prd_series: Series = Series(self.estimations)
+        prd_series.index = X.index
+        return prd_series
 
     def predict(self, X: Series):
-        prd: list = X.shift().values.ravel()
-        prd[0] = self.last
+        prd: list = len(X) * [self.last]
         prd_series: Series = Series(prd)
         prd_series.index = X.index
         return prd_series
@@ -40,8 +51,8 @@ def train_and_evaluate(train, test, model_type, approach_name):
     print(f"\n=== Training {model_type.upper()} | {approach_name} ===")
 
     # Fit Model and Predict
-    if model_type == 'Persisence':
-        model = PersistenceOptimistRegressor()
+    if model_type == 'Persistence':
+        model = PersistenceRealistRegressor()
         model.fit(train)
         prd_trn = model.predict(train)
         prd_tst = model.predict(test)
@@ -52,14 +63,14 @@ def train_and_evaluate(train, test, model_type, approach_name):
         tstX = np.arange(len(train), len(train)+len(test)).reshape(-1, 1)
         tstY = test.to_numpy()
         model.fit(trnX, trnY)
-        prd_trn = Series(model.predict(trnX), index=train.index)
-        prd_tst = Series(model.predict(tstX), index=test.index)
+        prd_trn = Series(model.predict(trnX).flatten(), index=train.index)
+        prd_tst = Series(model.predict(tstX).flatten(), index=test.index)
     else:
         raise ValueError("model_type must be 'Persistence' or 'LR'")
 
     # Generate Plots
     plot_forecasting_eval(train, test, prd_trn, prd_tst, title=f"{approach_name} - {model_type}")
-    plt.savefig(f"La5/traffic/results/{model_type}_{approach_name}_metrics.png")
+    plt.savefig(f"Lab5/traffic/results/{model_type}_{approach_name}_metrics.png")
 
     plot_forecasting_series(
         train,
@@ -69,7 +80,7 @@ def train_and_evaluate(train, test, model_type, approach_name):
         xlabel='timestamp',
         ylabel='Total',
     )
-    plt.savefig(f"images/{model_type}_{approach_name}_forecast.png")
+    plt.savefig(f"Lab5/traffic/results/{model_type}_{approach_name}_forecast.png")
     
     # Calculate Metrics
     results = {'approach': approach_name, 'model_type': model_type}

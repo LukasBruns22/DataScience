@@ -3,9 +3,12 @@ from matplotlib.colors import LinearSegmentedColormap
 from warnings import simplefilter
 from cycler import cycler
 
+import os
+current_dir = os.path.dirname(os.path.abspath(__file__))
+style_file_path = os.path.join(current_dir, "dslabs.mplstyle")
 # _________________________________________ STYLE ____________________________________________________
 simplefilter("ignore")
-style.use("dslabs.mplstyle")
+style.use(style_file_path)
 
 HATCHES = [".", "..", "...", "o"]  # ['/', '+', 'X', '*'] #'oo', 'OO', '..'
 

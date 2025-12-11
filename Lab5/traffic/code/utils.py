@@ -4,7 +4,7 @@ from sklearn.preprocessing import StandardScaler
 
 def scale_timeseries(train, test):
 
-    transf = StandardScaler().fit(train_scaled)
+    transf = StandardScaler().fit(train)
 
     train_scaled = transf.transform(train)
     test_scaled = transf.transform(test)
@@ -17,8 +17,8 @@ def scale_timeseries(train, test):
 def series_train_test_split(data, trn_pct: float = 0.90):
     trn_size = int(len(data) * trn_pct)
     df_cp = data.copy()
-    train = df_cp.iloc[:trn_size, 0]
-    test = df_cp.iloc[trn_size:, 0]
+    train = df_cp.iloc[:trn_size]
+    test = df_cp.iloc[trn_size:]
     return train, test
 
 def split_timeseries(
@@ -31,7 +31,7 @@ def split_timeseries(
     """
     print(f"--- Splitting data with train size = {train_size} ---")
 
-    timeseries = df[target_column]
+    timeseries = df[[target_column]]
     
     train, test = series_train_test_split(timeseries, trn_pct=train_size)
     
@@ -46,6 +46,9 @@ def aggregate_timeseries(train, test, freq, method='sum'):
     train_copy = train.copy()
     test_copy = test.copy()
 
+    if freq == 'original':
+        return train_copy, test_copy
+
     if method == 'sum':
         resampled_train = train_copy.resample(freq).sum()
         resampled_test = test_copy.resample(freq).sum()
@@ -57,11 +60,14 @@ def aggregate_timeseries(train, test, freq, method='sum'):
             
     return resampled_train, resampled_test
 
-def differenciation_timeseries(train, test, lag):        
+def differenciation_timeseries(train, test, derivative):        
     train_copy = train.copy()
     test_copy = test.copy() 
-    train_diff = train_copy.diff(periods=lag)
-    test_diff = test_copy.diff(periods=lag)
+    train_diff = train_copy.diff()
+    test_diff = test_copy.diff()
+    if derivative == 2:
+        train_diff = train_diff.diff()
+        test_diff = test_diff.diff()
     train_diff.dropna(inplace=True)
     test_diff.dropna(inplace=True)         
     return train_diff, test_diff
@@ -69,4 +75,5 @@ def differenciation_timeseries(train, test, lag):
 def smoothing_timeseries(train, test, window_size):
     train_copy = train.copy()    
     train_smooth = train_copy.rolling(window=window_size).mean()
+    train_smooth = train_smooth.dropna()
     return train_smooth, test

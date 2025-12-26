@@ -94,6 +94,17 @@ def pipeline_optimization():
 
 if __name__ == "__main__":
     train, test, BEST_APPROACH = pipeline_optimization()
-    train.to_csv('Lab5/traffic/data_prepared/train_prepared.csv', index=True)
-    test.to_csv('Lab5/traffic/data_prepared/test_prepared.csv', index=True)
-    print(BEST_APPROACH)
+    print(f"Final Pipeline Strategy: {BEST_APPROACH}")
+
+    # --- ADD THIS CODE TO SAVE YOUR PROCESSED DATA ---
+    print("\nSaving processed datasets...")
+    
+    # Ensure indices have a name for clean CSV saving
+    train.index.name = 'Datetime' 
+    test.index.name = 'Datetime'
+
+    # Save to CSV
+    train.to_csv("processed_train.csv")
+    test.to_csv("processed_test.csv")
+    
+    print("✅ Success! Data saved to 'processed_train.csv' and 'processed_test.csv'.")

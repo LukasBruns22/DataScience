@@ -73,7 +73,24 @@ def differenciation_timeseries(train, test, derivative):
     return train_diff, test_diff
 
 def smoothing_timeseries(train, test, window_size):
+    # 1. Smooth Training Data (Standard)
     train_copy = train.copy()    
     train_smooth = train_copy.rolling(window=window_size).mean()
     train_smooth = train_smooth.dropna()
-    return train_smooth, test
+    
+    # 2. Smooth Test Data (With History)
+    # Grab the last (window_size - 1) points from train
+    last_window_of_train = train.iloc[-(window_size - 1):]
+    
+    # Stick them onto the front of the test set
+    test_with_history = pd.concat([last_window_of_train, test])
+    
+    # Apply rolling mean
+    test_smooth_full = test_with_history.rolling(window=window_size).mean()
+    
+    # Drop the 'history' part we added, keeping only the valid test points
+    # Since we added N-1 points, the first valid point is exactly at index [window_size-1],
+    # which corresponds to the first actual test timestamp.
+    test_smooth = test_smooth_full.iloc[window_size - 1:]
+    
+    return train_smooth, test_smooth

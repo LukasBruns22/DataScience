@@ -68,12 +68,26 @@ def main():
     # 3. Final Outputs
     print("\nPipeline Complete.")
     
-    # A. Save Data
-    final_df = pd.concat([X_train, X_test])
-    final_df[TARGET_COL] = pd.concat([y_train, y_test])
+    # --- CHANGED SECTION START ---
+    # A. Tag and Save Data
     
+    # Prepare Train Set
+    train_df = X_train.copy()
+    train_df[TARGET_COL] = y_train
+    train_df['Set'] = 'Train' # <--- Tagging it
+    
+    # Prepare Test Set
+    test_df = X_test.copy()
+    test_df[TARGET_COL] = y_test
+    test_df['Set'] = 'Test'   # <--- Tagging it
+    
+    # Concatenate
+    final_df = pd.concat([train_df, test_df])
+    
+    # Save
     final_df.to_csv(FINAL_FILE, index=False)
-    print(f"   -> Data saved to {FINAL_FILE}")
+    print(f"   -> Data saved to {FINAL_FILE} (With 'Set' column)")
+    # --- CHANGED SECTION END ---
     
     # B. Generate Plots
     print("\nGenerating Performance Plots...")

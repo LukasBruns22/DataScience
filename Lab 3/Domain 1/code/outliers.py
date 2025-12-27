@@ -1,78 +1,58 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
+from sklearn.ensemble import IsolationForest
+from scipy import stats
+from pipeline import run_step_comparison
 
-def handle_outliers(X_train, X_test, strategy='truncate'):
-    """
-    Handles outliers in numerical features based on the selected strategy.
+# --- APPROACH 1: Isolation Forest ---
+def app1_isolation_forest(X_train, y_train, X_test, y_test):
+    print("      (Running Isolation Forest...)")
     
-    Strategies (based on the provided slide):
-    - 'truncate': Caps values at the lower and upper bounds (Winsorization).
-                  (Corresponds to "new max and min").
-    - 'replace': Replaces outliers with the Mean of the column.
-                 (Corresponds to "New value -> Mean/Median").
-
-    Parameters:
-    -----------
-    X_train, X_test : pd.DataFrame
-        The dataframes containing features.
-    strategy : str, default='truncate'
-        The strategy to use ('truncate' or 'replace').
-
-    Returns:
-    --------
-    X_train_out, X_test_out : pd.DataFrame
-        Dataframes with outliers handled.
-    """
+    iso = IsolationForest(contamination=0.005, random_state=42, n_jobs=-1)
+    preds = iso.fit_predict(X_train)
     
-    X_train_out = X_train.copy()
-    X_test_out = X_test.copy()
+    mask = preds == 1
+    print(f"      -> Removed {sum(~mask)} outliers ({sum(~mask)/len(mask)*100:.1f}% of data).")
+    return X_train[mask], y_train[mask], X_test, y_test
 
-    numerical_cols = X_train_out.select_dtypes(include=['int64', 'float64']).columns
-    numerical_cols = [col for col in numerical_cols if X_train_out[col].nunique() > 2]
+# --- APPROACH 2: Z-Score ---
+def app2_zscore(X_train, y_train, X_test, y_test):
+    print("      (Running Robust Z-Score...)")
+    
+    std_devs = X_train.std()
+    valid_cols = std_devs[std_devs > 1e-9].index 
+    
+    if len(valid_cols) == 0:
+        print("      [!] Warning: No variable columns found. Skipping Z-Score.")
+        return X_train, y_train, X_test, y_test
 
-    if len(numerical_cols) == 0:
-        print("No continuous numerical columns found for outlier treatment.")
-        return X_train_out, X_test_out
+    # Calculate Z-Scores ONLY on valid columns
+    subset = X_train[valid_cols]
+    z_scores = np.abs(stats.zscore(subset))
+    
+    extreme_per_row = (z_scores > 5).sum(axis=1)
+    mask = extreme_per_row == 0 
+    
+    rows_removed = sum(~mask)
+    pct_removed = rows_removed / len(mask) * 100
+    
+    # Safety check: Don't remove more than 5% of data
+    if pct_removed > 5:
+        print(f"      [!] Z-Score would remove {pct_removed:.1f}% of data - too aggressive!")
+        print(f"      -> Keeping only the most extreme 2% as outliers")
+        # Instead, just remove the top 2% most extreme rows
+        max_z_per_row = z_scores.max(axis=1)
+        threshold = np.percentile(max_z_per_row, 98)
+        mask = max_z_per_row < threshold
+        rows_removed = sum(~mask)
+    
+    print(f"      -> Removed {rows_removed} outliers ({rows_removed/len(mask)*100:.1f}% of data).")
+    return X_train[mask], y_train[mask], X_test, y_test
 
-    print(f"--- Handling Outliers Strategy: '{strategy}' on columns: {numerical_cols} ---")
-
-    for col in numerical_cols:
-        # 2. Calculate Bounds using IQR (Interquartile Range) on TRAIN set only
-        # This prevents data leakage.
-        Q1 = X_train_out[col].quantile(0.25)
-        Q3 = X_train_out[col].quantile(0.75)
-        IQR = Q3 - Q1
-        
-        lower_bound = Q1 - 1.5 * IQR
-        upper_bound = Q3 + 1.5 * IQR
-        
-        # Calculate Mean (for the 'replace' strategy)
-        col_mean = X_train_out[col].mean()
-
-        # --- STRATEGY 1: TRUNCATE (Capping) ---
-        if strategy == 'truncate':
-            # Apply to Train
-            X_train_out[col] = np.where(X_train_out[col] < lower_bound, lower_bound, X_train_out[col])
-            X_train_out[col] = np.where(X_train_out[col] > upper_bound, upper_bound, X_train_out[col])
-            
-            # Apply to Test (using Train bounds)
-            X_test_out[col] = np.where(X_test_out[col] < lower_bound, lower_bound, X_test_out[col])
-            X_test_out[col] = np.where(X_test_out[col] > upper_bound, upper_bound, X_test_out[col])
-
-        # --- STRATEGY 2: REPLACE (Mean) ---
-        elif strategy == 'replace':
-            # Identify outliers
-            train_outliers = (X_train_out[col] < lower_bound) | (X_train_out[col] > upper_bound)
-            test_outliers = (X_test_out[col] < lower_bound) | (X_test_out[col] > upper_bound)
-            
-            # Replace with Mean
-            if train_outliers.sum() > 0:
-                X_train_out.loc[train_outliers, col] = col_mean
-            
-            if test_outliers.sum() > 0:
-                X_test_out.loc[test_outliers, col] = col_mean
-
-        else:
-            raise ValueError("Strategy must be 'truncate' or 'replace'.")
-
-    return X_train_out, X_test_out
+def run_outliers_step(X_train, y_train, X_test, y_test):
+    return run_step_comparison(
+        X_train, y_train, X_test, y_test,
+        app1_func=app1_isolation_forest,
+        app2_func=app2_zscore,
+        step_name="OUTLIERS TREATMENT"
+    )

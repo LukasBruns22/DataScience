@@ -5,14 +5,16 @@ import pandas as pd
 # --- APPROACH 1: MinMax Scaler (0 to 1) ---
 def app1_minmax(X_train, y_train, X_test, y_test):
     scaler = MinMaxScaler()
+    
     # Fit on TRAIN, Transform BOTH (Standard Leakage Prevention)
+    # We must convert back to DataFrame to keep column names
     cols = X_train.columns
     X_train_scaled = pd.DataFrame(scaler.fit_transform(X_train), columns=cols, index=X_train.index)
     X_test_scaled = pd.DataFrame(scaler.transform(X_test), columns=cols, index=X_test.index)
     
     return X_train_scaled, y_train, X_test_scaled, y_test
 
-# --- APPROACH 2: Standard Scaler (Z-Score Normalization) ---
+# --- APPROACH 2: Standard S    caler (Z-Score Normalization) ---
 def app2_standard(X_train, y_train, X_test, y_test):
     scaler = StandardScaler()
     

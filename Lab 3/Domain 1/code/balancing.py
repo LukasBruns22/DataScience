@@ -1,58 +1,30 @@
-import pandas as pd
-from imblearn.over_sampling import RandomOverSampler, SMOTE
+from imblearn.over_sampling import SMOTE
+from imblearn.under_sampling import RandomUnderSampler
+from pipeline import run_step_comparison
 
-def balance_data(X_train, y_train, strategy='smote'):
-    """
-    Balances the training dataset using Oversampling strategies.
-
-    Parameters:
-    -----------
-    X_train : pd.DataFrame
-        The training features (must be encoded and imputed before SMOTE).
-    y_train : pd.Series
-        The training target.
-    strategy : str, default='smote'
-        - 'oversampling': Randomly duplicates samples from the minority class.
-        - 'smote': Generates synthetic samples for the minority class using KNN.
-
-    Returns:
-    --------
-    X_train_res, y_train_res : pd.DataFrame, pd.Series
-        The balanced training data.
-    """
+# --- APPROACH 1: SMOTE (Oversampling) ---
+def app1_smote(X_train, y_train, X_test, y_test):
+    print("      (Applying SMOTE... this may take a moment)")
+    smote = SMOTE(random_state=42)
     
-    print(f"--- Balancing Data using Strategy: '{strategy}' ---")
-    print(f"Original class distribution:\n{y_train.value_counts()}")
-
-    if strategy == 'oversampling':
-        sampler = RandomOverSampler(random_state=42)
-        
-    elif strategy == 'smote':
-        sampler = SMOTE(random_state=42)
-        
-    else:
-        raise ValueError("Strategy must be 'oversampling' or 'smote'.")
-
-    # Apply resampling
-    X_train_res, y_train_res = sampler.fit_resample(X_train, y_train)
-
-    print(f"New class distribution:\n{y_train_res.value_counts()}")
+    # Resample TRAIN only
+    X_train_res, y_train_res = smote.fit_resample(X_train, y_train)
     
-    # Preserve DataFrame column names if input was a DataFrame
-    if isinstance(X_train, pd.DataFrame):
-        X_train_res = pd.DataFrame(X_train_res, columns=X_train.columns)
-    
-    return X_train_res, y_train_res
+    return X_train_res, y_train_res, X_test, y_test
 
-# --- Example Usage ---
-if __name__ == "__main__":
-    # Mock Data (Imbalanced)
-    # 90 samples of class 0, 10 samples of class 1
-    X_train = pd.DataFrame({'feature1': range(100), 'feature2': range(100)})
-    y_train = pd.Series([0]*90 + [1]*10)
-
-    print("--- Test 1: SMOTE ---")
-    X_res_smote, y_res_smote = balance_data(X_train, y_train, strategy='smote')
+# --- APPROACH 2: Random Undersampling ---
+def app2_undersample(X_train, y_train, X_test, y_test):
+    rus = RandomUnderSampler(random_state=42)
     
-    print("\n--- Test 2: Oversampling ---")
-    X_res_over, y_res_over = balance_data(X_train, y_train, strategy='oversampling')
+    # Resample TRAIN only
+    X_train_res, y_train_res = rus.fit_resample(X_train, y_train)
+    
+    return X_train_res, y_train_res, X_test, y_test
+
+def run_balancing_step(X_train, y_train, X_test, y_test):
+    return run_step_comparison(
+        X_train, y_train, X_test, y_test,
+        app1_func=app1_smote,
+        app2_func=app2_undersample,
+        step_name="BALANCING"
+    )

@@ -1,182 +1,99 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+from sklearn.model_selection import train_test_split
+from pipeline import get_model_performance
+from vis import plot_pipeline_history, plot_final_confusion_matrices
 
-from data_loader import load_and_split_data
-from model_evaluator import train_and_evaluate, compare_strategies_averaged
-from encoding_and_mvi import encode_features
-from outliers import handle_outliers
-from scaling import scale_features
-from balancing import balance_data
-from feature_selection import select_features
-# --- CONFIGURATION ---
-FILE_PATH = 'Lab 3/Domain 1/code/traffic_accidents.csv'
-TARGET_COL = 'crash_type'
-THRESHOLD = 0.005
-BEST_APPROACH = []
-PERFORMANCE_HISTORY = []
+from outliers import run_outliers_step
+from scaling import run_scaling_step
+from balancing import run_balancing_step
+from feature_selection import run_feature_selection_step
+from feature_generation import run_feature_generation_step
 
-def run_step_tournament(step_name, X_train, X_test, y_train, y_test, 
-                        func, param_grid, current_baseline_score = 0.0,
-                        updates_y=False, needs_y_in_func=False):
-    print(f"\n{'='*60}")
-    print(f">>> TOURNAMENT STEP: {step_name.upper()} ({len(param_grid)} Challengers) <<<")
-    print(f"{'='*60}")
+START_FILE = 'datasets/traffic_accidents/traffic_accidents_encoded.csv' 
+FINAL_FILE = 'datasets/traffic_accidents/traffic_accidents_prepared_final.csv'
 
-    step_results = []
+TARGET_COL = 'crash_type_enc'
+
+def record_history(history_list, step_name, X_train, y_train, X_test, y_test):
+    """Helper to calculate current score and add to history."""
+    scores = get_model_performance(X_train, y_train, X_test, y_test)
+    history_list.append({
+        'Step': step_name,
+        'KNN': scores['knn'],
+        'NB': scores['nb']
+    })
+    return history_list
+
+def main():
+    print("STARTING DATA PREPARATION PIPELINE (With Visualization)")
+    history = [] 
     
-    for i, params in enumerate(param_grid):
-        config_desc = "_".join([str(v) for v in params.values() if isinstance(v, str)])
-        full_name = f"{step_name}_{config_desc}"
-        
-        print(f"\n[{i+1}/{len(param_grid)}] Testing: {full_name}")
-        
-        try:
-            if updates_y:
-                X_tr_curr, y_tr_curr = func(X_train, y_train, **params)
-                X_te_curr, y_te_curr = X_test, y_test
-            elif needs_y_in_func:
-                X_tr_curr, X_te_curr = func(X_train, X_test, y_train, **params)
-                y_tr_curr, y_te_curr = y_train, y_test
-            else:
-                # Ex: Scaling, Outliers, Imputation
-                X_tr_curr, X_te_curr = func(X_train, X_test, **params)
-                y_tr_curr, y_te_curr = y_train, y_test
-
-            # Evaluation
-            res_knn = train_and_evaluate(X_tr_curr, y_tr_curr, X_te_curr, y_te_curr, 'knn', full_name)
-            res_nb  = train_and_evaluate(X_tr_curr, y_tr_curr, X_te_curr, y_te_curr, 'nb', full_name)
-            
-            step_results.extend([res_knn, res_nb])
-            PERFORMANCE_HISTORY.extend([res_knn, res_nb])
-            
-        except Exception as e:
-            print(f"   -> SKIPPED due to error: {e}")
-
-
-    best_approach_name, best_score, baseline = compare_strategies_averaged(step_results, current_baseline_score, metric='f1_score')
-    current_baseline_score = best_score
-    print(f"\n>>> 🏆 WINNER of {step_name}: {best_approach_name}")
-
-    if baseline:
-        print(f"Retaining current dataset without changes for next step.")
-        return X_train, X_test, y_train, y_test, current_baseline_score
-
+    print("1. Loading Data & Performing Single Split...")
+    df = pd.read_csv(START_FILE)
     
-    best_params = None
-    for params in param_grid:
-        config_desc = "_".join([str(v) for v in params.values() if isinstance(v, str)])
-        if f"{step_name}_{config_desc}" == best_approach_name:
-            best_params = params
-            break
-            
-    print(f"Applying winning transformation ({best_approach_name}) to pass to next step...")
+    X = df.drop(columns=[TARGET_COL])
+    y = df[TARGET_COL]
+
+    # Convert all features to float for z-score
+    X = X.astype(float) 
     
-    if updates_y:
-        X_tr_win, y_tr_win = func(X_train, y_train, **best_params)
-        return X_tr_win, X_test, y_tr_win, y_test, current_baseline_score
-    elif needs_y_in_func:
-        X_tr_win, X_te_win = func(X_train, X_test, y_train, **best_params)
-        return X_tr_win, X_te_win, y_train, y_test, current_baseline_score
-    else:
-        X_tr_win, X_te_win = func(X_train, X_test, **best_params)
-        return X_tr_win, X_te_win, y_train, y_test, current_baseline_score
-
-
-def plot_performance_evolution():
-    if not PERFORMANCE_HISTORY: return
-    df = pd.DataFrame(PERFORMANCE_HISTORY)
-    df['Step'] = df['approach'].apply(lambda x: x.split('_')[0])
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.3, stratify=y, random_state=42
+    )
+    # baseline
+    history = record_history(history, "Baseline", X_train, y_train, X_test, y_test)
     
-    plt.figure(figsize=(14, 7))
-    sns.barplot(data=df, x='approach', y='f1_score', hue='model', palette='viridis')
-    plt.title('Tournament Results: Model Performance Evolution', fontsize=16)
-    plt.xticks(rotation=90) 
-    plt.ylabel('F1 Score (Weighted)')
-    plt.xlabel('Strategy Evaluated')
-    plt.legend(title='Model', loc='lower right')
-    plt.tight_layout()
-    plt.savefig('tournament_results.png')
-    print("\nGraphique sauvegardé : Lab 3/Domain 1/plots/tournament_results.png")
-    plt.show()
+    # 2. Run Steps Sequence
+    
+    # Feature Generation
+    X_train, y_train, X_test, y_test = run_feature_generation_step(X_train, y_train, X_test, y_test)
+    history = record_history(history, "Generation", X_train, y_train, X_test, y_test)
+    
+    # Outliers
+    X_train, y_train, X_test, y_test = run_outliers_step(X_train, y_train, X_test, y_test)
+    history = record_history(history, "Outliers", X_train, y_train, X_test, y_test)
+    
+    # Scaling
+    X_train, y_train, X_test, y_test = run_scaling_step(X_train, y_train, X_test, y_test)
+    history = record_history(history, "Scaling", X_train, y_train, X_test, y_test)
+    
+    # Feature Selection
+    X_train, y_train, X_test, y_test = run_feature_selection_step(X_train, y_train, X_test, y_test)
+    history = record_history(history, "Selection", X_train, y_train, X_test, y_test)
+    
+    # Balancing (Last)
+    X_train, y_train, X_test, y_test = run_balancing_step(X_train, y_train, X_test, y_test)
+    history = record_history(history, "Balancing", X_train, y_train, X_test, y_test)
+    
+    # 3. Final Outputs
+    print("\nPipeline Complete.")
+    
+    # --- CHANGED SECTION START ---
+    # A. Tag and Save Data
+    
+    # Prepare Train Set
+    train_df = X_train.copy()
+    train_df[TARGET_COL] = y_train
+    train_df['Set'] = 'Train' # <--- Tagging it
+    
+    # Prepare Test Set
+    test_df = X_test.copy()
+    test_df[TARGET_COL] = y_test
+    test_df['Set'] = 'Test'   # <--- Tagging it
+    
+    # Concatenate
+    final_df = pd.concat([train_df, test_df])
+    
+    # Save
+    final_df.to_csv(FINAL_FILE, index=False)
+    print(f"   -> Data saved to {FINAL_FILE} (With 'Set' column)")
+    # --- CHANGED SECTION END ---
+    
+    # B. Generate Plots
+    print("\nGenerating Performance Plots...")
+    plot_pipeline_history(history)
+    plot_final_confusion_matrices(X_train, y_train, X_test, y_test)
+    print("DONE! Check the PNG files in your folder.")
 
-# ==========================================
-# MAIN
-# ==========================================
 if __name__ == "__main__":
-    try:
-        # 0. LOAD & PRE-CLEAN
-        X_train, X_test, y_train, y_test = load_and_split_data(FILE_PATH, TARGET_COL)
-
-        # --- STEP 1: MVI & ENCODING ---
-        grid_step1 = [
-            {'mvi_strategy': 'statistical'},
-            {'mvi_strategy': 'constant'},
-        ]
-        X_train, X_test, y_train, y_test, current_baseline_score = run_step_tournament(
-            "1.MVI", X_train, X_test, y_train, y_test,
-            func=encode_features,
-            param_grid=grid_step1
-        )
-
-        # --- STEP 2: OUTLIERS ---
-        grid_step2 = [
-            {'strategy': 'truncate'},
-            {'strategy': 'replace'}
-        ]
-        X_train, X_test, y_train, y_test, current_baseline_score = run_step_tournament(
-            "2.Outliers", X_train, X_test, y_train, y_test,
-            func=handle_outliers,
-            param_grid=grid_step2, 
-            current_baseline_score = current_baseline_score
-        )
-
-        # --- STEP 3: SCALING ---
-        grid_step3 = [
-            {'strategy': 'standardization'},
-            {'strategy': 'normalization'}
-        ]
-        X_train, X_test, y_train, y_test, current_baseline_score = run_step_tournament(
-            "3.Scaling", X_train, X_test, y_train, y_test,
-            func=scale_features,
-            param_grid=grid_step3,
-            current_baseline_score = current_baseline_score
-        )
-
-        # --- STEP 4: BALANCIN ---
-        grid_step4 = [
-            {'strategy': 'smote'},
-            {'strategy': 'oversampling'}
-        ]
-        X_train, X_test, y_train, y_test, current_baseline_score = run_step_tournament(
-            "4.Balancing", X_train, X_test, y_train, y_test,
-            func=balance_data,
-            param_grid=grid_step4,
-            current_baseline_score = current_baseline_score,
-            updates_y=True
-        )
-
-        # --- STEP 5: FEATURE GEN & SEL (4 possibilités) ---
-        grid_step5 = [
-            {'strategy': 'kbest'},
-            {'strategy': 'correlation'}
-        ]
-        X_train, X_test, y_train, y_test, current_baseline_score = run_step_tournament(
-            "5.Feat_Sel", X_train, X_test, y_train, y_test,
-            func=select_features, 
-            param_grid=grid_step5,
-            current_baseline_score = current_baseline_score,
-            needs_y_in_func=True 
-        )
-
-        # END
-        print("\n" + "="*60)
-        print("PIPELINE OPTIMIZATION COMPLETE")
-        print("="*60)
-        plot_performance_evolution()
-        print(f"Final Dataset Shape: {X_train.shape}")
-
-    except Exception as e:
-        print(f"\nCRITICAL ERROR: {e}")
-        import traceback
-        traceback.print_exc()
+    main()

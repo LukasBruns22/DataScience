@@ -1,0 +1,729 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.12.26)  28 DEC 2025 11:29
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**c:/Users/acach/DataScience/ds_latex/main.tex
+(c:/Users/acach/DataScience/ds_latex/main.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-04>
+(C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/extsizes\extarticle.cls
+Document Class: extarticle 1996/10/08 v1.0 Non Standard LaTeX document class
+(C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/base\size10.clo
+File: size10.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/base\exscale.sty
+Package: exscale 2018/09/24 v2.1i Standard LaTeX package exscale
+LaTeX Font Info:    Redeclaring symbol font `largesymbols' on input line 57.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/cmex/m/n on input line 57.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/cmex/m/n on input line 57.
+\big@size=\dimen140
+)
+\c@part=\count187
+\c@section=\count188
+\c@subsection=\count189
+\c@subsubsection=\count190
+\c@paragraph=\count191
+\c@subparagraph=\count192
+\c@figure=\count193
+\c@table=\count194
+\abovecaptionskip=\skip48
+\belowcaptionskip=\skip49
+\bibindent=\dimen141
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspace.sty
+Package: setspace 2022/12/04 v6.7b set line spacing
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/anyfontsize\anyfontsize.sty
+Package: anyfontsize 2007/11/22 anyfontsize.sty by pts
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
+Package: tabularx 2023/07/08 v2.11c `tabularx' package (DPC)
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
+\col@sep=\dimen142
+\ar@mcellbox=\box51
+\extrarowheight=\dimen143
+\NC@list=\toks17
+\extratabsurround=\skip50
+\backup@length=\skip51
+\ar@cellbox=\box52
+)
+\TX@col@width=\dimen144
+\TX@old@table=\dimen145
+\TX@old@col=\dimen146
+\TX@target=\dimen147
+\TX@delta=\dimen148
+\TX@cols=\count195
+\TX@ftn=\toks18
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/multirow\multirow.sty
+Package: multirow 2024/11/12 v2.9 Span multiple rows of a table
+\multirow@colwidth=\skip52
+\multirow@cntb=\count196
+\multirow@dima=\skip53
+\bigstrutjot=\dimen149
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/generic/soul\soul.sty
+Package: soul 2023-06-14 v3.1 Permit use of UTF-8 characters in soul (HO)
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/generic/soul\soul-ori.sty
+Package: soul-ori 2023-06-14 v3.1 letterspacing/underlining (mf)
+\SOUL@word=\toks19
+\SOUL@lasttoken=\toks20
+\SOUL@syllable=\toks21
+\SOUL@cmds=\toks22
+\SOUL@buffer=\toks23
+\SOUL@token=\toks24
+\SOUL@syllgoal=\dimen150
+\SOUL@syllwidth=\dimen151
+\SOUL@charkern=\dimen152
+\SOUL@hyphkern=\dimen153
+\SOUL@dimen=\dimen154
+\SOUL@dimeni=\dimen155
+\SOUL@minus=\count197
+\SOUL@comma=\count198
+\SOUL@apo=\count199
+\SOUL@grave=\count266
+\SOUL@spaceskip=\skip54
+\SOUL@ttwidth=\dimen156
+\SOUL@uldp=\dimen157
+\SOUL@ulht=\dimen158
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/generic/etexcmds\etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+))) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+Package: xcolor 2023/11/15 v3.01 LaTeX color extensions (UK)
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1350.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1354.
+Package xcolor Info: Model `RGB' extended on input line 1366.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1368.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1371.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1372.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1373.
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/blindtext\blindtext.sty
+Package: blindtext 2012/01/06 V2.0 blindtext-Package
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/tools\xspace.sty
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+)
+\c@blindtext=\count267
+\c@Blindtext=\count268
+\c@blind@countparstart=\count269
+\blind@countxx=\count270
+\blindtext@numBlindtext=\count271
+\blind@countyy=\count272
+\c@blindlist=\count273
+\c@blindlistlevel=\count274
+\c@blindlist@level=\count275
+\blind@listitem=\count276
+\c@blind@listcount=\count277
+\c@blind@levelcount=\count278
+\blind@mathformula=\count279
+\blind@Mathformula=\count280
+\c@blind@randomcount=\count281
+\c@blind@randommax=\count282
+\c@blind@pangramcount=\count283
+\c@blind@pangrammax=\count284
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/titling\titling.sty
+Package: titling 2009/09/04 v2.1d maketitle typesetting
+\thanksmarkwidth=\skip55
+\thanksmargin=\skip56
+\droptitle=\skip57
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/generic/babel\babel.sty
+Package: babel 2024/01/07 v24.1 The Babel package
+\babel@savecnt=\count285
+\U@D=\dimen159
+\l@unhyphenated=\language79
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/generic/babel\txtbabel.def)
+\bbl@readstream=\read2
+\bbl@dirlevel=\count286
+
+*************************************
+* Local config file bblopts.cfg used
+*
+(C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/arabi\bblopts.cfg
+File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of babel
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/babel-english\english.ldf
+Language: english 2017/06/06 v3.3r English support from the babel system
+Package babel Info: Hyphen rules for 'canadian' set to \l@english
+(babel)             (\language0). Reported on input line 102.
+Package babel Info: Hyphen rules for 'australian' set to \l@ukenglish
+(babel)             (\language73). Reported on input line 105.
+Package babel Info: Hyphen rules for 'newzealand' set to \l@ukenglish
+(babel)             (\language73). Reported on input line 108.
+)) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/en\babel-english.tex
+Package babel Info: Importing font and identification data for english
+(babel)             from babel-en.ini. Reported on input line 11.
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks25
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+)
+\Gin@req@height=\dimen160
+\Gin@req@width=\dimen161
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count287
+\float@exts=\toks26
+\float@box=\box53
+\@float@everytoks=\toks27
+\@floatcapt=\box54
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/eso-pic\eso-pic.sty
+Package: eso-pic 2023/05/03 v3.0c eso-pic (RN)
+\ESO@tempdima=\dimen162
+\ESO@tempdimb=\dimen163
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/caption\subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen164
+\captionmargin=\dimen165
+\caption@leftmargin=\dimen166
+\caption@rightmargin=\dimen167
+\caption@width=\dimen168
+\caption@indent=\dimen169
+\caption@parindent=\dimen170
+\caption@hangindent=\dimen171
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count288
+\c@continuedfloat=\count289
+Package caption Info: float package is loaded.
+)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count290
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count291
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+)
+\Gm@cnth=\count292
+\Gm@cntv=\count293
+\c@Gm@tempcnt=\count294
+\Gm@bindingoffset=\dimen172
+\Gm@wd@mp=\dimen173
+\Gm@odd@mp=\dimen174
+\Gm@even@mp=\dimen175
+\Gm@layoutwidth=\dimen176
+\Gm@layoutheight=\dimen177
+\Gm@layouthoffset=\dimen178
+\Gm@layoutvoffset=\dimen179
+\Gm@dimlist=\toks28
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg)) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/placeins\placeins.sty
+Package: placeins 2005/04/18  v 2.2
+)
+LaTeX Font Info:    Trying to load font information for T1+cmss on input line 37.
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/base\t1cmss.fd
+File: t1cmss.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
+File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count295
+\l__pdf_internal_box=\box55
+) (main.aux)
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count296
+\scratchdimen=\dimen180
+\scratchbox=\box56
+\nofMPsegments=\count297
+\nofMParguments=\count298
+\everyMPshowfont=\toks29
+\MPscratchCnt=\count299
+\MPscratchDim=\dimen181
+\MPnumerator=\count300
+\makeMPintoPDFobject=\count301
+\everyMPtoPDFconversion=\toks30
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/grfext\grfext.sty
+Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+)) (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 504.
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(56.9055pt, 500.484pt, 56.9055pt)
+* v-part:(T,H,B)=(85.35826pt, 652.70622pt, 56.9055pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=500.484pt
+* \textheight=652.70622pt
+* \oddsidemargin=-15.36449pt
+* \evensidemargin=-15.36449pt
+* \topmargin=-23.91173pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+LaTeX Font Info:    External font `cmex7' loaded for size
+(Font)              <6> on input line 57.
+
+LaTeX Warning: No \author given.
+
+LaTeX Font Info:    External font `cmex7' loaded for size
+(Font)              <7> on input line 60.
+LaTeX Font Info:    External font `cmex7' loaded for size
+(Font)              <5> on input line 60.
+<images/1_1_dataset1_shape.png, id=1, 505.89pt x 433.62pt>
+File: images/1_1_dataset1_shape.png Graphic file (type png)
+<use images/1_1_dataset1_shape.png>
+Package pdftex.def Info: images/1_1_dataset1_shape.png  used on input line 85.
+(pdftex.def)             Requested size: 225.21626pt x 193.043pt.
+<images/1_1_dataset2_shape.png, id=3, 701.9826pt x 282.8166pt>
+File: images/1_1_dataset2_shape.png Graphic file (type png)
+<use images/1_1_dataset2_shape.png>
+Package pdftex.def Info: images/1_1_dataset2_shape.png  used on input line 92.
+(pdftex.def)             Requested size: 225.21626pt x 90.73619pt.
+<./images/tecnico_logo.jpg, id=4, 142.8975pt x 70.299pt>
+File: ./images/tecnico_logo.jpg Graphic file (type jpg)
+<use ./images/tecnico_logo.jpg>
+Package pdftex.def Info: ./images/tecnico_logo.jpg  used on input line 97.
+(pdftex.def)             Requested size: 135.75186pt x 66.78365pt.
+[1{C:/Users/acach/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
+
+ <./images/tecnico_logo.jpg>]
+<images/1_1_dataset1_variable_types.png, id=16, 578.16pt x 361.35pt>
+File: images/1_1_dataset1_variable_types.png Graphic file (type png)
+<use images/1_1_dataset1_variable_types.png>
+Package pdftex.def Info: images/1_1_dataset1_variable_types.png  used on input line 103.
+(pdftex.def)             Requested size: 225.21626pt x 140.76051pt.
+<images/1_1_dataset2_variable_types.png, id=17, 698.1282pt x 276.5532pt>
+File: images/1_1_dataset2_variable_types.png Graphic file (type png)
+<use images/1_1_dataset2_variable_types.png>
+Package pdftex.def Info: images/1_1_dataset2_variable_types.png  used on input line 110.
+(pdftex.def)             Requested size: 225.21626pt x 89.2162pt.
+<images/1_1_dataset1_missing_values.png, id=18, 1011.78pt x 578.16pt>
+File: images/1_1_dataset1_missing_values.png Graphic file (type png)
+<use images/1_1_dataset1_missing_values.png>
+Package pdftex.def Info: images/1_1_dataset1_missing_values.png  used on input line 121.
+(pdftex.def)             Requested size: 225.21626pt x 128.69533pt.
+<images/1_1_dataset2_missing_values.png, id=19, 723.1818pt x 313.17pt>
+File: images/1_1_dataset2_missing_values.png Graphic file (type png)
+<use images/1_1_dataset2_missing_values.png>
+Package pdftex.def Info: images/1_1_dataset2_missing_values.png  used on input line 128.
+(pdftex.def)             Requested size: 225.21626pt x 97.5261pt.
+ [2 <./images/1_1_dataset1_shape.png> <./images/1_1_dataset2_shape.png> <./images/1_1_dataset1_variable_types.png> <./images/1_1_dataset2_variable_types.png> <./images/1_1_dataset1_missing_values.png> <./images/1_1_dataset2_missing_values.png>]
+<images/1_2_dataset1_global_boxplot.png, id=30, 867.24pt x 433.62pt>
+File: images/1_2_dataset1_global_boxplot.png Graphic file (type png)
+<use images/1_2_dataset1_global_boxplot.png>
+Package pdftex.def Info: images/1_2_dataset1_global_boxplot.png  used on input line 141.
+(pdftex.def)             Requested size: 240.23016pt x 120.10931pt.
+<images/1_2_dataset2_global_boxplot.png, id=31, 289.08pt x 216.81pt>
+File: images/1_2_dataset2_global_boxplot.png Graphic file (type png)
+<use images/1_2_dataset2_global_boxplot.png>
+Package pdftex.def Info: images/1_2_dataset2_global_boxplot.png  used on input line 147.
+(pdftex.def)             Requested size: 240.23016pt x 180.1706pt.
+<images/1_2_dataset1_single_boxplots.png, id=32, 867.24pt x 1156.32pt>
+File: images/1_2_dataset1_single_boxplots.png Graphic file (type png)
+<use images/1_2_dataset1_single_boxplots.png>
+Package pdftex.def Info: images/1_2_dataset1_single_boxplots.png  used on input line 155.
+(pdftex.def)             Requested size: 450.43253pt x 600.5841pt.
+ [3 <./images/1_2_dataset1_global_boxplot.png> <./images/1_2_dataset2_global_boxplot.png>]
+<images/1_2_dataset2_single_boxplots.png, id=38, 867.24pt x 3758.04pt>
+File: images/1_2_dataset2_single_boxplots.png Graphic file (type png)
+<use images/1_2_dataset2_single_boxplots.png>
+Package pdftex.def Info: images/1_2_dataset2_single_boxplots.png  used on input line 161.
+(pdftex.def)             Requested size: 120.4997pt x 522.16696pt.
+ [4 <./images/1_2_dataset1_single_boxplots.png>]
+<images/1_2_dataset2_histograms.png, id=43, 1084.05pt x 4697.55pt>
+File: images/1_2_dataset2_histograms.png Graphic file (type png)
+<use images/1_2_dataset2_histograms.png>
+Package pdftex.def Info: images/1_2_dataset2_histograms.png  used on input line 172.
+(pdftex.def)             Requested size: 120.48645pt x 522.16696pt.
+ [5 <./images/1_2_dataset2_single_boxplots.png>]
+<images/1_2_dataset1_outliers.png, id=48, 867.24pt x 433.62pt>
+File: images/1_2_dataset1_outliers.png Graphic file (type png)
+<use images/1_2_dataset1_outliers.png>
+Package pdftex.def Info: images/1_2_dataset1_outliers.png  used on input line 178.
+(pdftex.def)             Requested size: 450.43253pt x 225.21904pt.
+ [6 <./images/1_2_dataset2_histograms.png>]
+<images/1_2_dataset2_outliers.png, id=53, 1395.2928pt x 5832.189pt>
+File: images/1_2_dataset2_outliers.png Graphic file (type png)
+<use images/1_2_dataset2_outliers.png>
+Package pdftex.def Info: images/1_2_dataset2_outliers.png  used on input line 184.
+(pdftex.def)             Requested size: 124.91092pt x 522.16696pt.
+ [7 <./images/1_2_dataset1_outliers.png>]
+<images/1_2_dataset1_class_distribution.png, id=59, 722.7pt x 433.62pt>
+File: images/1_2_dataset1_class_distribution.png Graphic file (type png)
+<use images/1_2_dataset1_class_distribution.png>
+Package pdftex.def Info: images/1_2_dataset1_class_distribution.png  used on input line 190.
+(pdftex.def)             Requested size: 450.43253pt x 270.25755pt.
+ [8 <./images/1_2_dataset2_outliers.png>]
+<images/1_2_dataset2_class_distribution.png, id=64, 1156.32pt x 578.16pt>
+File: images/1_2_dataset2_class_distribution.png Graphic file (type png)
+<use images/1_2_dataset2_class_distribution.png>
+Package pdftex.def Info: images/1_2_dataset2_class_distribution.png  used on input line 196.
+(pdftex.def)             Requested size: 450.43253pt x 225.21683pt.
+ [9 <./images/1_2_dataset1_class_distribution.png> <./images/1_2_dataset2_class_distribution.png>]
+<images/1_4_dataset1_sparsity.png, id=70, 1870.3476pt x 1626.075pt>
+File: images/1_4_dataset1_sparsity.png Graphic file (type png)
+<use images/1_4_dataset1_sparsity.png>
+Package pdftex.def Info: images/1_4_dataset1_sparsity.png  used on input line 218.
+(pdftex.def)             Requested size: 450.43253pt x 391.60582pt.
+<images/1_4_dataset1_correlation.png, id=71, 1011.78pt x 867.24pt>
+File: images/1_4_dataset1_correlation.png Graphic file (type png)
+<use images/1_4_dataset1_correlation.png>
+Package pdftex.def Info: images/1_4_dataset1_correlation.png  used on input line 229.
+(pdftex.def)             Requested size: 450.43253pt x 386.086pt.
+ [10 <./images/1_4_dataset1_sparsity.png>] [11 <./images/1_4_dataset1_correlation.png>] [12] [13] [14] [15] [16] [17]
+<images/TS_dimensionality.png, id=99, 1084.05pt x 433.62pt>
+File: images/TS_dimensionality.png Graphic file (type png)
+<use images/TS_dimensionality.png>
+Package pdftex.def Info: images/TS_dimensionality.png  used on input line 574.
+(pdftex.def)             Requested size: 450.43253pt x 180.1739pt.
+<images/TS_granularity.png, id=100, 1084.05pt x 867.24pt>
+File: images/TS_granularity.png Graphic file (type png)
+<use images/TS_granularity.png>
+Package pdftex.def Info: images/TS_granularity.png  used on input line 580.
+(pdftex.def)             Requested size: 450.43253pt x 360.34782pt.
+ [18 <./images/TS_dimensionality.png>]
+<images/TS_boxplots.png, id=105, 1300.86pt x 433.62pt>
+File: images/TS_boxplots.png Graphic file (type png)
+<use images/TS_boxplots.png>
+Package pdftex.def Info: images/TS_boxplots.png  used on input line 589.
+(pdftex.def)             Requested size: 450.43253pt x 150.14162pt.
+<images/TS_histograms.png, id=106, 1300.86pt x 433.62pt>
+File: images/TS_histograms.png Graphic file (type png)
+<use images/TS_histograms.png>
+Package pdftex.def Info: images/TS_histograms.png  used on input line 595.
+(pdftex.def)             Requested size: 450.43253pt x 150.14162pt.
+ [19 <./images/TS_granularity.png> <./images/TS_boxplots.png>]
+<images/TS_autocorellation.png, id=113, 1445.4pt x 578.16pt>
+File: images/TS_autocorellation.png Graphic file (type png)
+<use images/TS_autocorellation.png>
+Package pdftex.def Info: images/TS_autocorellation.png  used on input line 601.
+(pdftex.def)             Requested size: 450.43253pt x 180.17169pt.
+<images/lab5/4_seasonal_decomposition_original.png, id=114, 1011.78pt x 722.7pt>
+File: images/lab5/4_seasonal_decomposition_original.png Graphic file (type png)
+<use images/lab5/4_seasonal_decomposition_original.png>
+Package pdftex.def Info: images/lab5/4_seasonal_decomposition_original.png  used on input line 611.
+(pdftex.def)             Requested size: 450.43253pt x 321.73833pt.
+<images/lab5/4_seasonal_decomposition_hourly.png, id=115, 1011.78pt x 722.7pt>
+File: images/lab5/4_seasonal_decomposition_hourly.png Graphic file (type png)
+<use images/lab5/4_seasonal_decomposition_hourly.png>
+Package pdftex.def Info: images/lab5/4_seasonal_decomposition_hourly.png  used on input line 617.
+(pdftex.def)             Requested size: 450.43253pt x 321.73833pt.
+<images/lab5/4_seasonal_decomposition_daily.png, id=116, 1011.78pt x 722.7pt>
+File: images/lab5/4_seasonal_decomposition_daily.png Graphic file (type png)
+<use images/lab5/4_seasonal_decomposition_daily.png>
+Package pdftex.def Info: images/lab5/4_seasonal_decomposition_daily.png  used on input line 623.
+(pdftex.def)             Requested size: 450.43253pt x 321.73833pt.
+ [20 <./images/TS_histograms.png> <./images/TS_autocorellation.png>]
+Overfull \vbox (432.50876pt too high) has occurred while \output is active []
+
+ [21 <./images/lab5/4_seasonal_decomposition_original.png> <./images/lab5/4_seasonal_decomposition_hourly.png> <./images/lab5/4_seasonal_decomposition_daily.png>]
+<images/lab5/stationarity_original.png, id=128, 230.36063pt x 228.855pt>
+File: images/lab5/stationarity_original.png Graphic file (type png)
+<use images/lab5/stationarity_original.png>
+Package pdftex.def Info: images/lab5/stationarity_original.png  used on input line 634.
+(pdftex.def)             Requested size: 150.14671pt x 149.16255pt.
+<images/lab5/stationarity_hourly.png, id=129, 222.07968pt x 225.09094pt>
+File: images/lab5/stationarity_hourly.png Graphic file (type png)
+<use images/lab5/stationarity_hourly.png>
+Package pdftex.def Info: images/lab5/stationarity_hourly.png  used on input line 640.
+(pdftex.def)             Requested size: 150.14671pt x 152.18054pt.
+<images/lab5/stationarity_daily.png, id=130, 246.1697pt x 216.05719pt>
+File: images/lab5/stationarity_daily.png Graphic file (type png)
+<use images/lab5/stationarity_daily.png>
+Package pdftex.def Info: images/lab5/stationarity_daily.png  used on input line 646.
+(pdftex.def)             Requested size: 150.14671pt x 131.78479pt.
+<images/lab5/LR_1_Aggregation_Freq_D_forecast.png, id=131, 1156.32pt x 289.08pt>
+File: images/lab5/LR_1_Aggregation_Freq_D_forecast.png Graphic file (type png)
+<use images/lab5/LR_1_Aggregation_Freq_D_forecast.png>
+Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_D_forecast.png  used on input line 662.
+(pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
+<images/lab5/Persistence_1_Aggregation_Freq_D_forecast.png, id=132, 1156.32pt x 289.08pt>
+File: images/lab5/Persistence_1_Aggregation_Freq_D_forecast.png Graphic file (type png)
+<use images/lab5/Persistence_1_Aggregation_Freq_D_forecast.png>
+Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_D_forecast.png  used on input line 668.
+(pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
+<images/lab5/LR_1_Aggregation_Freq_h_forecast.png, id=133, 1156.32pt x 289.08pt>
+File: images/lab5/LR_1_Aggregation_Freq_h_forecast.png Graphic file (type png)
+<use images/lab5/LR_1_Aggregation_Freq_h_forecast.png>
+Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_h_forecast.png  used on input line 675.
+(pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
+<images/lab5/Persistence_1_Aggregation_Freq_h_forecast.png, id=134, 1156.32pt x 289.08pt>
+File: images/lab5/Persistence_1_Aggregation_Freq_h_forecast.png Graphic file (type png)
+<use images/lab5/Persistence_1_Aggregation_Freq_h_forecast.png>
+Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_h_forecast.png  used on input line 681.
+(pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
+<images/lab5/LR_1_Aggregation_Freq_original_forecast.png, id=135, 1156.32pt x 289.08pt>
+File: images/lab5/LR_1_Aggregation_Freq_original_forecast.png Graphic file (type png)
+<use images/lab5/LR_1_Aggregation_Freq_original_forecast.png>
+Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_original_forecast.png  used on input line 688.
+(pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
+<images/lab5/Persistence_1_Aggregation_Freq_original_forecast.png, id=136, 1156.32pt x 289.08pt>
+File: images/lab5/Persistence_1_Aggregation_Freq_original_forecast.png Graphic file (type png)
+<use images/lab5/Persistence_1_Aggregation_Freq_original_forecast.png>
+Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_original_forecast.png  used on input line 694.
+(pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
+<images/lab5/LR_1_Aggregation_Freq_W_forecast.png, id=137, 1156.32pt x 289.08pt>
+File: images/lab5/LR_1_Aggregation_Freq_W_forecast.png Graphic file (type png)
+<use images/lab5/LR_1_Aggregation_Freq_W_forecast.png>
+Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_W_forecast.png  used on input line 701.
+(pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
+<images/lab5/Persistence_1_Aggregation_Freq_W_forecast.png, id=138, 1156.32pt x 289.08pt>
+File: images/lab5/Persistence_1_Aggregation_Freq_W_forecast.png Graphic file (type png)
+<use images/lab5/Persistence_1_Aggregation_Freq_W_forecast.png>
+Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_W_forecast.png  used on input line 707.
+(pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
+ [22 <./images/lab5/stationarity_original.png> <./images/lab5/stationarity_hourly.png> <./images/lab5/stationarity_daily.png>]
+<images/lab5/LR_1_Aggregation_Freq_D_metrics.png, id=145, 433.62pt x 216.81pt>
+File: images/lab5/LR_1_Aggregation_Freq_D_metrics.png Graphic file (type png)
+<use images/lab5/LR_1_Aggregation_Freq_D_metrics.png>
+Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_D_metrics.png  used on input line 719.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/Persistence_1_Aggregation_Freq_D_metrics.png, id=146, 433.62pt x 216.81pt>
+File: images/lab5/Persistence_1_Aggregation_Freq_D_metrics.png Graphic file (type png)
+<use images/lab5/Persistence_1_Aggregation_Freq_D_metrics.png>
+Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_D_metrics.png  used on input line 725.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/LR_1_Aggregation_Freq_h_metrics.png, id=147, 433.62pt x 216.81pt>
+File: images/lab5/LR_1_Aggregation_Freq_h_metrics.png Graphic file (type png)
+<use images/lab5/LR_1_Aggregation_Freq_h_metrics.png>
+Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_h_metrics.png  used on input line 732.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/Persistence_1_Aggregation_Freq_h_metrics.png, id=148, 433.62pt x 216.81pt>
+File: images/lab5/Persistence_1_Aggregation_Freq_h_metrics.png Graphic file (type png)
+<use images/lab5/Persistence_1_Aggregation_Freq_h_metrics.png>
+Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_h_metrics.png  used on input line 738.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/LR_1_Aggregation_Freq_original_metrics.png, id=149, 433.62pt x 216.81pt>
+File: images/lab5/LR_1_Aggregation_Freq_original_metrics.png Graphic file (type png)
+<use images/lab5/LR_1_Aggregation_Freq_original_metrics.png>
+Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_original_metrics.png  used on input line 745.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/Persistence_1_Aggregation_Freq_original_metrics.png, id=150, 433.62pt x 216.81pt>
+File: images/lab5/Persistence_1_Aggregation_Freq_original_metrics.png Graphic file (type png)
+<use images/lab5/Persistence_1_Aggregation_Freq_original_metrics.png>
+Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_original_metrics.png  used on input line 751.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/LR_1_Aggregation_Freq_W_metrics.png, id=151, 433.62pt x 216.81pt>
+File: images/lab5/LR_1_Aggregation_Freq_W_metrics.png Graphic file (type png)
+<use images/lab5/LR_1_Aggregation_Freq_W_metrics.png>
+Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_W_metrics.png  used on input line 758.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/Persistence_1_Aggregation_Freq_W_metrics.png, id=152, 433.62pt x 216.81pt>
+File: images/lab5/Persistence_1_Aggregation_Freq_W_metrics.png Graphic file (type png)
+<use images/lab5/Persistence_1_Aggregation_Freq_W_metrics.png>
+Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_W_metrics.png  used on input line 764.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+ [23 <./images/lab5/LR_1_Aggregation_Freq_D_forecast.png> <./images/lab5/Persistence_1_Aggregation_Freq_D_forecast.png> <./images/lab5/LR_1_Aggregation_Freq_h_forecast.png> <./images/lab5/Persistence_1_Aggregation_Freq_h_forecast.png> <./images/lab5/LR_1_Aggregation_Freq_original_forecast.png> <./images/lab5/Persistence_1_Aggregation_Freq_original_forecast.png> <./images/lab5/LR_1_Aggregation_Freq_W_forecast.png> <./images/lab5/Persistence_1_Aggregation_Freq_W_forecast.png>] [24 <./images/lab5/LR_1_Aggregation_Freq_D_metrics.png> <./images/lab5/Persistence_1_Aggregation_Freq_D_metrics.png> <./images/lab5/LR_1_Aggregation_Freq_h_metrics.png> <./images/lab5/Persistence_1_Aggregation_Freq_h_metrics.png> <./images/lab5/LR_1_Aggregation_Freq_original_metrics.png> <./images/lab5/Persistence_1_Aggregation_Freq_original_metrics.png> <./images/lab5/LR_1_Aggregation_Freq_W_metrics.png> <./images/lab5/Persistence_1_Aggregation_Freq_W_metrics.png>]
+<images/lab5/LR_3_Smoothing_WindowSize_25_forecast.png, id=175, 1156.32pt x 289.08pt>
+File: images/lab5/LR_3_Smoothing_WindowSize_25_forecast.png Graphic file (type png)
+<use images/lab5/LR_3_Smoothing_WindowSize_25_forecast.png>
+Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_25_forecast.png  used on input line 778.
+(pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
+<images/lab5/Persistence_3_Smoothing_WindowSize_25_forecast.png, id=176, 1156.32pt x 289.08pt>
+File: images/lab5/Persistence_3_Smoothing_WindowSize_25_forecast.png Graphic file (type png)
+<use images/lab5/Persistence_3_Smoothing_WindowSize_25_forecast.png>
+Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_25_forecast.png  used on input line 784.
+(pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
+<images/lab5/LR_3_Smoothing_WindowSize_50_forecast.png, id=177, 1156.32pt x 289.08pt>
+File: images/lab5/LR_3_Smoothing_WindowSize_50_forecast.png Graphic file (type png)
+<use images/lab5/LR_3_Smoothing_WindowSize_50_forecast.png>
+Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_50_forecast.png  used on input line 791.
+(pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
+<images/lab5/Persistence_3_Smoothing_WindowSize_50_forecast.png, id=178, 1156.32pt x 289.08pt>
+File: images/lab5/Persistence_3_Smoothing_WindowSize_50_forecast.png Graphic file (type png)
+<use images/lab5/Persistence_3_Smoothing_WindowSize_50_forecast.png>
+Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_50_forecast.png  used on input line 797.
+(pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
+<images/lab5/LR_3_Smoothing_WindowSize_75_forecast.png, id=179, 1156.32pt x 289.08pt>
+File: images/lab5/LR_3_Smoothing_WindowSize_75_forecast.png Graphic file (type png)
+<use images/lab5/LR_3_Smoothing_WindowSize_75_forecast.png>
+Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_75_forecast.png  used on input line 804.
+(pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
+<images/lab5/Persistence_3_Smoothing_WindowSize_75_forecast.png, id=180, 1156.32pt x 289.08pt>
+File: images/lab5/Persistence_3_Smoothing_WindowSize_75_forecast.png Graphic file (type png)
+<use images/lab5/Persistence_3_Smoothing_WindowSize_75_forecast.png>
+Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_75_forecast.png  used on input line 810.
+(pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
+<images/lab5/LR_3_Smoothing_WindowSize_100_forecast.png, id=181, 1156.32pt x 289.08pt>
+File: images/lab5/LR_3_Smoothing_WindowSize_100_forecast.png Graphic file (type png)
+<use images/lab5/LR_3_Smoothing_WindowSize_100_forecast.png>
+Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_100_forecast.png  used on input line 817.
+(pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
+<images/lab5/Persistence_3_Smoothing_WindowSize_100_forecast.png, id=182, 1156.32pt x 289.08pt>
+File: images/lab5/Persistence_3_Smoothing_WindowSize_100_forecast.png Graphic file (type png)
+<use images/lab5/Persistence_3_Smoothing_WindowSize_100_forecast.png>
+Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_100_forecast.png  used on input line 823.
+(pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
+<images/lab5/LR_3_Smoothing_WindowSize_25_metrics.png, id=183, 433.62pt x 216.81pt>
+File: images/lab5/LR_3_Smoothing_WindowSize_25_metrics.png Graphic file (type png)
+<use images/lab5/LR_3_Smoothing_WindowSize_25_metrics.png>
+Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_25_metrics.png  used on input line 834.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/Persistence_3_Smoothing_WindowSize_25_metrics.png, id=184, 433.62pt x 216.81pt>
+File: images/lab5/Persistence_3_Smoothing_WindowSize_25_metrics.png Graphic file (type png)
+<use images/lab5/Persistence_3_Smoothing_WindowSize_25_metrics.png>
+Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_25_metrics.png  used on input line 840.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/LR_3_Smoothing_WindowSize_50_metrics.png, id=185, 433.62pt x 216.81pt>
+File: images/lab5/LR_3_Smoothing_WindowSize_50_metrics.png Graphic file (type png)
+<use images/lab5/LR_3_Smoothing_WindowSize_50_metrics.png>
+Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_50_metrics.png  used on input line 847.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/Persistence_3_Smoothing_WindowSize_50_metrics.png, id=186, 433.62pt x 216.81pt>
+File: images/lab5/Persistence_3_Smoothing_WindowSize_50_metrics.png Graphic file (type png)
+<use images/lab5/Persistence_3_Smoothing_WindowSize_50_metrics.png>
+Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_50_metrics.png  used on input line 853.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/LR_3_Smoothing_WindowSize_75_metrics.png, id=187, 433.62pt x 216.81pt>
+File: images/lab5/LR_3_Smoothing_WindowSize_75_metrics.png Graphic file (type png)
+<use images/lab5/LR_3_Smoothing_WindowSize_75_metrics.png>
+Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_75_metrics.png  used on input line 860.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/Persistence_3_Smoothing_WindowSize_75_metrics.png, id=188, 433.62pt x 216.81pt>
+File: images/lab5/Persistence_3_Smoothing_WindowSize_75_metrics.png Graphic file (type png)
+<use images/lab5/Persistence_3_Smoothing_WindowSize_75_metrics.png>
+Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_75_metrics.png  used on input line 866.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/LR_3_Smoothing_WindowSize_100_metrics.png, id=189, 433.62pt x 216.81pt>
+File: images/lab5/LR_3_Smoothing_WindowSize_100_metrics.png Graphic file (type png)
+<use images/lab5/LR_3_Smoothing_WindowSize_100_metrics.png>
+Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_100_metrics.png  used on input line 873.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/Persistence_3_Smoothing_WindowSize_100_metrics.png, id=190, 433.62pt x 216.81pt>
+File: images/lab5/Persistence_3_Smoothing_WindowSize_100_metrics.png Graphic file (type png)
+<use images/lab5/Persistence_3_Smoothing_WindowSize_100_metrics.png>
+Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_100_metrics.png  used on input line 879.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+ [25 <./images/lab5/LR_3_Smoothing_WindowSize_25_forecast.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_25_forecast.png> <./images/lab5/LR_3_Smoothing_WindowSize_50_forecast.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_50_forecast.png> <./images/lab5/LR_3_Smoothing_WindowSize_75_forecast.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_75_forecast.png> <./images/lab5/LR_3_Smoothing_WindowSize_100_forecast.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_100_forecast.png>] [26 <./images/lab5/LR_3_Smoothing_WindowSize_25_metrics.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_25_metrics.png> <./images/lab5/LR_3_Smoothing_WindowSize_50_metrics.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_50_metrics.png> <./images/lab5/LR_3_Smoothing_WindowSize_75_metrics.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_75_metrics.png> <./images/lab5/LR_3_Smoothing_WindowSize_100_metrics.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_100_metrics.png>]
+<images/lab5/LR_2_Differentiation_derivative_1_forecast.png, id=214, 1156.32pt x 289.08pt>
+File: images/lab5/LR_2_Differentiation_derivative_1_forecast.png Graphic file (type png)
+<use images/lab5/LR_2_Differentiation_derivative_1_forecast.png>
+Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_1_forecast.png  used on input line 893.
+(pdftex.def)             Requested size: 450.43253pt x 112.60841pt.
+File: images/lab5/LR_2_Differentiation_derivative_1_forecast.png Graphic file (type png)
+<use images/lab5/LR_2_Differentiation_derivative_1_forecast.png>
+Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_1_forecast.png  used on input line 900.
+(pdftex.def)             Requested size: 450.43253pt x 112.60841pt.
+<images/lab5/LR_2_Differentiation_derivative_2_forecast.png, id=215, 1156.32pt x 289.08pt>
+File: images/lab5/LR_2_Differentiation_derivative_2_forecast.png Graphic file (type png)
+<use images/lab5/LR_2_Differentiation_derivative_2_forecast.png>
+Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_2_forecast.png  used on input line 907.
+(pdftex.def)             Requested size: 450.43253pt x 112.60841pt.
+File: images/lab5/LR_2_Differentiation_derivative_2_forecast.png Graphic file (type png)
+<use images/lab5/LR_2_Differentiation_derivative_2_forecast.png>
+Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_2_forecast.png  used on input line 914.
+(pdftex.def)             Requested size: 450.43253pt x 112.60841pt.
+<images/lab5/LR_2_Differentiation_derivative_1_metrics.png, id=216, 433.62pt x 216.81pt>
+File: images/lab5/LR_2_Differentiation_derivative_1_metrics.png Graphic file (type png)
+<use images/lab5/LR_2_Differentiation_derivative_1_metrics.png>
+Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_1_metrics.png  used on input line 924.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/Persistence_2_Differentiation_derivative_1_metrics.png, id=217, 433.62pt x 216.81pt>
+File: images/lab5/Persistence_2_Differentiation_derivative_1_metrics.png Graphic file (type png)
+<use images/lab5/Persistence_2_Differentiation_derivative_1_metrics.png>
+Package pdftex.def Info: images/lab5/Persistence_2_Differentiation_derivative_1_metrics.png  used on input line 930.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/LR_2_Differentiation_derivative_2_metrics.png, id=218, 433.62pt x 216.81pt>
+File: images/lab5/LR_2_Differentiation_derivative_2_metrics.png Graphic file (type png)
+<use images/lab5/LR_2_Differentiation_derivative_2_metrics.png>
+Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_2_metrics.png  used on input line 937.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+<images/lab5/Persistence_2_Differentiation_derivative_2_metrics.png, id=219, 433.62pt x 216.81pt>
+File: images/lab5/Persistence_2_Differentiation_derivative_2_metrics.png Graphic file (type png)
+<use images/lab5/Persistence_2_Differentiation_derivative_2_metrics.png>
+Package pdftex.def Info: images/lab5/Persistence_2_Differentiation_derivative_2_metrics.png  used on input line 943.
+(pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
+ [27 <./images/lab5/LR_2_Differentiation_derivative_1_forecast.png> <./images/lab5/LR_2_Differentiation_derivative_2_forecast.png>] [28 <./images/lab5/LR_2_Differentiation_derivative_1_metrics.png> <./images/lab5/Persistence_2_Differentiation_derivative_1_metrics.png> <./images/lab5/LR_2_Differentiation_derivative_2_metrics.png> <./images/lab5/Persistence_2_Differentiation_derivative_2_metrics.png>] [29] [30] [31] (main.aux)
+ ***********
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-04>
+ ***********
+ ) 
+Here is how much of TeX's memory you used:
+ 7149 strings out of 474486
+ 144000 string characters out of 5743754
+ 1981542 words of memory out of 5000000
+ 29317 multiletter control sequences out of 15000+600000
+ 571361 words of font info for 62 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 67i,13n,77p,585b,610s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss0900.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecso1200.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecsx1440.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi617\ecsx2074.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss1000.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecsx1000.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi603\ecss3583.pk><C:/Users/acach/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb>
+Output written on main.pdf (31 pages, 7980473 bytes).
+PDF statistics:
+ 502 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 336 words of extra memory for PDF output out of 10000 (max. 10000000)
+

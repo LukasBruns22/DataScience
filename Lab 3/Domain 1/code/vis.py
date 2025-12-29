@@ -11,8 +11,8 @@ def plot_pipeline_history(history):
     Expects history to be a list of dicts: [{'Step': 'Baseline', 'KNN': 0.5, 'NB': 0.4}, ...]
     """
     steps = [h['Step'] for h in history]
-    knn_scores = [h['KNN'] for h in history]
-    nb_scores = [h['NB'] for h in history]
+    knn_scores = [h['KNN']['balanced_accuracy'] for h in history]
+    nb_scores = [h['NB']['balanced_accuracy'] for h in history]
     
     # Calculate improvements
     knn_improvements = [0] + [knn_scores[i] - knn_scores[i-1] for i in range(1, len(knn_scores))]

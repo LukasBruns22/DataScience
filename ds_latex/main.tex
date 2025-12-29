@@ -72,7 +72,7 @@
 \end{center}
 
 \section{DATA PROFILING}
-Identifying data leakage in the Traffic dataset led us to remove post-accident variables. This ensures the model only uses pre-crash data, preventing artificial performance inflation.
+Identifying data leakage in both datasets leads us to remove post-events variables. This ensures the model only uses pre-crash data, preventing artificial performance inflation.
 
 \subsection*{\textit{Data Dimensionality}}
 Both datasets show high record-to-variable ratios, supporting model stability. Dataset 1 (Traffic security) contains many categorical variables and implicit missing values (e.g., "UNKNOWN"), requiring encoding and specialized cleaning. Dataset 2 (Flights) is mostly numerical but includes categorical features and ~3\% missing values in several variables.
@@ -237,51 +237,72 @@ Both datasets show high record-to-variable ratios, supporting model stability. D
 
 \section{DATA PREPARATION}
 
+For the second dataset, we utilized a subsampling technique (200k rows) for the experimental phase. This allowed for rapid iteration and "winner picking" of pipeline steps (scaling, outliers, etc.). The final optimized pipeline is then applied to the full dataset.
+For evaluation and decision of the best approach, we considered the metric 'balanced accuracy' and the average between results of the two models.
+
 \subsection*{\textit{Variables Encoding}}
 Dataset 1 transformations include Binary Mapping for 'intersection related i' and Cyclical Encoding (sine/cosine) for 'crash hour', 'crash month', and 'crash day of week'. Ordinal Encoding was applied to 'damage' and 'most severe injury' to preserve their inherent hierarchy. Infrequent labels in categorical variables were grouped to mitigate sparsity found during distribution profiling. All remaining categorical variables underwent One-Hot Encoding.
+
 Dataset 2 used Target Encoding for 'Hub Airline', 'Route', 'Airline', 'Origin', and 'Dest' to handle high cardinality effectively. Cyclical Encoding (sine/cosine) was applied to 'Month', 'DayOfWeek', 'DayofMonth', 'CRSDepTime', and 'CRSArrTime' to preserve periodic continuity. One-Hot Encoding was not applied to symbolic variables because the excessive unique values in routes and airports would have created an unmanageable, high-dimensional, and sparse feature space.
 
 \subsection*{\textit{Missing Value Imputation}}
-\ctext[RGB]{190,190,190}{Shall contain all relevant information and charts respecting to missing values imputation, such as the choices made and the impact of the different approaches on modelling results. Shall also clearly reveal the approach selected to proceed with the processing. If not applied explain the reason for that, based on data characteristics.  \textbf{Shall not exceed 500 characters.}}
+Dataset 1 treats "Unknown" labels as informative features (e.g., signaling hit-and-runs) rather than missing data; thus, no imputation was performed. Dataset 2 required no imputation as pre-flight features remained 100\% complete after leakage removal. By bypassing statistical imputation, we avoided synthetic bias, relying on high density and informative categories. This approach ensures data integrity for modeling while respecting observed characteristics.
+
+\subsection*{\textit{Additional Feature Generation}}
+New features were logically engineered to provide deeper signals for the target variables. Their ultimate relevance and predictive utility are assessed during the subsequent Feature Selection phase.
 
 \begin{table}[H]
-\centering
-\begin{tabular}{|c|c|c|c|c|} 
-\hline
-\multirow{2}{*} & \multicolumn{2}{c|}{\textbf{Constant}} & \multicolumn{2}{c|}{\textbf{Statistical}} \\ \cline{2-5}
- & KNN & NB & KNN & NB \\ \hline
-Precision &  &  &  &  \\ \hline
-Recall &  &  &  &  \\ \hline
-F1 &  &  &  &  \\ \hline
-\end{tabular}
-\caption{Missing values imputation results with different approaches for dataset 1}
+    \centering
+    \begin{tabular}{|l|p{8cm}|}
+        \hline
+        \textbf{Feature} & \textbf{Formula} \\
+        \hline
+        risk x units & prim contributory cause x num units \\
+        \hline
+        ped intersection &  Pedestrian/Cyclist crashes × Intersection\\
+        \hline
+        risk intersection & prim contributory cause * intersection related i \\
+        \hline
+        wet dark & poor surface (wet) x poor lighting (dark) \\
+        \hline
+        rear end multi & rear end x num units\\
+        \hline
+    \end{tabular}
+    \caption{Features created for dataset 1}
 \end{table}
 
 \begin{table}[H]
-\centering
-\begin{tabular}{|c|c|c|c|c|} 
-\hline
-\multirow{2}{*} & \multicolumn{2}{c|}{\textbf{Constant}} & \multicolumn{2}{c|}{\textbf{Statistical}} \\ \cline{2-5}
- & KNN & NB & KNN & NB \\ \hline
-Precision &  &  &  &  \\ \hline
-Recall &  &  &  &  \\ \hline
-F1 &  &  &  &  \\ \hline
-\end{tabular}
-\caption{Missing values imputation results with different approaches for dataset 2}
+    \centering
+    \begin{tabular}{|l|p{8cm}|}
+        \hline
+        \textbf{Feature} & \textbf{Formula} \\
+        \hline
+        Speed proxy & Distance / (CRSElapsedTime + 1) \\
+        \hline
+        Log distance & log(1 + distance) \\
+        \hline
+        Time Bin & Converts the raw Sine/Cosine time features back into 4 interpretable buckets: Night, Morning, Afternoon, and Evening \\
+        \hline
+        is winter &  cosine value of month cose is > 0.5 \\
+        \hline
+        hub x dest & hub airline * dest\\
+        \hline
+    \end{tabular}
+    \caption{Features created for dataset 2}
 \end{table}
 
 \subsection*{\textit{Outliers Treatment}}
-\ctext[RGB]{190,190,190}{Shall contain all relevant information and charts respecting to outliers imputation, such as the choices made and the impact of the different approaches on modelling results. Shall also clearly reveal the approach selected to proceed with the processing. If not applied explain the reason for that, based on data characteristics.  \textbf{Shall not exceed 500 characters.}}
-
+Both datasets were evaluated using Isolation Forest and Z-score. For Dataset 1, Isolation Forest was selected as it yielded superior modeling results by effectively isolating crash-related anomalies. Conversely, Z-score proved more effective for Dataset 2, better handling its specific feature distributions. We proceeded with these optimal choices—Isolation Forest for D1 and Z-score for D2—to reduce noise and enhance overall model robustness.
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|} 
 \hline
-\multirow{2}{*} & \multicolumn{2}{c|}{\textbf{Replace}} & \multicolumn{2}{c|}{\textbf{Truncate}} \\ \cline{2-5}
+\multirow{2}{*} & \multicolumn{2}{c|}{\textbf{Isolation Forest}} & \multicolumn{2}{c|}{\textbf{Z-Score}} \\ \cline{2-5}
  & KNN & NB & KNN & NB \\ \hline
-Precision &  &  &  &  \\ \hline
-Recall &  &  &  &  \\ \hline
-F1 &  &  &  &  \\ \hline
+Accuracy & 0.6195 & 0.6932 & 0.6197 & 0.6860 \\ \hline
+Recall & 0.5093 & 0.5683 & 0.5110 & 0.4859 \\ \hline
+F1 & 0.5404 & 0.6194 & 0.5414 & 0.5762 \\ \hline
+Balanced Accuracy & 0.6076 & 0.6797 & 0.6080 & 0.6643 \\ \hline
 \end{tabular}
 \caption{Outliers imputation results with different approaches for dataset 1}
 \end{table}
@@ -292,25 +313,26 @@ F1 &  &  &  &  \\ \hline
 \hline
 \multirow{2}{*} & \multicolumn{2}{c|}{\textbf{Replace}} & \multicolumn{2}{c|}{\textbf{Truncate}} \\ \cline{2-5}
  & KNN & NB & KNN & NB \\ \hline
-Precision &  &  &  &  \\ \hline
+Accuracy &  &  &  &  \\ \hline
 Recall &  &  &  &  \\ \hline
 F1 &  &  &  &  \\ \hline
+Balanced Accuracy & & & & \\ \hline
 \end{tabular}
 \caption{Outliers imputation results with different approaches for dataset 2}
 \end{table}
 
 \subsection*{\textit{Scaling}}
-\ctext[RGB]{190,190,190}{Shall contain all relevant information and charts respecting to scaling transformation, such as the choices made and the impact of the different approaches on modelling results. Shall also clearly reveal the approach selected to proceed with the processing. If not applied explain the reason for that, based on data characteristics.  \textbf{Shall not exceed 200 characters.}}
-
+Compared Z-score and Min-Max via KNN. Z-score won for D1; Min-Max for D2. These were selected to optimize feature scales, resulting in superior modeling performance for both datasets.
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|} 
 \hline
-\multirow{2}{*} & \multicolumn{2}{c|}{\textbf{Normalization}} & \multicolumn{2}{c|}{\textbf{Standardization}} \\ \cline{2-5}
+\multirow{2}{*} & \multicolumn{2}{c|}{\textbf{Standardization}} & \multicolumn{2}{c|}{\textbf{Normalization}} \\ \cline{2-5}
  & KNN & NB & KNN & NB \\ \hline
-Precision &  &  &  &  \\ \hline
-Recall &  &  &  &  \\ \hline
-F1 &  &  &  &  \\ \hline
+Accuracy & 0.6589 & 0.6926 & 0.6739 & 0.6926 \\ \hline
+Recall & 0.5805 & 0.5759 & 0.5936 & 0.0.5759 \\ \hline
+F1 & 0.5992 & 0.6220 & 0.6152 & 0.6220 \\ \hline
+Balanced Accuracy & 0.6504 & 0.6799 & 0.6652 & 0.6799 \\ \hline
 \end{tabular}
 \caption{Scaling results with different approaches for dataset 1}
 \end{table}
@@ -319,49 +341,22 @@ F1 &  &  &  &  \\ \hline
 \centering
 \begin{tabular}{|c|c|c|c|c|} 
 \hline
-\multirow{2}{*} & \multicolumn{2}{c|}{\textbf{Normalization}} & \multicolumn{2}{c|}{\textbf{Standardization}} \\ \cline{2-5}
+\multirow{2}{*} & \multicolumn{2}{c|}{\textbf{Standardization}} & \multicolumn{2}{c|}{\textbf{Normalization}} \\ \cline{2-5}
  & KNN & NB & KNN & NB \\ \hline
-Precision &  &  &  &  \\ \hline
+Accuracy &  &  &  &  \\ \hline
 Recall &  &  &  &  \\ \hline
 F1 &  &  &  &  \\ \hline
+Balanced Accuracy & & & & \\ \hline
 \end{tabular}
 \caption{Scaling results with different approaches for dataset 2}
-\end{table}
-
-\subsection*{\textit{Balancing}}
-\ctext[RGB]{190,190,190}{Shall contain all relevant information and charts respecting to balancing transformation, such as the choices made and the impact of the different approaches on modelling results. Shall also clearly reveal the approach selected to proceed with the processing. If not applied explain the reason for that, based on data characteristics.  \textbf{Shall not exceed 500 characters.}}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|c|c|c|c|c|} 
-\hline
-\multirow{2}{*} & \multicolumn{2}{c|}{\textbf{Oversampling}} & \multicolumn{2}{c|}{\textbf{Smote}} \\ \cline{2-5}
- & KNN & NB & KNN & NB \\ \hline
-Precision &  &  &  &  \\ \hline
-Recall &  &  &  &  \\ \hline
-F1 &  &  &  &  \\ \hline
-\end{tabular}
-\caption{Balancing results with different approaches for dataset 1}
-\end{table}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|c|c|c|c|c|} 
-\hline
-\multirow{2}{*} & \multicolumn{2}{c|}{\textbf{Oversampling}} & \multicolumn{2}{c|}{\textbf{Smote}} \\ \cline{2-5}
- & KNN & NB & KNN & NB \\ \hline
-Precision &  &  &  &  \\ \hline
-Recall &  &  &  &  \\ \hline
-F1 &  &  &  &  \\ \hline
-\end{tabular}
-\caption{Balancing results with different approaches for dataset 2}
 \end{table}
 
 \subsection*{\textit{Feature Selection}}
 \ctext[RGB]{190,190,190}{Shall contain all relevant information and charts respecting to feature selection based on filtering out redundant (based on correlation) and relevant (based on variation) variables. The different choices and their impact on the modelling results shall be presented and explained. Should also clearly reveal the approach selected to proceed with the processing. All explanations shall be based on data characteristics.  \textbf{Shall not exceed 500 characters.}}
 
 \begin{figure}[H]
-%\centering\includegraphics[scale=0.95]{}
+\centering
+\includegraphics[width=0.9\textwidth]{2_d1_redundancy.png}
 \caption{Feature selection of redundant variables results with different parameters for dataset 1}
 \end{figure}
 
@@ -370,27 +365,94 @@ F1 &  &  &  &  \\ \hline
 \caption{Feature selection of redundant variables results with different parameters for dataset 2}
 \end{figure}
 
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|} 
+\hline
+\multirow{2}{*} & \multicolumn{2}{c|}{\textbf{Chi 2}} & \multicolumn{2}{c|}{\textbf{Random Forest}} \\ \cline{2-5}
+ & KNN & NB & KNN & NB \\ \hline
+Accuracy & 0.6725 & 0.6894 & 0.6746 & 0.7021 \\ \hline
+Recall & 0.5976 & 0.7313 & 0.6012 & 0.6479 \\ \hline
+F1 & 0.6158 & 0.6741 & 0.6741 & 0.6564 \\ \hline
+Balanced Accuracy & 0.66643 & 0.6939 & 0.6666 & 0.6963 \\ \hline
+\end{tabular}
+\caption{Feature selection for relevant variables results for dataset 1}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|} 
+\hline
+\multirow{2}{*} & \multicolumn{2}{c|}{\textbf{Chi 2}} & \multicolumn{2}{c|}{\textbf{Random Forest}} \\ \cline{2-5}
+ & KNN & NB & KNN & NB \\ \hline
+Accuracy & 0.6725 & 0.6894 & 0.6746 & 0.7021 \\ \hline
+Recall & 0.5976 & 0.7313 & 0.6012 & 0.6479 \\ \hline
+F1 & 0.6158 & 0.6741 & 0.6741 & 0.6564 \\ \hline
+Balanced Accuracy & 0.66643 & 0.6939 & 0.6666 & 0.6963 \\ \hline
+\end{tabular}
+\caption{Feature selection for relevant variables results for dataset 2}
+\end{table}
+
+\subsection*{\textit{Balancing}}
+Undersampling and SMOTE were evaluated as balancing alternatives. Dataset 1 showed no improvement and remained in its original state, likely because its initial distribution was already sufficiently balanced. For Dataset 2, Undersampling was selected as it yielded the highest performance gains over SMOTE and the baseline. This choice resolves the majority class bias identified in Dataset 2 without introducing synthetic noise in Dataset 1.
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|} 
+\hline
+\multirow{2}{*} & \multicolumn{2}{c|}{\textbf{SMOTE}} & \multicolumn{2}{c|}{\textbf{Undersampling}} \\ \cline{2-5}
+ & KNN & NB & KNN & NB \\ \hline
+Accuracy & 0.6746 & 0.7021 & 0.6634 & 0.7016 \\ \hline
+Recall & 0.6012 & 0.6479 & 0.6601 & 0.6662 \\ \hline
+F1 & 0.6187 & 0.6564 & 0.6327 & 0.6623 \\ \hline
+Balanced Accuracy & 0.6666 & 0.6963 & 0.6631 & 0.6978 \\ \hline
+\end{tabular}
+\caption{Balancing results with different approaches for dataset 1}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|} 
+\hline
+\multirow{2}{*} & \multicolumn{2}{c|}{\textbf{SMOTE}} & \multicolumn{2}{c|}{\textbf{Undersampling}} \\ \cline{2-5}
+ & KNN & NB & KNN & NB \\ \hline
+Accuracy &  &  &  &  \\ \hline
+Recall &  &  &  &  \\ \hline
+F1 &  &  &  &  \\ \hline
+Balanced Accuracy & & & & \\ \hline
+\end{tabular}
+\caption{Balancing results with different approaches for dataset 2}
+\end{table}
+
+\subsection*{\textit{Summary of the pipeline}}
+
 \begin{figure}[H]
-%\centering\includegraphics[scale=0.95]{}
-\caption{Feature selection of relevant variables results with different parameters for dataset 1 (variance study)} 
+\begin{subfigure}[b]{0.9\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/2_summary_d1_cm.png}
+        \caption{Confusion Matrix}
+    \end{subfigure}
+    \\ \vspace{10pt}
+    \begin{subfigure}[b]{0.9\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/2_summary_d1_evolution.png}
+        \caption{Performance evolution}
+    \end{subfigure}
+\caption{Summary of the pipeline for dataset 1}
 \end{figure}
 
 \begin{figure}[H]
-%\centering\includegraphics[scale=0.95]{}
-\caption{Feature selection of relevant variables results with different parameters for dataset 2 (variance study)}
-\end{figure}
-
-\subsection*{\textit{Additional Feature Generation}}
-\ctext[RGB]{190,190,190}{Shall contain all relevant information and charts respecting to feature generation. The different choices and their impact on the modelling results shall be presented and explained. Shall summarise all variables generated and the formula used to derive them (in a table).  \textbf{Shall not exceed 200 characters.}}
-
-\begin{figure}[H]
-%\centering\includegraphics[scale=0.95]{}
-\caption{Feature generation results for dataset 1}
-\end{figure}
-
-\begin{figure}[H]
-%\centering\includegraphics[scale=0.95]{}
-\caption{Feature generation results for dataset 2}
+\begin{subfigure}[b]{0.9\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/2_summary_d2_cm.png}
+        \caption{Confusion Matrix}
+    \end{subfigure}
+    \\ \vspace{10pt}
+    \begin{subfigure}[b]{0.9\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/2_summary_d2_evolution.png}
+        \caption{Performance evolution}
+    \end{subfigure}
+\caption{Summary of the pipeline for dataset 2}
 \end{figure}
 
 \section{MODELS' EVALUATION}
@@ -559,6 +621,9 @@ F1 &  &  &  &  \\ \hline
 A cross-analysis of the different models may also be presented, identifying the most relevant variables common to all of them (when possible) and the relation among the patterns identified within the different classifiers.
 A critical assessment of the best models shall be presented, clearly stating if the models seem to be good enough for the problem at hand. \textbf{Additional charts may be presented here.  Shall not exceed 2000 characters.}}
 
+\section{DEPLOYMENT}
+
+deployment part
 
 \begin{center}
 	\section*{\fontsize{0.75cm}{1cm}\selectfont TIME SERIES ANALYSIS}
@@ -567,8 +632,7 @@ A critical assessment of the best models shall be presented, clearly stating if 
 \section{DATA PROFILING}
 
 \subsection*{\textit{Data Dimensionality and Granularity}}
-\ctext[RGB]{190,190,190}{May be used to identify the most atomic granularity and two other different granularities to consider.  \textbf{Shall not exceed 500 characters.}}
-
+Atomic granularity is set at 15-minute intervals, capturing high-frequency traffic counts. To identify recurring patterns, we explored hourly and daily granularities, which revealed distinct rush-hour peaks and commuting cycles. Weekly aggregation was also analyzed to distinguish between weekday and weekend behaviors.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{images/TS_dimensionality.png}
@@ -582,8 +646,7 @@ A critical assessment of the best models shall be presented, clearly stating if 
 \end{figure}
 
 \subsection*{\textit{Data Distribution}}
-\ctext[RGB]{190,190,190}{Shall be used to perform the data analysis at those three different granularities, concerning the series distribution.  \textbf{Shall not exceed 500 characters.}}
-
+Analysis across granularities shows multimodal distributions in Original (O) and Hourly (H) scales, representing distinct traffic regimes (peak/off-peak). Daily (D) aggregation shifts volume to higher clusters. No significant outliers are present, as shown by the continuous KDE and tight distributions. Strong positive autocorrelation and linear lag plots for the atomic series confirm high temporal dependency; past volume strongly influences future values, justifying a forecasting approach.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{images/TS_boxplots.png}
@@ -603,8 +666,7 @@ A critical assessment of the best models shall be presented, clearly stating if 
 \end{figure}
 
 \subsection*{\textit{Data Stationarity}}
-\ctext[RGB]{190,190,190}{Shall be used to perform the data analysis at those three different granularities, concerning the series stationarity.  \textbf{Shall not exceed 300 characters.}}
-
+ADF tests confirm stationarity for Original and Hourly series (p-value 0.000), while the Daily series is non-stationary (p-value 0.811) due to a late-period trend shift. Decompositions reveal consistent seasonality across scales, though residual noise increases at finer granularities.
 \begin{figure}[H]
 \begin{subfigure}[b]{0.9\textwidth}
         \centering

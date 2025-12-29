@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.12.26)  28 DEC 2025 11:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.12.26)  29 DEC 2025 01:11
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -443,287 +443,322 @@ File: images/1_4_dataset1_correlation.png Graphic file (type png)
 <use images/1_4_dataset1_correlation.png>
 Package pdftex.def Info: images/1_4_dataset1_correlation.png  used on input line 229.
 (pdftex.def)             Requested size: 450.43253pt x 386.086pt.
- [10 <./images/1_4_dataset1_sparsity.png>] [11 <./images/1_4_dataset1_correlation.png>] [12] [13] [14] [15] [16] [17]
-<images/TS_dimensionality.png, id=99, 1084.05pt x 433.62pt>
+ [10 <./images/1_4_dataset1_sparsity.png>] [11 <./images/1_4_dataset1_correlation.png>]
+LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 262.
+ (C:\Users\acach\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1cmss.fd
+File: ts1cmss.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+) [12] [13]
+<./images/2_d1_redundancy.png, id=88, 722.7pt x 433.62pt>
+File: ./images/2_d1_redundancy.png Graphic file (type png)
+<use ./images/2_d1_redundancy.png>
+Package pdftex.def Info: ./images/2_d1_redundancy.png  used on input line 359.
+(pdftex.def)             Requested size: 450.43253pt x 270.25755pt.
+ [14] [15 <./images/2_d1_redundancy.png>]
+<images/2_summary_d1_cm.png, id=96, 998.5305pt x 419.4069pt>
+File: images/2_summary_d1_cm.png Graphic file (type png)
+<use images/2_summary_d1_cm.png>
+Package pdftex.def Info: images/2_summary_d1_cm.png  used on input line 431.
+(pdftex.def)             Requested size: 450.43253pt x 189.19214pt.
+<images/2_summary_d1_evolution.png, id=97, 1076.1003pt x 426.1521pt>
+File: images/2_summary_d1_evolution.png Graphic file (type png)
+<use images/2_summary_d1_evolution.png>
+Package pdftex.def Info: images/2_summary_d1_evolution.png  used on input line 437.
+(pdftex.def)             Requested size: 450.43253pt x 178.37791pt.
+ [16]
+<images/2_summary_d2_cm.png, id=101, 999.2532pt x 419.4069pt>
+File: images/2_summary_d2_cm.png Graphic file (type png)
+<use images/2_summary_d2_cm.png>
+Package pdftex.def Info: images/2_summary_d2_cm.png  used on input line 446.
+(pdftex.def)             Requested size: 450.43253pt x 189.05135pt.
+<images/2_summary_d2_evolution.png, id=102, 1076.823pt x 426.393pt>
+File: images/2_summary_d2_evolution.png Graphic file (type png)
+<use images/2_summary_d2_evolution.png>
+Package pdftex.def Info: images/2_summary_d2_evolution.png  used on input line 452.
+(pdftex.def)             Requested size: 450.43253pt x 178.35513pt.
+ [17 <./images/2_summary_d1_cm.png> <./images/2_summary_d1_evolution.png>] [18 <./images/2_summary_d2_cm.png> <./images/2_summary_d2_evolution.png>] [19] [20]
+<images/TS_dimensionality.png, id=120, 1084.05pt x 433.62pt>
 File: images/TS_dimensionality.png Graphic file (type png)
 <use images/TS_dimensionality.png>
-Package pdftex.def Info: images/TS_dimensionality.png  used on input line 574.
+Package pdftex.def Info: images/TS_dimensionality.png  used on input line 638.
 (pdftex.def)             Requested size: 450.43253pt x 180.1739pt.
-<images/TS_granularity.png, id=100, 1084.05pt x 867.24pt>
+ [21]
+<images/TS_granularity.png, id=124, 1084.05pt x 867.24pt>
 File: images/TS_granularity.png Graphic file (type png)
 <use images/TS_granularity.png>
-Package pdftex.def Info: images/TS_granularity.png  used on input line 580.
+Package pdftex.def Info: images/TS_granularity.png  used on input line 644.
 (pdftex.def)             Requested size: 450.43253pt x 360.34782pt.
- [18 <./images/TS_dimensionality.png>]
-<images/TS_boxplots.png, id=105, 1300.86pt x 433.62pt>
+ [22 <./images/TS_dimensionality.png>]
+<images/TS_boxplots.png, id=129, 1300.86pt x 433.62pt>
 File: images/TS_boxplots.png Graphic file (type png)
 <use images/TS_boxplots.png>
-Package pdftex.def Info: images/TS_boxplots.png  used on input line 589.
+Package pdftex.def Info: images/TS_boxplots.png  used on input line 652.
 (pdftex.def)             Requested size: 450.43253pt x 150.14162pt.
-<images/TS_histograms.png, id=106, 1300.86pt x 433.62pt>
+ [23 <./images/TS_granularity.png>]
+<images/TS_histograms.png, id=134, 1300.86pt x 433.62pt>
 File: images/TS_histograms.png Graphic file (type png)
 <use images/TS_histograms.png>
-Package pdftex.def Info: images/TS_histograms.png  used on input line 595.
+Package pdftex.def Info: images/TS_histograms.png  used on input line 658.
 (pdftex.def)             Requested size: 450.43253pt x 150.14162pt.
- [19 <./images/TS_granularity.png> <./images/TS_boxplots.png>]
-<images/TS_autocorellation.png, id=113, 1445.4pt x 578.16pt>
+<images/TS_autocorellation.png, id=135, 1445.4pt x 578.16pt>
 File: images/TS_autocorellation.png Graphic file (type png)
 <use images/TS_autocorellation.png>
-Package pdftex.def Info: images/TS_autocorellation.png  used on input line 601.
+Package pdftex.def Info: images/TS_autocorellation.png  used on input line 664.
 (pdftex.def)             Requested size: 450.43253pt x 180.17169pt.
-<images/lab5/4_seasonal_decomposition_original.png, id=114, 1011.78pt x 722.7pt>
+<images/lab5/4_seasonal_decomposition_original.png, id=136, 1011.78pt x 722.7pt>
 File: images/lab5/4_seasonal_decomposition_original.png Graphic file (type png)
 <use images/lab5/4_seasonal_decomposition_original.png>
-Package pdftex.def Info: images/lab5/4_seasonal_decomposition_original.png  used on input line 611.
+Package pdftex.def Info: images/lab5/4_seasonal_decomposition_original.png  used on input line 673.
 (pdftex.def)             Requested size: 450.43253pt x 321.73833pt.
-<images/lab5/4_seasonal_decomposition_hourly.png, id=115, 1011.78pt x 722.7pt>
+<images/lab5/4_seasonal_decomposition_hourly.png, id=137, 1011.78pt x 722.7pt>
 File: images/lab5/4_seasonal_decomposition_hourly.png Graphic file (type png)
 <use images/lab5/4_seasonal_decomposition_hourly.png>
-Package pdftex.def Info: images/lab5/4_seasonal_decomposition_hourly.png  used on input line 617.
+Package pdftex.def Info: images/lab5/4_seasonal_decomposition_hourly.png  used on input line 679.
 (pdftex.def)             Requested size: 450.43253pt x 321.73833pt.
-<images/lab5/4_seasonal_decomposition_daily.png, id=116, 1011.78pt x 722.7pt>
+<images/lab5/4_seasonal_decomposition_daily.png, id=138, 1011.78pt x 722.7pt>
 File: images/lab5/4_seasonal_decomposition_daily.png Graphic file (type png)
 <use images/lab5/4_seasonal_decomposition_daily.png>
-Package pdftex.def Info: images/lab5/4_seasonal_decomposition_daily.png  used on input line 623.
+Package pdftex.def Info: images/lab5/4_seasonal_decomposition_daily.png  used on input line 685.
 (pdftex.def)             Requested size: 450.43253pt x 321.73833pt.
- [20 <./images/TS_histograms.png> <./images/TS_autocorellation.png>]
+ [24 <./images/TS_boxplots.png> <./images/TS_histograms.png> <./images/TS_autocorellation.png>] [25]
 Overfull \vbox (432.50876pt too high) has occurred while \output is active []
 
- [21 <./images/lab5/4_seasonal_decomposition_original.png> <./images/lab5/4_seasonal_decomposition_hourly.png> <./images/lab5/4_seasonal_decomposition_daily.png>]
-<images/lab5/stationarity_original.png, id=128, 230.36063pt x 228.855pt>
+ [26 <./images/lab5/4_seasonal_decomposition_original.png> <./images/lab5/4_seasonal_decomposition_hourly.png> <./images/lab5/4_seasonal_decomposition_daily.png>]
+<images/lab5/stationarity_original.png, id=155, 230.36063pt x 228.855pt>
 File: images/lab5/stationarity_original.png Graphic file (type png)
 <use images/lab5/stationarity_original.png>
-Package pdftex.def Info: images/lab5/stationarity_original.png  used on input line 634.
+Package pdftex.def Info: images/lab5/stationarity_original.png  used on input line 696.
 (pdftex.def)             Requested size: 150.14671pt x 149.16255pt.
-<images/lab5/stationarity_hourly.png, id=129, 222.07968pt x 225.09094pt>
+<images/lab5/stationarity_hourly.png, id=156, 222.07968pt x 225.09094pt>
 File: images/lab5/stationarity_hourly.png Graphic file (type png)
 <use images/lab5/stationarity_hourly.png>
-Package pdftex.def Info: images/lab5/stationarity_hourly.png  used on input line 640.
+Package pdftex.def Info: images/lab5/stationarity_hourly.png  used on input line 702.
 (pdftex.def)             Requested size: 150.14671pt x 152.18054pt.
-<images/lab5/stationarity_daily.png, id=130, 246.1697pt x 216.05719pt>
+<images/lab5/stationarity_daily.png, id=157, 246.1697pt x 216.05719pt>
 File: images/lab5/stationarity_daily.png Graphic file (type png)
 <use images/lab5/stationarity_daily.png>
-Package pdftex.def Info: images/lab5/stationarity_daily.png  used on input line 646.
+Package pdftex.def Info: images/lab5/stationarity_daily.png  used on input line 708.
 (pdftex.def)             Requested size: 150.14671pt x 131.78479pt.
-<images/lab5/LR_1_Aggregation_Freq_D_forecast.png, id=131, 1156.32pt x 289.08pt>
+<images/lab5/LR_1_Aggregation_Freq_D_forecast.png, id=158, 1156.32pt x 289.08pt>
 File: images/lab5/LR_1_Aggregation_Freq_D_forecast.png Graphic file (type png)
 <use images/lab5/LR_1_Aggregation_Freq_D_forecast.png>
-Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_D_forecast.png  used on input line 662.
+Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_D_forecast.png  used on input line 724.
 (pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
-<images/lab5/Persistence_1_Aggregation_Freq_D_forecast.png, id=132, 1156.32pt x 289.08pt>
+<images/lab5/Persistence_1_Aggregation_Freq_D_forecast.png, id=159, 1156.32pt x 289.08pt>
 File: images/lab5/Persistence_1_Aggregation_Freq_D_forecast.png Graphic file (type png)
 <use images/lab5/Persistence_1_Aggregation_Freq_D_forecast.png>
-Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_D_forecast.png  used on input line 668.
+Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_D_forecast.png  used on input line 730.
 (pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
-<images/lab5/LR_1_Aggregation_Freq_h_forecast.png, id=133, 1156.32pt x 289.08pt>
+<images/lab5/LR_1_Aggregation_Freq_h_forecast.png, id=160, 1156.32pt x 289.08pt>
 File: images/lab5/LR_1_Aggregation_Freq_h_forecast.png Graphic file (type png)
 <use images/lab5/LR_1_Aggregation_Freq_h_forecast.png>
-Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_h_forecast.png  used on input line 675.
+Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_h_forecast.png  used on input line 737.
 (pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
-<images/lab5/Persistence_1_Aggregation_Freq_h_forecast.png, id=134, 1156.32pt x 289.08pt>
+<images/lab5/Persistence_1_Aggregation_Freq_h_forecast.png, id=161, 1156.32pt x 289.08pt>
 File: images/lab5/Persistence_1_Aggregation_Freq_h_forecast.png Graphic file (type png)
 <use images/lab5/Persistence_1_Aggregation_Freq_h_forecast.png>
-Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_h_forecast.png  used on input line 681.
+Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_h_forecast.png  used on input line 743.
 (pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
-<images/lab5/LR_1_Aggregation_Freq_original_forecast.png, id=135, 1156.32pt x 289.08pt>
+<images/lab5/LR_1_Aggregation_Freq_original_forecast.png, id=162, 1156.32pt x 289.08pt>
 File: images/lab5/LR_1_Aggregation_Freq_original_forecast.png Graphic file (type png)
 <use images/lab5/LR_1_Aggregation_Freq_original_forecast.png>
-Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_original_forecast.png  used on input line 688.
+Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_original_forecast.png  used on input line 750.
 (pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
-<images/lab5/Persistence_1_Aggregation_Freq_original_forecast.png, id=136, 1156.32pt x 289.08pt>
+<images/lab5/Persistence_1_Aggregation_Freq_original_forecast.png, id=163, 1156.32pt x 289.08pt>
 File: images/lab5/Persistence_1_Aggregation_Freq_original_forecast.png Graphic file (type png)
 <use images/lab5/Persistence_1_Aggregation_Freq_original_forecast.png>
-Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_original_forecast.png  used on input line 694.
+Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_original_forecast.png  used on input line 756.
 (pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
-<images/lab5/LR_1_Aggregation_Freq_W_forecast.png, id=137, 1156.32pt x 289.08pt>
+<images/lab5/LR_1_Aggregation_Freq_W_forecast.png, id=164, 1156.32pt x 289.08pt>
 File: images/lab5/LR_1_Aggregation_Freq_W_forecast.png Graphic file (type png)
 <use images/lab5/LR_1_Aggregation_Freq_W_forecast.png>
-Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_W_forecast.png  used on input line 701.
+Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_W_forecast.png  used on input line 763.
 (pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
-<images/lab5/Persistence_1_Aggregation_Freq_W_forecast.png, id=138, 1156.32pt x 289.08pt>
+<images/lab5/Persistence_1_Aggregation_Freq_W_forecast.png, id=165, 1156.32pt x 289.08pt>
 File: images/lab5/Persistence_1_Aggregation_Freq_W_forecast.png Graphic file (type png)
 <use images/lab5/Persistence_1_Aggregation_Freq_W_forecast.png>
-Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_W_forecast.png  used on input line 707.
+Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_W_forecast.png  used on input line 769.
 (pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
- [22 <./images/lab5/stationarity_original.png> <./images/lab5/stationarity_hourly.png> <./images/lab5/stationarity_daily.png>]
-<images/lab5/LR_1_Aggregation_Freq_D_metrics.png, id=145, 433.62pt x 216.81pt>
+ [27 <./images/lab5/stationarity_original.png> <./images/lab5/stationarity_hourly.png> <./images/lab5/stationarity_daily.png>]
+<images/lab5/LR_1_Aggregation_Freq_D_metrics.png, id=172, 433.62pt x 216.81pt>
 File: images/lab5/LR_1_Aggregation_Freq_D_metrics.png Graphic file (type png)
 <use images/lab5/LR_1_Aggregation_Freq_D_metrics.png>
-Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_D_metrics.png  used on input line 719.
+Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_D_metrics.png  used on input line 781.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/Persistence_1_Aggregation_Freq_D_metrics.png, id=146, 433.62pt x 216.81pt>
+<images/lab5/Persistence_1_Aggregation_Freq_D_metrics.png, id=173, 433.62pt x 216.81pt>
 File: images/lab5/Persistence_1_Aggregation_Freq_D_metrics.png Graphic file (type png)
 <use images/lab5/Persistence_1_Aggregation_Freq_D_metrics.png>
-Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_D_metrics.png  used on input line 725.
+Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_D_metrics.png  used on input line 787.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/LR_1_Aggregation_Freq_h_metrics.png, id=147, 433.62pt x 216.81pt>
+<images/lab5/LR_1_Aggregation_Freq_h_metrics.png, id=174, 433.62pt x 216.81pt>
 File: images/lab5/LR_1_Aggregation_Freq_h_metrics.png Graphic file (type png)
 <use images/lab5/LR_1_Aggregation_Freq_h_metrics.png>
-Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_h_metrics.png  used on input line 732.
+Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_h_metrics.png  used on input line 794.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/Persistence_1_Aggregation_Freq_h_metrics.png, id=148, 433.62pt x 216.81pt>
+<images/lab5/Persistence_1_Aggregation_Freq_h_metrics.png, id=175, 433.62pt x 216.81pt>
 File: images/lab5/Persistence_1_Aggregation_Freq_h_metrics.png Graphic file (type png)
 <use images/lab5/Persistence_1_Aggregation_Freq_h_metrics.png>
-Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_h_metrics.png  used on input line 738.
+Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_h_metrics.png  used on input line 800.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/LR_1_Aggregation_Freq_original_metrics.png, id=149, 433.62pt x 216.81pt>
+<images/lab5/LR_1_Aggregation_Freq_original_metrics.png, id=176, 433.62pt x 216.81pt>
 File: images/lab5/LR_1_Aggregation_Freq_original_metrics.png Graphic file (type png)
 <use images/lab5/LR_1_Aggregation_Freq_original_metrics.png>
-Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_original_metrics.png  used on input line 745.
+Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_original_metrics.png  used on input line 807.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/Persistence_1_Aggregation_Freq_original_metrics.png, id=150, 433.62pt x 216.81pt>
+<images/lab5/Persistence_1_Aggregation_Freq_original_metrics.png, id=177, 433.62pt x 216.81pt>
 File: images/lab5/Persistence_1_Aggregation_Freq_original_metrics.png Graphic file (type png)
 <use images/lab5/Persistence_1_Aggregation_Freq_original_metrics.png>
-Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_original_metrics.png  used on input line 751.
+Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_original_metrics.png  used on input line 813.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/LR_1_Aggregation_Freq_W_metrics.png, id=151, 433.62pt x 216.81pt>
+<images/lab5/LR_1_Aggregation_Freq_W_metrics.png, id=178, 433.62pt x 216.81pt>
 File: images/lab5/LR_1_Aggregation_Freq_W_metrics.png Graphic file (type png)
 <use images/lab5/LR_1_Aggregation_Freq_W_metrics.png>
-Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_W_metrics.png  used on input line 758.
+Package pdftex.def Info: images/lab5/LR_1_Aggregation_Freq_W_metrics.png  used on input line 820.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/Persistence_1_Aggregation_Freq_W_metrics.png, id=152, 433.62pt x 216.81pt>
+<images/lab5/Persistence_1_Aggregation_Freq_W_metrics.png, id=179, 433.62pt x 216.81pt>
 File: images/lab5/Persistence_1_Aggregation_Freq_W_metrics.png Graphic file (type png)
 <use images/lab5/Persistence_1_Aggregation_Freq_W_metrics.png>
-Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_W_metrics.png  used on input line 764.
+Package pdftex.def Info: images/lab5/Persistence_1_Aggregation_Freq_W_metrics.png  used on input line 826.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
- [23 <./images/lab5/LR_1_Aggregation_Freq_D_forecast.png> <./images/lab5/Persistence_1_Aggregation_Freq_D_forecast.png> <./images/lab5/LR_1_Aggregation_Freq_h_forecast.png> <./images/lab5/Persistence_1_Aggregation_Freq_h_forecast.png> <./images/lab5/LR_1_Aggregation_Freq_original_forecast.png> <./images/lab5/Persistence_1_Aggregation_Freq_original_forecast.png> <./images/lab5/LR_1_Aggregation_Freq_W_forecast.png> <./images/lab5/Persistence_1_Aggregation_Freq_W_forecast.png>] [24 <./images/lab5/LR_1_Aggregation_Freq_D_metrics.png> <./images/lab5/Persistence_1_Aggregation_Freq_D_metrics.png> <./images/lab5/LR_1_Aggregation_Freq_h_metrics.png> <./images/lab5/Persistence_1_Aggregation_Freq_h_metrics.png> <./images/lab5/LR_1_Aggregation_Freq_original_metrics.png> <./images/lab5/Persistence_1_Aggregation_Freq_original_metrics.png> <./images/lab5/LR_1_Aggregation_Freq_W_metrics.png> <./images/lab5/Persistence_1_Aggregation_Freq_W_metrics.png>]
-<images/lab5/LR_3_Smoothing_WindowSize_25_forecast.png, id=175, 1156.32pt x 289.08pt>
+ [28 <./images/lab5/LR_1_Aggregation_Freq_D_forecast.png> <./images/lab5/Persistence_1_Aggregation_Freq_D_forecast.png> <./images/lab5/LR_1_Aggregation_Freq_h_forecast.png> <./images/lab5/Persistence_1_Aggregation_Freq_h_forecast.png> <./images/lab5/LR_1_Aggregation_Freq_original_forecast.png> <./images/lab5/Persistence_1_Aggregation_Freq_original_forecast.png> <./images/lab5/LR_1_Aggregation_Freq_W_forecast.png> <./images/lab5/Persistence_1_Aggregation_Freq_W_forecast.png>]
+<images/lab5/LR_3_Smoothing_WindowSize_25_forecast.png, id=191, 1156.32pt x 289.08pt>
 File: images/lab5/LR_3_Smoothing_WindowSize_25_forecast.png Graphic file (type png)
 <use images/lab5/LR_3_Smoothing_WindowSize_25_forecast.png>
-Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_25_forecast.png  used on input line 778.
+Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_25_forecast.png  used on input line 840.
 (pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
-<images/lab5/Persistence_3_Smoothing_WindowSize_25_forecast.png, id=176, 1156.32pt x 289.08pt>
+<images/lab5/Persistence_3_Smoothing_WindowSize_25_forecast.png, id=192, 1156.32pt x 289.08pt>
 File: images/lab5/Persistence_3_Smoothing_WindowSize_25_forecast.png Graphic file (type png)
 <use images/lab5/Persistence_3_Smoothing_WindowSize_25_forecast.png>
-Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_25_forecast.png  used on input line 784.
+Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_25_forecast.png  used on input line 846.
 (pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
-<images/lab5/LR_3_Smoothing_WindowSize_50_forecast.png, id=177, 1156.32pt x 289.08pt>
+<images/lab5/LR_3_Smoothing_WindowSize_50_forecast.png, id=193, 1156.32pt x 289.08pt>
 File: images/lab5/LR_3_Smoothing_WindowSize_50_forecast.png Graphic file (type png)
 <use images/lab5/LR_3_Smoothing_WindowSize_50_forecast.png>
-Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_50_forecast.png  used on input line 791.
+Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_50_forecast.png  used on input line 853.
 (pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
-<images/lab5/Persistence_3_Smoothing_WindowSize_50_forecast.png, id=178, 1156.32pt x 289.08pt>
+<images/lab5/Persistence_3_Smoothing_WindowSize_50_forecast.png, id=194, 1156.32pt x 289.08pt>
 File: images/lab5/Persistence_3_Smoothing_WindowSize_50_forecast.png Graphic file (type png)
 <use images/lab5/Persistence_3_Smoothing_WindowSize_50_forecast.png>
-Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_50_forecast.png  used on input line 797.
+Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_50_forecast.png  used on input line 859.
 (pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
-<images/lab5/LR_3_Smoothing_WindowSize_75_forecast.png, id=179, 1156.32pt x 289.08pt>
+<images/lab5/LR_3_Smoothing_WindowSize_75_forecast.png, id=195, 1156.32pt x 289.08pt>
 File: images/lab5/LR_3_Smoothing_WindowSize_75_forecast.png Graphic file (type png)
 <use images/lab5/LR_3_Smoothing_WindowSize_75_forecast.png>
-Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_75_forecast.png  used on input line 804.
+Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_75_forecast.png  used on input line 866.
 (pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
-<images/lab5/Persistence_3_Smoothing_WindowSize_75_forecast.png, id=180, 1156.32pt x 289.08pt>
+<images/lab5/Persistence_3_Smoothing_WindowSize_75_forecast.png, id=196, 1156.32pt x 289.08pt>
 File: images/lab5/Persistence_3_Smoothing_WindowSize_75_forecast.png Graphic file (type png)
 <use images/lab5/Persistence_3_Smoothing_WindowSize_75_forecast.png>
-Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_75_forecast.png  used on input line 810.
+Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_75_forecast.png  used on input line 872.
 (pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
-<images/lab5/LR_3_Smoothing_WindowSize_100_forecast.png, id=181, 1156.32pt x 289.08pt>
+<images/lab5/LR_3_Smoothing_WindowSize_100_forecast.png, id=197, 1156.32pt x 289.08pt>
 File: images/lab5/LR_3_Smoothing_WindowSize_100_forecast.png Graphic file (type png)
 <use images/lab5/LR_3_Smoothing_WindowSize_100_forecast.png>
-Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_100_forecast.png  used on input line 817.
+Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_100_forecast.png  used on input line 879.
 (pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
-<images/lab5/Persistence_3_Smoothing_WindowSize_100_forecast.png, id=182, 1156.32pt x 289.08pt>
+<images/lab5/Persistence_3_Smoothing_WindowSize_100_forecast.png, id=198, 1156.32pt x 289.08pt>
 File: images/lab5/Persistence_3_Smoothing_WindowSize_100_forecast.png Graphic file (type png)
 <use images/lab5/Persistence_3_Smoothing_WindowSize_100_forecast.png>
-Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_100_forecast.png  used on input line 823.
+Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_100_forecast.png  used on input line 885.
 (pdftex.def)             Requested size: 240.23016pt x 60.05576pt.
-<images/lab5/LR_3_Smoothing_WindowSize_25_metrics.png, id=183, 433.62pt x 216.81pt>
+ [29 <./images/lab5/LR_1_Aggregation_Freq_D_metrics.png> <./images/lab5/Persistence_1_Aggregation_Freq_D_metrics.png> <./images/lab5/LR_1_Aggregation_Freq_h_metrics.png> <./images/lab5/Persistence_1_Aggregation_Freq_h_metrics.png> <./images/lab5/LR_1_Aggregation_Freq_original_metrics.png> <./images/lab5/Persistence_1_Aggregation_Freq_original_metrics.png> <./images/lab5/LR_1_Aggregation_Freq_W_metrics.png> <./images/lab5/Persistence_1_Aggregation_Freq_W_metrics.png>]
+<images/lab5/LR_3_Smoothing_WindowSize_25_metrics.png, id=210, 433.62pt x 216.81pt>
 File: images/lab5/LR_3_Smoothing_WindowSize_25_metrics.png Graphic file (type png)
 <use images/lab5/LR_3_Smoothing_WindowSize_25_metrics.png>
-Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_25_metrics.png  used on input line 834.
+Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_25_metrics.png  used on input line 896.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/Persistence_3_Smoothing_WindowSize_25_metrics.png, id=184, 433.62pt x 216.81pt>
+<images/lab5/Persistence_3_Smoothing_WindowSize_25_metrics.png, id=211, 433.62pt x 216.81pt>
 File: images/lab5/Persistence_3_Smoothing_WindowSize_25_metrics.png Graphic file (type png)
 <use images/lab5/Persistence_3_Smoothing_WindowSize_25_metrics.png>
-Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_25_metrics.png  used on input line 840.
+Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_25_metrics.png  used on input line 902.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/LR_3_Smoothing_WindowSize_50_metrics.png, id=185, 433.62pt x 216.81pt>
+<images/lab5/LR_3_Smoothing_WindowSize_50_metrics.png, id=212, 433.62pt x 216.81pt>
 File: images/lab5/LR_3_Smoothing_WindowSize_50_metrics.png Graphic file (type png)
 <use images/lab5/LR_3_Smoothing_WindowSize_50_metrics.png>
-Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_50_metrics.png  used on input line 847.
+Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_50_metrics.png  used on input line 909.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/Persistence_3_Smoothing_WindowSize_50_metrics.png, id=186, 433.62pt x 216.81pt>
+<images/lab5/Persistence_3_Smoothing_WindowSize_50_metrics.png, id=213, 433.62pt x 216.81pt>
 File: images/lab5/Persistence_3_Smoothing_WindowSize_50_metrics.png Graphic file (type png)
 <use images/lab5/Persistence_3_Smoothing_WindowSize_50_metrics.png>
-Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_50_metrics.png  used on input line 853.
+Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_50_metrics.png  used on input line 915.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/LR_3_Smoothing_WindowSize_75_metrics.png, id=187, 433.62pt x 216.81pt>
+<images/lab5/LR_3_Smoothing_WindowSize_75_metrics.png, id=214, 433.62pt x 216.81pt>
 File: images/lab5/LR_3_Smoothing_WindowSize_75_metrics.png Graphic file (type png)
 <use images/lab5/LR_3_Smoothing_WindowSize_75_metrics.png>
-Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_75_metrics.png  used on input line 860.
+Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_75_metrics.png  used on input line 922.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/Persistence_3_Smoothing_WindowSize_75_metrics.png, id=188, 433.62pt x 216.81pt>
+<images/lab5/Persistence_3_Smoothing_WindowSize_75_metrics.png, id=215, 433.62pt x 216.81pt>
 File: images/lab5/Persistence_3_Smoothing_WindowSize_75_metrics.png Graphic file (type png)
 <use images/lab5/Persistence_3_Smoothing_WindowSize_75_metrics.png>
-Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_75_metrics.png  used on input line 866.
+Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_75_metrics.png  used on input line 928.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/LR_3_Smoothing_WindowSize_100_metrics.png, id=189, 433.62pt x 216.81pt>
+<images/lab5/LR_3_Smoothing_WindowSize_100_metrics.png, id=216, 433.62pt x 216.81pt>
 File: images/lab5/LR_3_Smoothing_WindowSize_100_metrics.png Graphic file (type png)
 <use images/lab5/LR_3_Smoothing_WindowSize_100_metrics.png>
-Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_100_metrics.png  used on input line 873.
+Package pdftex.def Info: images/lab5/LR_3_Smoothing_WindowSize_100_metrics.png  used on input line 935.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/Persistence_3_Smoothing_WindowSize_100_metrics.png, id=190, 433.62pt x 216.81pt>
+<images/lab5/Persistence_3_Smoothing_WindowSize_100_metrics.png, id=217, 433.62pt x 216.81pt>
 File: images/lab5/Persistence_3_Smoothing_WindowSize_100_metrics.png Graphic file (type png)
 <use images/lab5/Persistence_3_Smoothing_WindowSize_100_metrics.png>
-Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_100_metrics.png  used on input line 879.
+Package pdftex.def Info: images/lab5/Persistence_3_Smoothing_WindowSize_100_metrics.png  used on input line 941.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
- [25 <./images/lab5/LR_3_Smoothing_WindowSize_25_forecast.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_25_forecast.png> <./images/lab5/LR_3_Smoothing_WindowSize_50_forecast.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_50_forecast.png> <./images/lab5/LR_3_Smoothing_WindowSize_75_forecast.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_75_forecast.png> <./images/lab5/LR_3_Smoothing_WindowSize_100_forecast.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_100_forecast.png>] [26 <./images/lab5/LR_3_Smoothing_WindowSize_25_metrics.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_25_metrics.png> <./images/lab5/LR_3_Smoothing_WindowSize_50_metrics.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_50_metrics.png> <./images/lab5/LR_3_Smoothing_WindowSize_75_metrics.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_75_metrics.png> <./images/lab5/LR_3_Smoothing_WindowSize_100_metrics.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_100_metrics.png>]
-<images/lab5/LR_2_Differentiation_derivative_1_forecast.png, id=214, 1156.32pt x 289.08pt>
+ [30 <./images/lab5/LR_3_Smoothing_WindowSize_25_forecast.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_25_forecast.png> <./images/lab5/LR_3_Smoothing_WindowSize_50_forecast.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_50_forecast.png> <./images/lab5/LR_3_Smoothing_WindowSize_75_forecast.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_75_forecast.png> <./images/lab5/LR_3_Smoothing_WindowSize_100_forecast.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_100_forecast.png>]
+<images/lab5/LR_2_Differentiation_derivative_1_forecast.png, id=229, 1156.32pt x 289.08pt>
 File: images/lab5/LR_2_Differentiation_derivative_1_forecast.png Graphic file (type png)
 <use images/lab5/LR_2_Differentiation_derivative_1_forecast.png>
-Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_1_forecast.png  used on input line 893.
+Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_1_forecast.png  used on input line 955.
 (pdftex.def)             Requested size: 450.43253pt x 112.60841pt.
 File: images/lab5/LR_2_Differentiation_derivative_1_forecast.png Graphic file (type png)
 <use images/lab5/LR_2_Differentiation_derivative_1_forecast.png>
-Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_1_forecast.png  used on input line 900.
+Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_1_forecast.png  used on input line 962.
 (pdftex.def)             Requested size: 450.43253pt x 112.60841pt.
-<images/lab5/LR_2_Differentiation_derivative_2_forecast.png, id=215, 1156.32pt x 289.08pt>
+<images/lab5/LR_2_Differentiation_derivative_2_forecast.png, id=230, 1156.32pt x 289.08pt>
 File: images/lab5/LR_2_Differentiation_derivative_2_forecast.png Graphic file (type png)
 <use images/lab5/LR_2_Differentiation_derivative_2_forecast.png>
-Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_2_forecast.png  used on input line 907.
+Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_2_forecast.png  used on input line 969.
 (pdftex.def)             Requested size: 450.43253pt x 112.60841pt.
 File: images/lab5/LR_2_Differentiation_derivative_2_forecast.png Graphic file (type png)
 <use images/lab5/LR_2_Differentiation_derivative_2_forecast.png>
-Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_2_forecast.png  used on input line 914.
+Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_2_forecast.png  used on input line 976.
 (pdftex.def)             Requested size: 450.43253pt x 112.60841pt.
-<images/lab5/LR_2_Differentiation_derivative_1_metrics.png, id=216, 433.62pt x 216.81pt>
+ [31 <./images/lab5/LR_3_Smoothing_WindowSize_25_metrics.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_25_metrics.png> <./images/lab5/LR_3_Smoothing_WindowSize_50_metrics.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_50_metrics.png> <./images/lab5/LR_3_Smoothing_WindowSize_75_metrics.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_75_metrics.png> <./images/lab5/LR_3_Smoothing_WindowSize_100_metrics.png> <./images/lab5/Persistence_3_Smoothing_WindowSize_100_metrics.png>]
+<images/lab5/LR_2_Differentiation_derivative_1_metrics.png, id=243, 433.62pt x 216.81pt>
 File: images/lab5/LR_2_Differentiation_derivative_1_metrics.png Graphic file (type png)
 <use images/lab5/LR_2_Differentiation_derivative_1_metrics.png>
-Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_1_metrics.png  used on input line 924.
+Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_1_metrics.png  used on input line 986.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/Persistence_2_Differentiation_derivative_1_metrics.png, id=217, 433.62pt x 216.81pt>
+<images/lab5/Persistence_2_Differentiation_derivative_1_metrics.png, id=244, 433.62pt x 216.81pt>
 File: images/lab5/Persistence_2_Differentiation_derivative_1_metrics.png Graphic file (type png)
 <use images/lab5/Persistence_2_Differentiation_derivative_1_metrics.png>
-Package pdftex.def Info: images/lab5/Persistence_2_Differentiation_derivative_1_metrics.png  used on input line 930.
+Package pdftex.def Info: images/lab5/Persistence_2_Differentiation_derivative_1_metrics.png  used on input line 992.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/LR_2_Differentiation_derivative_2_metrics.png, id=218, 433.62pt x 216.81pt>
+<images/lab5/LR_2_Differentiation_derivative_2_metrics.png, id=245, 433.62pt x 216.81pt>
 File: images/lab5/LR_2_Differentiation_derivative_2_metrics.png Graphic file (type png)
 <use images/lab5/LR_2_Differentiation_derivative_2_metrics.png>
-Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_2_metrics.png  used on input line 937.
+Package pdftex.def Info: images/lab5/LR_2_Differentiation_derivative_2_metrics.png  used on input line 999.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
-<images/lab5/Persistence_2_Differentiation_derivative_2_metrics.png, id=219, 433.62pt x 216.81pt>
+<images/lab5/Persistence_2_Differentiation_derivative_2_metrics.png, id=246, 433.62pt x 216.81pt>
 File: images/lab5/Persistence_2_Differentiation_derivative_2_metrics.png Graphic file (type png)
 <use images/lab5/Persistence_2_Differentiation_derivative_2_metrics.png>
-Package pdftex.def Info: images/lab5/Persistence_2_Differentiation_derivative_2_metrics.png  used on input line 943.
+Package pdftex.def Info: images/lab5/Persistence_2_Differentiation_derivative_2_metrics.png  used on input line 1005.
 (pdftex.def)             Requested size: 240.23016pt x 120.11594pt.
- [27 <./images/lab5/LR_2_Differentiation_derivative_1_forecast.png> <./images/lab5/LR_2_Differentiation_derivative_2_forecast.png>] [28 <./images/lab5/LR_2_Differentiation_derivative_1_metrics.png> <./images/lab5/Persistence_2_Differentiation_derivative_1_metrics.png> <./images/lab5/LR_2_Differentiation_derivative_2_metrics.png> <./images/lab5/Persistence_2_Differentiation_derivative_2_metrics.png>] [29] [30] [31] (main.aux)
+ [32 <./images/lab5/LR_2_Differentiation_derivative_1_forecast.png> <./images/lab5/LR_2_Differentiation_derivative_2_forecast.png>] [33 <./images/lab5/LR_2_Differentiation_derivative_1_metrics.png> <./images/lab5/Persistence_2_Differentiation_derivative_1_metrics.png> <./images/lab5/LR_2_Differentiation_derivative_2_metrics.png> <./images/lab5/Persistence_2_Differentiation_derivative_2_metrics.png>] [34] [35] [36] (main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 7149 strings out of 474486
- 144000 string characters out of 5743754
- 1981542 words of memory out of 5000000
- 29317 multiletter control sequences out of 15000+600000
- 571361 words of font info for 62 fonts, out of 8000000 for 9000
+ 7207 strings out of 474486
+ 146026 string characters out of 5743754
+ 1973542 words of memory out of 5000000
+ 29371 multiletter control sequences out of 15000+600000
+ 571702 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  67i,13n,77p,585b,610s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss0900.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecso1200.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecsx1440.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi617\ecsx2074.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss1000.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecsx1000.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi603\ecss3583.pk><C:/Users/acach/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on main.pdf (31 pages, 7980473 bytes).
+ <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcss1000.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss0900.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecso1200.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecsx1440.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi617\ecsx2074.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss1000.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecsx1000.pk> <C:\Users\acach\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi603\ecss3583.pk><C:/Users/acach/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb>
+Output written on main.pdf (36 pages, 8838356 bytes).
 PDF statistics:
- 502 PDF objects out of 1000 (max. 8388607)
+ 548 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 336 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 361 words of extra memory for PDF output out of 10000 (max. 10000000)
 

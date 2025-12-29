@@ -3,7 +3,9 @@ import numpy as np
 from sklearn.model_selection import StratifiedKFold
 
 # Load dataset
-df = pd.read_csv('datasets/traffic_accidents/traffic_accidents_no_leakage.csv')
+df = pd.read_csv('Datasets/traffic_accidents.csv')
+
+df = df.drop(columns=['most_severe_injury', 'injuries_total', 'injuries_fatal', 'injuries_incapacitating', 'injuries_non_incapacitating', 'injuries_reported_not_evident', 'injuries_no_indication', 'damage'])
 
 # 1. HANDLE TARGET
 target_map = {
@@ -110,5 +112,5 @@ print("\n=== Encoding Summary ===")
 print(f"Final shape: {df_encoded.shape}")
 print(f"Columns: target_encoded, cyclic (sin/cos), one-hot dummies, days_since_start")
 
-df_encoded.to_csv('datasets/traffic_accidents/traffic_accidents_encoded.csv', index=False)
+df_encoded.to_csv('Datasets/traffic_accidents_encoded.csv', index=False)
 print("\nSaved to: traffic_accidents_encoded.csv")

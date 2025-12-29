@@ -9,8 +9,8 @@ from balancing import run_balancing_step
 from feature_selection import run_feature_selection_step
 from feature_generation import run_feature_generation_step
 
-START_FILE = 'datasets/traffic_accidents/traffic_accidents_encoded.csv' 
-FINAL_FILE = 'datasets/traffic_accidents/traffic_accidents_prepared_final.csv'
+START_FILE = 'Datasets/traffic_accidents_encoded.csv' 
+FINAL_FILE = 'Datasets/traffic_accidents_prepared_final.csv'
 
 TARGET_COL = 'crash_type_enc'
 

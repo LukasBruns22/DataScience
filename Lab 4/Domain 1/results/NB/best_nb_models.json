@@ -1,0 +1,16 @@
+[
+    {
+        "model": "GaussianNB",
+        "hyperparameter": 1e-15,
+        "accuracy": 0.7000573321442222,
+        "precision": 0.6957607532455885,
+        "recall": 0.6906129639212932
+    },
+    {
+        "model": "BernoulliNB",
+        "hyperparameter": 1e-15,
+        "accuracy": 0.6906771563256465,
+        "precision": 0.686050262098713,
+        "recall": 0.6860896103942868
+    }
+]

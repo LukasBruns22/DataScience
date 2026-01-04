@@ -1,6 +1,6 @@
 import pandas as pd
 
-def load_data(file_path='datasets/TrafficTwoMonth.csv'):
+def load_data(file_path='Datasets/TrafficTwoMonth.csv'):
     df = pd.read_csv(file_path)
 
     ## Data for TWO months

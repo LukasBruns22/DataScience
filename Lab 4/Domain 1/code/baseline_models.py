@@ -19,17 +19,7 @@ from utils.dslabs_functions import plot_evaluation_results, CLASS_EVAL_METRICS
 # Constants
 DATASET_PATH = "datasets/traffic_accidents.csv"
 OUTPUT_DIR = "graphs/BaselineModels"
-TARGET = "crash_type" # Assuming this is the target, need to verify if it needs encoding or if it's already encoded in raw?
-# Wait, user said "remove data leakage columns... then Discard all non-numeric data". 
-# If target is non-numeric, it might be dropped. 
-# User said "traffic_accidents_prepared_train... comes from traffic_accidents... we have done all necessary data preparation... like encoding". 
-# But for this task: "take datasets/traffic_accidents.csv... eliminate all non-numeric variables". 
-# If the target is categorical in the raw file, and we drop all non-numeric, we lose the target. 
-# I should probably Encode the target first if it's not numeric, OR assume the user implies "variables" as in features.
-# Let's check the csv content first or assume standard "Crash_Type" is target.
-# Actually, the user said "Discard all non-numeric data". Usually target is categorical. 
-# I will check the file content first to be safe, but for now I will write the script assuming I need to encode the target if it is not numeric, 
-# BEFORE dropping non-numeric features.
+TARGET = "crash_type" 
 
 def load_and_preprocess_data():
     print("Loading data...")

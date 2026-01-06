@@ -1,0 +1,22 @@
+{
+  "columns_univariate": [
+    "Total"
+  ],
+  "columns_multivariate": [
+    "Total",
+    "CarCount",
+    "BikeCount",
+    "BusCount",
+    "TruckCount"
+  ],
+  "best_params": {
+    "freq": "original",
+    "derivative": 1,
+    "window_size": 50
+  },
+  "best_approach": [
+    "1_Aggregation_Freq_original",
+    "2_Differentiation_derivative_1",
+    "3_Smoothing_WindowSize_50"
+  ]
+}

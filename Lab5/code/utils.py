@@ -3,16 +3,16 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 
 def scale_timeseries(train, test):
+    """Scale train and test using StandardScaler. Returns scaled data AND the scaler for inverse transform."""
+    scaler = StandardScaler().fit(train)
 
-    transf = StandardScaler().fit(train)
-
-    train_scaled = transf.transform(train)
-    test_scaled = transf.transform(test)
+    train_scaled = scaler.transform(train)
+    test_scaled = scaler.transform(test)
 
     train_scaled_df = pd.DataFrame(train_scaled, index=train.index, columns=train.columns)
     test_scaled_df = pd.DataFrame(test_scaled, index=test.index, columns=test.columns)
 
-    return train_scaled_df, test_scaled_df
+    return train_scaled_df, test_scaled_df, scaler
 
 def series_train_test_split(data, trn_pct: float = 0.90):
     trn_size = int(len(data) * trn_pct)
@@ -23,15 +23,17 @@ def series_train_test_split(data, trn_pct: float = 0.90):
 
 def split_timeseries(
     df,
-    target_column: str = 'Total', 
-    train_size: float = 0.3, 
+    columns: list = ['Total'], 
+    train_size: float = 0.9, 
 ):
     """
     Splits the dataset into training and testing sets.
+    Can handle single column (univariate) or multiple columns (multivariate).
     """
     print(f"--- Splitting data with train size = {train_size} ---")
+    print(f"    Columns: {columns}")
 
-    timeseries = df[[target_column]]
+    timeseries = df[columns]
     
     train, test = series_train_test_split(timeseries, trn_pct=train_size)
     
@@ -60,7 +62,11 @@ def aggregate_timeseries(train, test, freq, method='sum'):
             
     return resampled_train, resampled_test
 
-def differenciation_timeseries(train, test, derivative):        
+def differenciation_timeseries(train, test, derivative):
+    """Apply differentiation. derivative=0 means no differentiation (baseline)."""
+    if derivative == 0:
+        return train.copy(), test.copy()
+    
     train_copy = train.copy()
     test_copy = test.copy() 
     train_diff = train_copy.diff()
@@ -73,6 +79,10 @@ def differenciation_timeseries(train, test, derivative):
     return train_diff, test_diff
 
 def smoothing_timeseries(train, test, window_size):
+    """Apply smoothing. window_size=0 means no smoothing (baseline)."""
+    if window_size == 0:
+        return train.copy(), test.copy()
+    
     # 1. Smooth Training Data (Standard)
     train_copy = train.copy()    
     train_smooth = train_copy.rolling(window=window_size).mean()

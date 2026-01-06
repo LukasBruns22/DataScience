@@ -1,224 +1,131 @@
-import pandas as pd
+from pandas import read_csv, Series
+from sklearn.neural_network import MLPRegressor
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+import sys
 import os
 
-from sklearn.neural_network import MLPRegressor
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-from sklearn.model_selection import TimeSeriesSplit
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.abspath(os.path.join(current_dir, '../../'))
+modules_path = os.path.join(project_root, 'package_lab')
+if modules_path not in sys.path:
+    sys.path.append(modules_path)
+from dslabs_functions import HEIGHT, FORECAST_MEASURES, DELTA_IMPROVE, plot_multiline_chart
+from matplotlib.pyplot import figure, savefig, subplots
+from utils import plot_forecasting_eval, plot_forecasting_series
 
-# ==========================================
-# 0. Setup
-# ==========================================
-PLOT_DIR = "plots/plots_mlp"
-os.makedirs(PLOT_DIR, exist_ok=True)
+measure: str = "R2"
 
-# ==========================================
-# 1. Load Data
-# ==========================================
-# Assuming files exist at these paths
-train_df = pd.read_csv(
-    'datasets/traffic_forecasting/processed_train.csv',
-    parse_dates=['Datetime'], index_col='Datetime'
-)
+# --- Load pre-processed data (already scaled from Lab5) ---
+train = read_csv("Datasets/traffic_forecasting/processed_train.csv", index_col="Datetime", parse_dates=True)
+test = read_csv("Datasets/traffic_forecasting/processed_test.csv", index_col="Datetime", parse_dates=True)
 
-test_df = pd.read_csv(
-    'datasets/traffic_forecasting/processed_test.csv',
-    parse_dates=['Datetime'], index_col='Datetime'
-)
+train: Series = train["Total"]
+test: Series = test["Total"]
 
-# ==========================================
-# 2. Scaling (Fit on Train, Apply to Test)
-# ==========================================
-scaler = StandardScaler()
-train_scaled = scaler.fit_transform(train_df[['Total']])
-test_scaled = scaler.transform(test_df[['Total']])
-
-# ==========================================
-# 3. Helper: Windowing Function
-# ==========================================
-def create_lagged_features(data, n_steps):
+# --- Helper: Create lagged features ---
+def create_lagged_features(series, n_lags):
+    """Create X (lagged values) and y (target) for MLP"""
     X, y = [], []
-    for i in range(len(data) - n_steps):
-        X.append(data[i : i + n_steps].flatten())
-        y.append(data[i + n_steps])
+    values = series.values
+    for i in range(len(values) - n_lags):
+        X.append(values[i:i + n_lags])
+        y.append(values[i + n_lags])
     return np.array(X), np.array(y)
 
-# ==========================================
-# 4. Define Hyperparameter Space
-# ==========================================
-# 
-window_sizes = [12, 24, 48, 96, 192, 384, 768, 1536]
-
-hidden_layers_configs = [(64,), (128,), (64, 32)] 
-learning_rates = [0.001, 0.01]
-
-results_list = []
-best_score = float('inf')
-best_model = None
-best_params = {}
-best_window_size = 0
-
-print(f"Starting Study...")
-print(f"Configs: {len(window_sizes)} Windows x {len(hidden_layers_configs)} Layers x {len(learning_rates)} LRs")
-print("-" * 50)
-
-# ==========================================
-# 5. Custom Hyperparameter Loop
-# ==========================================
-
-for w_size in window_sizes:
-    X_train, y_train = create_lagged_features(train_scaled, w_size)
+# --- MLP Study ---
+def mlp_study(train: Series, test: Series, nr_episodes: int = 500, measure: str = "R2"):
+    lag_values = [4, 12, 24, 48, 96]
+    hidden_layer_configs = [(50,), (100,), (50, 25)]
     
-    tscv = TimeSeriesSplit(n_splits=3)
+    flag = measure == "R2" or measure == "MAPE"
+    best_model = None
+    best_params: dict = {"name": "MLP", "metric": measure, "params": ()}
+    best_performance: float = -100000
+    best_lag = 0
+
+    fig, axs = subplots(1, len(lag_values), figsize=(len(lag_values) * HEIGHT, HEIGHT))
     
-    for layers in hidden_layers_configs:
-        for lr in learning_rates:
+    for i, n_lags in enumerate(lag_values):
+        X_train, y_train = create_lagged_features(train, n_lags)
+        X_test, y_test = create_lagged_features(test, n_lags)
+        
+        values = {}
+        for hidden in hidden_layer_configs:
+            yvalues = []
             
-            # B. Define Model
-            # 
             mlp = MLPRegressor(
-                hidden_layer_sizes=layers,
-                learning_rate_init=lr,
-                activation='relu',
-                solver='adam',     
-                max_iter=500,
+                hidden_layer_sizes=hidden,
+                max_iter=nr_episodes,
                 early_stopping=True,
                 validation_fraction=0.1,
                 random_state=42
             )
+            mlp.fit(X_train, y_train)
+            prd_tst = mlp.predict(X_test)
             
-            # C. Train & Evaluate using Cross Validation
-            cv_scores = []
+            eval_score: float = FORECAST_MEASURES[measure](y_test, prd_tst)
+            print(f"lag={n_lags} hidden={hidden} -> {measure}={eval_score:.4f}")
             
-            for train_index, val_index in tscv.split(X_train):
-                X_t, X_v = X_train[train_index], X_train[val_index]
-                y_t, y_v = y_train[train_index], y_train[val_index]
-                
-                mlp.fit(X_t, y_t.ravel())
-                pred_v = mlp.predict(X_v)
-                mse_val = mean_squared_error(y_v, pred_v)
-                cv_scores.append(mse_val)
+            if eval_score > best_performance and abs(eval_score - best_performance) > DELTA_IMPROVE:
+                best_performance = eval_score
+                best_params["params"] = (n_lags, hidden)
+                best_model = mlp
+                best_lag = n_lags
+            yvalues.append(eval_score)
+            values[str(hidden)] = yvalues
             
-            avg_mse = np.mean(cv_scores)
-            
-            # Store results
-            model_name = f"W={w_size} | L={layers} | LR={lr}"
-            print(f"Checked: {model_name} -> CV MSE: {avg_mse:.4f}")
-            
-            results_list.append({
-                "Window_Size": w_size,
-                "Hidden_Layers": str(layers),
-                "Learning_Rate": lr,
-                "CV_MSE": avg_mse,
-                "Model_Label": model_name
-            })
-            
-            # Check if this is the new best model
-            if avg_mse < best_score:
-                best_score = avg_mse
-                best_params = {
-                    "window_size": w_size,
-                    "hidden_layer_sizes": layers,
-                    "learning_rate_init": lr
-                }
-                # Save the input dimension needed for the final test
-                best_window_size = w_size
+        # For plotting, we need consistent x-axis - use hidden config index
+        plot_multiline_chart(
+            [str(h) for h in hidden_layer_configs],
+            {str(hidden_layer_configs[0]): [values[str(h)][0] for h in hidden_layer_configs]},
+            ax=axs[i],
+            title=f"MLP lag={n_lags} ({measure})",
+            xlabel="hidden layers",
+            ylabel=measure,
+            percentage=flag,
+        )
+    
+    print(
+        f"MLP best results achieved with lag={best_params['params'][0]}, hidden={best_params['params'][1]} ==> {measure}={best_performance:.4f}"
+    )
+    
+    return best_model, best_params, best_lag
 
-# ==========================================
-# 6. Process Results Table
-# ==========================================
-results_df = pd.DataFrame(results_list)
-results_df = results_df.sort_values(by="CV_MSE", ascending=True)
+# --- Run Study ---
+os.makedirs("Lab6/results/MLP", exist_ok=True)
 
-print("\nTOP 5 MODELS:")
-print(results_df.head(5))
+best_model, best_params, best_lag = mlp_study(train, test, nr_episodes=500, measure=measure)
+savefig("Lab6/results/MLP/parameters_study.png")
 
-# Save table
-results_df.to_csv("hyperparameter_study_results.csv", index=False)
+# --- Final Predictions ---
+params = best_params["params"]
+X_train, y_train = create_lagged_features(train, best_lag)
+X_test, y_test = create_lagged_features(test, best_lag)
 
-# ==========================================
-# 7. Plot 1: Hyperparameter Performance Comparison
-# ==========================================
-plt.figure(figsize=(12, 6))
-sns.barplot(data=results_df, x="Model_Label", y="CV_MSE", palette="viridis")
-plt.xticks(rotation=45, ha='right', fontsize=8)
-plt.title(f"Model Comparison (Window Size vs Layers vs LR)")
-plt.ylabel("Mean Squared Error (CV)")
-plt.xlabel("Configuration")
-plt.grid(axis='y', linestyle='--', alpha=0.7)
-plt.tight_layout()
-plt.savefig(f"{PLOT_DIR}/model_comparison_bar.png", dpi=200)
-plt.close()
-print(f"Saved: {PLOT_DIR}/model_comparison_bar.png")
+prd_trn = best_model.predict(X_train)
+prd_tst = best_model.predict(X_test)
 
-# ==========================================
-# 8. Retrain Best Model on Full Train Data
-# ==========================================
-print("\nRetraining Best Model on full training set...")
-print(f"Best Config: {best_params}")
+# Convert to Series for plotting
+train_trimmed = train.iloc[best_lag:]
+test_trimmed = test.iloc[best_lag:]
+prd_trn_series = Series(prd_trn, index=train_trimmed.index)
+prd_tst_series = Series(prd_tst, index=test_trimmed.index)
 
-# Re-create data with the WINNING window size
-X_train_best, y_train_best = create_lagged_features(train_scaled, best_window_size)
-X_test_best, y_test_best = create_lagged_features(test_scaled, best_window_size)
-
-final_model = MLPRegressor(
-    hidden_layer_sizes=best_params["hidden_layer_sizes"],
-    learning_rate_init=best_params["learning_rate_init"],
-    activation='relu',
-    solver='adam',
-    max_iter=500,
-    early_stopping=True,
-    validation_fraction=0.1,
-    random_state=42
+# --- Plots ---
+plot_forecasting_eval(
+    train_trimmed, test_trimmed, prd_trn_series, prd_tst_series,
+    title=f"MLP (lag={params[0]}, hidden={params[1]})"
 )
+savefig("Lab6/results/MLP/evals.png")
 
-final_model.fit(X_train_best, y_train_best.ravel())
+plot_forecasting_series(
+    train_trimmed,
+    test_trimmed,
+    prd_tst_series,
+    title=f"MLP (lag={params[0]}, hidden={params[1]})",
+    xlabel="Datetime",
+    ylabel="Traffic Volume",
+)
+savefig("Lab6/results/MLP/forecast.png")
 
-# ==========================================
-# 9. Final Evaluation
-# ==========================================
-# Predict
-y_pred_scaled = final_model.predict(X_test_best)
-
-# Inverse Transform
-y_pred = scaler.inverse_transform(y_pred_scaled.reshape(-1, 1))
-y_test_actual = scaler.inverse_transform(y_test_best.reshape(-1, 1))
-
-# Metrics
-rmse = np.sqrt(mean_squared_error(y_test_actual, y_pred))
-mae = mean_absolute_error(y_test_actual, y_pred)
-r2 = r2_score(y_test_actual, y_pred)
-mse = mean_squared_error(y_test_actual, y_pred)
-
-print("\n========== BEST MODEL FINAL METRICS ==========")
-print(f"Window Size: {best_window_size}")
-print(f"Structure:   {best_params['hidden_layer_sizes']}")
-print(f"LR:          {best_params['learning_rate_init']}")
-print("-" * 30)
-print(f"R2 Score: {r2:.4f}")
-print(f"MAE:      {mae:.4f}")
-print(f"MSE:      {mse:.4f}")
-print(f"RMSE:     {rmse:.4f}")
-print("==============================================\n")
-
-# ==========================================
-# 10. Plot 2: Best Model Forecast
-# ==========================================
-# Align dates (trim the first N_STEPS from test index)
-test_dates = test_df.index[best_window_size:]
-
-plt.figure(figsize=(15, 6))
-plt.plot(test_dates, y_test_actual, label="Actual Traffic", color='black', alpha=0.7, linewidth=1.5)
-plt.plot(test_dates, y_pred, label="MLP Prediction", color='#2ca02c', linestyle='--', linewidth=2)
-
-plt.title(f"Best Model Forecast (Window={best_window_size}, R2={r2:.2f})")
-plt.xlabel("Date")
-plt.ylabel("Traffic Volume")
-plt.legend()
-plt.grid(True, alpha=0.3)
-plt.savefig(f"{PLOT_DIR}/best_model_forecast.png", dpi=200)
-plt.close()
-print(f"Saved: {PLOT_DIR}/best_model_forecast.png")
+print(f"\nSaved plots to Lab6/results/MLP/")

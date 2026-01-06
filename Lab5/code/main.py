@@ -74,7 +74,8 @@ def pipeline_optimization():
     )
 
     # --- STEP 2: DIFFERENCIATION ---
-    grid2 = {'derivative': [0, 1, 2]}
+    # 0=none, 1=first-order, 2=second-order, 96=seasonal (daily)
+    grid2 = {'derivative': [0, 1, 2, 96]}
     train, test, current_baseline_score, BEST_APPROACH = run_step_tournament(
         "2_Differentiation", train, test, BEST_APPROACH,
         func=differenciation_timeseries,

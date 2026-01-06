@@ -1,146 +1,109 @@
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+from pandas import read_csv, Series
 from statsmodels.tsa.holtwinters import SimpleExpSmoothing, ExponentialSmoothing
-from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-import warnings
+import sys
+import os
 
-warnings.filterwarnings("ignore")
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.abspath(os.path.join(current_dir, '../../'))
+modules_path = os.path.join(project_root, 'package_lab')
+if modules_path not in sys.path:
+    sys.path.append(modules_path)
+from dslabs_functions import HEIGHT, FORECAST_MEASURES, DELTA_IMPROVE, plot_multiline_chart
+from matplotlib.pyplot import figure, savefig, subplots
+from utils import plot_forecasting_eval, plot_forecasting_series
 
-# --- CONFIGURATION ---
-# Updated paths for prepared data
-TRAIN_FILENAME = "datasets/traffic_forecasting/processed_train.csv"
-TEST_FILENAME = "datasets/traffic_forecasting/processed_test.csv"
-TARGET = "Total"
-SEASONAL_PERIODS = 96  # 24h * 4 (15min chunks) = 96 periods per day
+measure: str = "R2"
+SEASONAL_PERIODS = 96  # 24h * 4 (15-min intervals)
 
-def load_data():
-    """Loads and preprocesses the prepared traffic data."""
-    # Load Train
-    print(f"Loading training data from {TRAIN_FILENAME}...")
-    train_df = pd.read_csv(TRAIN_FILENAME, parse_dates=['Datetime'], index_col='Datetime')
+# --- Load pre-processed data (already scaled from Lab5) ---
+train = read_csv("Datasets/traffic_forecasting/processed_train.csv", index_col="Datetime", parse_dates=True)
+test = read_csv("Datasets/traffic_forecasting/processed_test.csv", index_col="Datetime", parse_dates=True)
+
+train: Series = train["Total"]
+test: Series = test["Total"]
+
+# --- ES Study ---
+def es_study(train: Series, test: Series, measure: str = "R2"):
+    alpha_values = [0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
     
-    # Load Test
-    print(f"Loading testing data from {TEST_FILENAME}...")
-    test_df = pd.read_csv(TEST_FILENAME, parse_dates=['Datetime'], index_col='Datetime')
-    
-    # Ensure Frequency is set (Important for Statsmodels)
-    if train_df.index.freq is None:
-        train_df.index.freq = pd.infer_freq(train_df.index)
-    if test_df.index.freq is None:
-        test_df.index.freq = pd.infer_freq(test_df.index)
-        
-    return train_df[TARGET], test_df[TARGET]
-
-def get_metrics(y_true, y_pred, model_name):
-    return {
-        "Model": model_name,
-        "MSE": mean_squared_error(y_true, y_pred),
-        "MAE": mean_absolute_error(y_true, y_pred),
-        "R2": r2_score(y_true, y_pred)
-    }
-
-def run_full_alpha_study():
-    # 1. Load Data (Modified to load pre-split data)
-    train, test = load_data()
-    
-    # (Removed manual 80/20 split since files are already split)
-    
-    print(f"Data Loaded. Train: {len(train)}, Test: {len(test)}")
-
-    # 3. Define Model Constructors
-    # We define functions that return a fresh unfitted model
     model_types = [
         ("Simple ES", lambda data: SimpleExpSmoothing(data)),
         ("Holt's Linear", lambda data: ExponentialSmoothing(data, trend='add')),
         ("Holt-Winters", lambda data: ExponentialSmoothing(data, trend='add', seasonal='add', seasonal_periods=SEASONAL_PERIODS))
     ]
     
-    alpha_values = [i / 10.0 for i in range(1, 10)]
-    
-    results = []
-    best_config = {"R2": -np.inf, "Model": None, "Pred": None, "Name": ""}
+    flag = measure == "R2" or measure == "MAPE"
+    best_model = None
+    best_params: dict = {"name": "ES", "metric": measure, "params": ()}
+    best_performance: float = -100000
 
-    print("\n--- Starting Alpha Study for All Models ---")
+    fig, axs = subplots(1, len(model_types), figsize=(len(model_types) * HEIGHT, HEIGHT))
     
-    # Loop over Models
-    for name, model_func in model_types:
-        print(f"Testing {name}...", end=" ")
+    for i, (model_name, model_func) in enumerate(model_types):
+        values = {}
+        yvalues = []
         
-        # Loop over Alphas
         for alpha in alpha_values:
             try:
-                # Instantiate
                 model_instance = model_func(train)
-                
-                # FIT: Fix Alpha, Optimize others (Beta/Gamma)
-                # optimized=True allows statsmodels to find best Beta/Gamma given our fixed Alpha
                 fitted_model = model_instance.fit(smoothing_level=alpha, optimized=True)
+                prd_tst = fitted_model.forecast(len(test))
                 
-                # Forecast
-                pred = fitted_model.forecast(len(test))
+                eval_score: float = FORECAST_MEASURES[measure](test, prd_tst)
+                print(f"{model_name} alpha={alpha} -> {measure}={eval_score:.4f}")
                 
-                # Evaluate
-                metrics = get_metrics(test, pred, f"{name} (a={alpha})")
-                
-                # Store for plotting
-                results.append({
-                    "Model Type": name,
-                    "Alpha": alpha,
-                    "R2": metrics["R2"],
-                    "MSE": metrics["MSE"]
-                })
-                
-                # Check for absolute winner
-                if metrics["R2"] > best_config["R2"]:
-                    best_config["R2"] = metrics["R2"]
-                    best_config["Model"] = fitted_model
-                    best_config["Pred"] = pred
-                    best_config["Name"] = f"{name} (alpha={alpha})"
-                    
+                if eval_score > best_performance and abs(eval_score - best_performance) > DELTA_IMPROVE:
+                    best_performance = eval_score
+                    best_params["params"] = (model_name, alpha)
+                    best_model = fitted_model
+                yvalues.append(eval_score)
             except Exception as e:
-                pass # Skip convergence failures
-        print("Done.")
+                print(f"{model_name} alpha={alpha} -> FAILED: {e}")
+                yvalues.append(None)
+        
+        values["alpha"] = yvalues
+        plot_multiline_chart(
+            alpha_values,
+            values,
+            ax=axs[i],
+            title=f"{model_name} ({measure})",
+            xlabel="alpha",
+            ylabel=measure,
+            percentage=flag,
+        )
+    
+    print(
+        f"ES best results achieved with model={best_params['params'][0]}, alpha={best_params['params'][1]} ==> {measure}={best_performance:.4f}"
+    )
+    
+    return best_model, best_params
 
-    results_df = pd.DataFrame(results)
+# --- Run Study ---
+os.makedirs("Lab6/results/ES", exist_ok=True)
 
-    # --- PLOT 1: ALPHA SENSITIVITY STUDY ---
-    print("\nGenerating Alpha Study Plot...")
-    plt.figure(figsize=(12, 6))
-    
-    # We plot one line per model type
-    sns.lineplot(data=results_df, x="Alpha", y="R2", hue="Model Type", marker="o", linewidth=2)
-    
-    plt.title("Hyperparameter Study: Effect of Alpha on Model Performance (R2)")
-    plt.xlabel("Alpha (Smoothing Level)")
-    plt.ylabel("R2 Score (Higher is Better)")
-    plt.grid(True, alpha=0.3)
-    plt.savefig('ES_Alpha_Study_All_Models.png')
-    print("Saved: ES_Alpha_Study_All_Models.png")
+best_model, best_params = es_study(train, test, measure=measure)
+savefig("Lab6/results/ES/parameters_study.png")
 
-    # --- PLOT 2: BEST MODEL FORECAST ---
-    print(f"Generating Forecast Plot for Winner: {best_config['Name']}...")
-    
-    plt.figure(figsize=(15, 6))
-    # Last 5 days of training for context (Using 96 periods/day * 5 days = 480)
-    plot_train = train.iloc[-480:]
-    
-    plt.plot(plot_train.index, plot_train, label='Training Data (Last 5 Days)')
-    plt.plot(test.index, test, label='Actual Test Data', color='black', alpha=0.5)
-    plt.plot(test.index, best_config["Pred"], label=f'Forecast', color='red', linestyle='--', linewidth=2)
-    
-    plt.title(f"Best Model Forecast: {best_config['Name']} (R2: {best_config['R2']:.3f})")
-    plt.xlabel("Date")
-    plt.ylabel(TARGET)
-    plt.legend()
-    plt.grid(True, alpha=0.3)
-    plt.savefig('ES_Best_Forecast.png')
-    print("Saved: ES_Best_Forecast.png")
-    
-    # --- FINAL SUMMARY ---
-    print("\n--- Top 5 Configurations ---")
-    print(results_df.sort_values(by="R2", ascending=False).head(5))
+# --- Final Predictions ---
+params = best_params["params"]
+prd_trn = best_model.predict(start=0, end=len(train) - 1)
+prd_tst = best_model.forecast(steps=len(test))
 
-if __name__ == "__main__":
-    run_full_alpha_study()
+# --- Plots ---
+plot_forecasting_eval(
+    train, test, prd_trn, prd_tst,
+    title=f"{params[0]} (alpha={params[1]})"
+)
+savefig("Lab6/results/ES/evals.png")
+
+plot_forecasting_series(
+    train,
+    test,
+    prd_tst,
+    title=f"{params[0]} (alpha={params[1]})",
+    xlabel="Datetime",
+    ylabel="Traffic Volume",
+)
+savefig("Lab6/results/ES/forecast.png")
+
+print(f"\nSaved plots to Lab6/results/ES/")

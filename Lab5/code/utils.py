@@ -63,17 +63,32 @@ def aggregate_timeseries(train, test, freq, method='sum'):
     return resampled_train, resampled_test
 
 def differenciation_timeseries(train, test, derivative):
-    """Apply differentiation. derivative=0 means no differentiation (baseline)."""
+    """
+    Apply differentiation. 
+    - derivative=0: no differentiation (baseline)
+    - derivative=1: first-order diff
+    - derivative=2: second-order diff
+    - derivative=96: seasonal diff (removes daily pattern, period=96 for 15-min data)
+    """
     if derivative == 0:
         return train.copy(), test.copy()
     
     train_copy = train.copy()
-    test_copy = test.copy() 
-    train_diff = train_copy.diff()
-    test_diff = test_copy.diff()
-    if derivative == 2:
-        train_diff = train_diff.diff()
-        test_diff = test_diff.diff()
+    test_copy = test.copy()
+    
+    if derivative == 96:
+        # Seasonal differencing (period = 96 for daily seasonality at 15-min intervals)
+        train_diff = train_copy.diff(periods=96)
+        test_diff = test_copy.diff(periods=96)
+    elif derivative == 1:
+        train_diff = train_copy.diff()
+        test_diff = test_copy.diff()
+    elif derivative == 2:
+        train_diff = train_copy.diff().diff()
+        test_diff = test_copy.diff().diff()
+    else:
+        raise ValueError(f"derivative must be 0, 1, 2, or 96. Got {derivative}")
+    
     train_diff.dropna(inplace=True)
     test_diff.dropna(inplace=True)         
     return train_diff, test_diff

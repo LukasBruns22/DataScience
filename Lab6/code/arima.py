@@ -107,11 +107,10 @@ def run_sarima_study(train, test):
     print(f"\n{'='*40}\nSTARTING SARIMA STUDY (s={SEASONALITY})\n{'='*40}")
     
     # Simplified Grid for Speed
-    # Focus on Seasonal Differencing (D) and Autoregression (P)
-    orders = [(1, 0, 1), (1, 1, 1)] # Try one non-seasonal config
-    seasonal_D = [0, 1]
+    orders = [(1, 0, 1)]
+    seasonal_D = [0]
     seasonal_P = [0, 1]
-    seasonal_Q = [0] 
+    seasonal_Q = [0, 1] 
     
     results = []
     
